@@ -77,7 +77,7 @@ export default function Home() {
     <p>PichFlow combine les outils essentiels pour les freelances et PME : marketing, copywriting et gestion financière propulsés par l'IA.</p>
   </div> 
 
-  <div className="features-grid">
+  <div className="features-grid"> 
     {/* Carte 1 */}
     <div className="feature-card">
       <div className="icon-box blue"><i className="fa-solid fa-bolt-lightning"></i></div>
@@ -115,6 +115,76 @@ export default function Home() {
 
    
   </div>
+  
+
+
+  <br /> <br /> 
+<div className="features-tt-container reveal">
+  <div className="features-tt-slider">
+    {/* Groupe original */}
+    <div className="sub1">
+      <i className="fa-regular fa-file-pdf"></i>
+      <div className="sub1-content">
+        <span>Export PDF</span>
+        <p>Générez des documents pros en un clic.</p>
+      </div>
+    </div>
+    <div className="sub1">
+      <i className="fa-solid fa-chart-line"></i>
+      <div className="sub1-content">
+        <span>Rapports mensuels</span>
+        <p>Analysez votre croissance en temps réel.</p>
+      </div>
+    </div>
+    <div className="sub1">
+      <i className="fa-solid fa-bolt"></i>
+      <div className="sub1-content">
+        <span>Notifications</span>
+        <p>Restez alerté de chaque paiement reçu.</p>
+      </div>
+    </div>
+    <div className="sub1">
+      <i className="fa-solid fa-shield-halved"></i>
+      <div className="sub1-content">
+        <span>Sécurité</span>
+        <p>Vos données sont cryptées et protégées.</p>
+      </div>
+    </div>
+    
+    {/* Doublon pour la boucle infinie */}
+    <div className="sub1">
+      <i className="fa-regular fa-file-pdf"></i>
+      <div className="sub1-content">
+        <span>Export PDF</span>
+        <p>Générez des documents pros en un clic.</p>
+      </div>
+    </div>
+    <div className="sub1">
+      <i className="fa-solid fa-chart-line"></i>
+      <div className="sub1-content">
+        <span>Rapports mensuels</span>
+        <p>Analysez votre croissance en temps réel.</p>
+      </div>
+    </div>
+    <div className="sub1">
+      <i className="fa-solid fa-bolt"></i>
+      <div className="sub1-content">
+        <span>Notifications</span>
+        <p>Restez alerté de chaque paiement reçu.</p>
+      </div>
+    </div>
+    <div className="sub1">
+      <i className="fa-solid fa-shield-halved"></i>
+      <div className="sub1-content">
+        <span>Sécurité</span>
+        <p>Vos données sont cryptées et protégées.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{/* 
   <div className="features-footer reveal delay-2">
   <div className="sub-badge">
     <i className="fa-regular fa-file-pdf"></i> Export PDF 
@@ -128,7 +198,8 @@ export default function Home() {
   <div className="sub-badge">
     <i className="fa-solid fa-shield-halved"></i> Données sécurisées
   </div>
-</div>
+</div> */}
+
 </section>
 
 {/* --- SECTION COMMENT ÇA MARCHE --- */}
@@ -160,6 +231,9 @@ export default function Home() {
       <p>Téléchargez vos factures en PDF ou publiez vos contenus directement.</p>
     </div>
   </div>
+
+
+  
 </section>
 
 <section className="showcase-section reveal">
@@ -177,7 +251,7 @@ export default function Home() {
         <li><i className="fa-solid fa-check"></i> Support disponible 24/7</li>
       </ul>
     </div>
-
+ 
     {/* Colonne Visuelle (Inspirée de l'image Payoneer) */}
     <div className="showcase-visual">
       <div className="circle-bg"></div>

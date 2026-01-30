@@ -644,7 +644,8 @@ body {
   background: var(--white);
   padding: 25px;
   border-radius: 20px;
-  border: 1px solid #a9b5d1;
+  border: 1px solid #c9ddf0;
+  background: #f6f7f8;
   transition: all 0.3s ease;
 
   /* Gestion de la taille des cartes */
@@ -660,6 +661,71 @@ body {
 }
 
 /* Bordure spéciale pour la carte active */
+
+
+
+.features-tt-container {
+    width: 100%;
+    overflow: hidden;
+    padding: 30px 0;
+    position: relative;
+}
+
+.features-tt-slider {
+    display: flex;
+    gap: 25px;
+    width: max-content;
+    animation: scrollInfinite 30s linear infinite; /* Ralenti un peu pour laisser lire */
+}
+
+.sub1 {
+    flex: 0 0 auto;
+    width: 280px; /* Largeur fixe pour un aspect carré/rectangulaire propre */
+    padding: 20px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    display: flex;
+    align-items: flex-start; /* Aligne l'icône en haut */
+    gap: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.sub1 i {
+    color: #2563eb;
+    font-size: 1.4rem;
+    margin-top: 3px;
+}
+
+.sub1-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sub1-content span {
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 1rem;
+}
+
+.sub1-content p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.4;
+    white-space: normal; /* Permet au texte de revenir à la ligne si besoin */
+}
+
+@keyframes scrollInfinite {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Pause au survol pour faciliter la lecture des paragraphes */
+.features-tt-container:hover .features-tt-slider {
+    animation-play-state: paused;
+}
 /* .active-border {
   border: 2px solid #BFDBFE;
 } */
