@@ -675,7 +675,7 @@ body {
     display: flex;
     gap: 25px;
     width: max-content;
-    animation: scrollInfinite 30s linear infinite; /* Ralenti un peu pour laisser lire */
+    animation: scrollInfinite 25s linear infinite; /* Ralenti un peu pour laisser lire */
 }
 
 .sub1 {
@@ -716,7 +716,7 @@ body {
     line-height: 1.4;
     white-space: normal; /* Permet au texte de revenir à la ligne si besoin */
 }
-
+ 
 @keyframes scrollInfinite {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }

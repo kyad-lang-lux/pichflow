@@ -49,14 +49,14 @@ export default function Home() {
       <span className="rating">4.9/5</span>
     </div>
   </div>
-</div>
+</div> 
       </section>
 
       <section className="dashboard-preview reveal delay-3">
   <div className="preview-container">
     {/* Image principale du Dashboard */}
     <img 
-      src="/img/dashboard-preview.png" 
+      src="/img/dashboard-preview1.png" 
       alt="Aperçu du Dashboard PitchFlow" 
       className="main-preview"
     />
@@ -113,7 +113,7 @@ export default function Home() {
       <p>Contenu prêt à être publié sur vos réseaux sociaux</p>
     </div>
 
-   
+    
   </div>
   
 
