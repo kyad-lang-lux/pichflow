@@ -170,7 +170,7 @@ export default function ContenuIAPage() {
                   <p>Votre contenu apparaîtra ici</p>
                 </>
               )}
-            </div>
+            </div> 
           )}
         </div>
       </div>

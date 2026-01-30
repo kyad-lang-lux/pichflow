@@ -85,7 +85,7 @@ body {
   border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 90;
 }
 
-.topbar h1 { font-size: 1.2rem; font-weight: 700; }
+.topbar h1 { font-size: 1.2rem; font-weight: 700;  }
 .topbar p { font-size: 0.85rem; color: var(--text-muted); }
 
 .content-area { padding: 40px; }
@@ -140,7 +140,8 @@ body {
   width: 100%; background: linear-gradient(135deg, #FF7A30, #FB923C);
   color: white; border: none; padding: 15px; border-radius: 12px;
   font-weight: 700; font-size: 1rem; cursor: pointer; display: flex;
-  align-items: center; justify-content: center; gap: 10px;
+  align-items: center; justify-content: center; gap: 10px; 
+  background: linear-gradient(160deg, #FB923C, #FF7A30, #3B82F6, #FF7A30, #FF7A30);
 }
 
 .result-card {
@@ -297,18 +298,7 @@ padding: 0; }
   .search-box { width: 100%; max-width: none; }
   .btn-new { width: 100%; }
 
-  .topbar-right .user-btn {
-  margin: auto;
-  width: 100%;
-border: 0;
-padding: 0px ;
-padding: 10px;
-border-radius: 50%;
-background: #1d4ed8;
-cursor: pointer;
-color: #fff;
-font-weight: bold;
-}
+ 
 }
 
 @media (max-width: 480px) {
@@ -333,7 +323,7 @@ border: 0;
 padding: 0px ;
 padding: 10px;
 border-radius: 50%;
-background: #1d4ed8;
+background: linear-gradient(135deg, #FB923C, #3B82F6);
 cursor: pointer;
 color: #fff;
 font-weight: bold;
@@ -607,7 +597,8 @@ border: 0;
 padding: 0px ;
 padding: 10px;
 border-radius: 50%;
-background: #1d4ed8;
+/* background: #FB923C; */
+background: linear-gradient(135deg, #FB923C, #3B82F6);
 cursor: pointer;
 color: #fff;
 font-weight: bold;
