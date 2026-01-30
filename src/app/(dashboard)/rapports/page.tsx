@@ -45,7 +45,7 @@ export default function RapportsPage() {
       <div className="reports-header-actions no-print">
         <div className="filter-group">
           <select 
-            className="ia-select small" 
+            className="ia-select small"  
             value={filterType}
             onChange={(e) => {
                 setFilterType(e.target.value);
@@ -63,7 +63,7 @@ export default function RapportsPage() {
             <i className="fa-regular fa-calendar"></i> Personnalisé
           </button>
         </div>
-        
+           
         <button className="btn-export" onClick={handlePrint}>
           <i className="fa-solid fa-file-pdf"></i> Exporter PDF
         </button>
@@ -163,6 +163,8 @@ export default function RapportsPage() {
             </div>
           </div>
         </div>
+        <br />
+        <br />
       </div>
     </div>
   );
