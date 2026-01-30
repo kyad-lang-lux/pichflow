@@ -85,7 +85,7 @@ export default function DashboardLayout({
             <p>
               {activeTitle === "Paramètres"
                 ? "Gérez votre compte"
-                : "Bienvenue sur PichFlow"}
+                : "PichFlow"}
             </p>
           </div>
 
