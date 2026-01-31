@@ -2342,16 +2342,16 @@ color: red;}
 /* --- Délais progressifs (Effet de cascade) --- */
 
 /* Pour les 5 cartes de fonctionnalités */
-.active .feature-card:nth-child(1) { animation-delay: 0.1s; }
-.active .feature-card:nth-child(2) { animation-delay: 0.2s; }
-.active .feature-card:nth-child(3) { animation-delay: 0.3s; }
-.active .feature-card:nth-child(4) { animation-delay: 0.4s; }
-.active .feature-card:nth-child(5) { animation-delay: 0.5s; }
+.active .feature-card:nth-child(1) { animation-delay: 0.2s; }
+.active .feature-card:nth-child(2) { animation-delay: 0.3s; }
+.active .feature-card:nth-child(3) { animation-delay: 0.4s; }
+.active .feature-card:nth-child(4) { animation-delay: 0.5s; }
+.active .feature-card:nth-child(5) { animation-delay: 0.6s; }
 
 /* Pour les 3 cartes de tarifs */
-.active .pricing-card:nth-child(1) { animation-delay: 0.2s; }
-.active .pricing-card:nth-child(2) { animation-delay: 0.4s; }
-.active .pricing-card:nth-child(3) { animation-delay: 0.6s; }
+.active .pricing-card:nth-child(1) { animation-delay: 0.4s; }
+.active .pricing-card:nth-child(2) { animation-delay: 0.6s; }
+.active .pricing-card:nth-child(3) { animation-delay: 0.8s; }
 
 /* --- Keyframes de l'animation --- */
 @keyframes fadeInUp {
