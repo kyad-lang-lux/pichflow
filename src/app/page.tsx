@@ -1,23 +1,25 @@
 "use client";
+
 import React, { useEffect } from 'react';
 
 export default function Home() {
   
-  // Logique pour l'effet d'apparition au scroll
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.1, // Déclenche quand 10% de la section est visible
+      threshold: 0.15, // Se déclenche quand 15% de la section est visible au scroll
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
+          // Une fois l'animation jouée, on peut arrêter d'observer la section
+          observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
 
-    // On cible spécifiquement les sections demandées
+    // Cible les sections spécifiques pour le déclenchement au scroll
     const sectionsToReveal = document.querySelectorAll('#features, #pricing');
     sectionsToReveal.forEach((section) => observer.observe(section));
 
@@ -26,9 +28,6 @@ export default function Home() {
 
   return (
     <main>
-      {/* --- Styles CSS Inline pour l'animation (à mettre dans ton fichier .css de préférence) --- */}
-      
-
       <section className="hero" id="top">
         {/* Badge animé */}
         <div className="badge reveal">
@@ -95,7 +94,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION CIBLE 1 */}
       <section id="features" className="features reveal">
         <div className="features-header">
           <h2>Fonctionalités de la <span> plateforme </span></h2>
@@ -270,7 +268,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION CIBLE 2 */}
       <section id="pricing" className="pricing reveal">
         <div className="pricing-header">
           <h2>Des tarifs <span>simples et flexibles</span></h2>

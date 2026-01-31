@@ -2313,52 +2313,49 @@ color: red;}
 
 
 
-/* --- Animation d'apparition globale (Sections) --- */
+
+
+/* --- État initial invisible pour le déclenchement au scroll --- */
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s ease-out;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  pointer-events: none; /* Évite de cliquer sur un élément caché */
 }
 
-/* Classe ajoutée par le JavaScript lors du scroll */
+/* --- État quand la section entre dans le viewport (ajouté par le JS) --- */
 .reveal.active {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;
 }
 
-/* --- Animation spécifique pour les cartes (Features et Pricing) --- */
+/* --- Animation séquentielle pour les cartes à l'intérieur --- */
 .feature-card, 
 .pricing-card {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(30px);
 }
 
-/* Quand la section parente devient active, on lance l'animation des cartes */
-.active .feature-card, 
-.active .pricing-card {
-  animation: fadeInUp 0.6s ease forwards;
+/* Déclenchement de l'animation des cartes quand le parent est actif */
+.reveal.active .feature-card,
+.reveal.active .pricing-card {
+  animation: cardFadeIn 0.8s ease forwards;
 }
 
-/* --- Délais progressifs (Effet de cascade) --- */
+/* Délais pour les cartes de fonctionnalités (cascade) */
+.reveal.active .feature-card:nth-child(1) { animation-delay: 0.2s; }
+.reveal.active .feature-card:nth-child(2) { animation-delay: 0.3s; }
+.reveal.active .feature-card:nth-child(3) { animation-delay: 0.4s; }
+.reveal.active .feature-card:nth-child(4) { animation-delay: 0.5s; }
+.reveal.active .feature-card:nth-child(5) { animation-delay: 0.6s; }
 
-/* Pour les 5 cartes de fonctionnalités */
-.active .feature-card:nth-child(1) { animation-delay: 0.3s; }
-.active .feature-card:nth-child(2) { animation-delay: 0.4s; }
-.active .feature-card:nth-child(3) { animation-delay: 0.5s; }
-.active .feature-card:nth-child(4) { animation-delay: 0.6s; }
-.active .feature-card:nth-child(5) { animation-delay: 0.7s; }
+/* Délais pour les cartes de prix */
+.reveal.active .pricing-card:nth-child(1) { animation-delay: 0.4s; }
+.reveal.active .pricing-card:nth-child(2) { animation-delay: 0.6s; }
+.reveal.active .pricing-card:nth-child(3) { animation-delay: 0.8s; }
 
-/* Pour les 3 cartes de tarifs */
-.active .pricing-card:nth-child(1) { animation-delay: 0.4s; }
-.active .pricing-card:nth-child(2) { animation-delay: 0.6s; }
-.active .pricing-card:nth-child(3) { animation-delay: 0.8s; }
-
-/* --- Keyframes de l'animation --- */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
+@keyframes cardFadeIn {
   to {
     opacity: 1;
     transform: translateY(0);
