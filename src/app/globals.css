@@ -262,22 +262,24 @@ body {
 .badge {
   background: var(--bg-badge);
   color: var(--primary);
+  background: transparent;
   padding: 6px 14px;
   border-radius: 50px;
   font-size: 0.8rem;
   font-weight: 600;
+  backdrop-filter: blur(50px);
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 2rem;
+  margin-bottom: .5rem;
 }
 
 .hero h1 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 50px;
+  font-size: clamp(4rem, 5vw, 4rem);
+  line-height: 60px;
   font-weight: 800;
   color: #1e293b;
-  margin-bottom: 1rem;
+  margin-bottom: .9rem;
 }
 .hero .reveal span {
   font-style: italic;
@@ -293,7 +295,7 @@ body {
   color: var(--text-grey);
   font-size: 1.05rem;
   max-width: 650px;
-  margin: 0 auto 2.5rem;
+  margin: 0 auto 2rem;
   line-height: 1.5;
 }
 
@@ -305,7 +307,7 @@ body {
 
 .btn-outline {
   border: 1px solid #e2e8f0;
-  padding: 0.6rem 1.2rem;
+  padding: 0.9rem 1.5rem;
   border-radius: 10px;
   text-decoration: none;
   color: var(--primary);
@@ -315,6 +317,7 @@ body {
   box-shadow: 0 0 10px transparent;
   background: transparent;
   backdrop-filter: blur(500px);
+  cursor: pointer;
 }
 
 .btn-outline:hover {
@@ -444,11 +447,16 @@ body {
   }
   .hero .delay-1 {
     margin-bottom: 10px;
+    line-height: 40px;
+    font-size: 35px;
+  }
+  .hero .delay-1 span{
+    margin-bottom: 10px;
     line-height: 30px;
-    font-size: 26px;
+    font-size: 40px;
   }
   .hero .delay-2 {
-    font-size: 13px;
+    font-size: 12px;
     margin-bottom: 10px;
   }
   .hero .delay-3 {

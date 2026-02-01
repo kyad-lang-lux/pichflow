@@ -44,7 +44,7 @@ export default function Home() {
  
         {/* Sous-titre animé */}
         <p className="reveal delay-2">
-          PichFlow vous permet de faire du contenu marketing et copywriting. Il vous aide aussi à faire la facturation et la comptabilité. Une solution tout-en-un pour tous.
+          Faites du contenu marketing et copywriting, de la facturation et la comptabilité avec Pichflow.
         </p>
 
         {/* Boutons animés */} 
