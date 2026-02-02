@@ -58,10 +58,12 @@ export default function Home() {
         </div> 
         <div className="hero-social reveal delay-3">
           <div className="avatar-group">
-            <div className="avatar"><img src="https://i.pravatar.cc/100?u=1" alt="user" /></div>
-            <div className="avatar"><img src="https://i.pravatar.cc/100?u=2" alt="user" /></div>
-            <div className="avatar"><img src="https://i.pravatar.cc/100?u=3" alt="user" /></div>
+            <div className="avatar"><img src="https://i.pravatar.cc/100?u=179" alt="user" /></div>
+            <div className="avatar"><img src="https://i.pravatar.cc/100?u=167" alt="user" /></div>
             <div className="avatar"><img src="https://i.pravatar.cc/100?u=4" alt="user" /></div>
+            <div className="avatar"><img src="https://i.pravatar.cc/100?u=11" alt="user" /></div>
+            <div className="avatar"><img src="https://i.pravatar.cc/100?u=2" alt="user" /></div>
+            <div className="avatar"><img src="https://i.pravatar.cc/100?u=151" alt="user" /></div>
           </div>
           
           <div className="social-text">
