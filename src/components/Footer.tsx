@@ -13,7 +13,7 @@ export const Footer = () => {
           <i className="fa-solid fa-bolt-lightning"></i>
         </div>
         <span className="logo-text">
-          Pich<span className="blue-text">Flow</span>
+          Pich<span className="blue-text">.Flow</span>
         </span>
       </Link>
           </div>

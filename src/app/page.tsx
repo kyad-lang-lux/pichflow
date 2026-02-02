@@ -37,9 +37,9 @@ export default function Home() {
 
         {/* Titre animé */}
         <h1 className="reveal delay-1">
-          Votre moteur de  <br />
-          <span>croissance et de gestion </span> <br />
-          en un seul endroit
+          Votre outil de croissance et<br />
+          <span> gestion  en un seul endroit </span> <br />
+          
         </h1> 
  
         {/* Sous-titre animé */}
