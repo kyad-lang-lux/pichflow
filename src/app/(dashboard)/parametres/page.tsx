@@ -17,8 +17,15 @@ export default function SettingsPage() {
 
   const handleSave = () => {
     setIsEditing(false);
-    // Ici on ajouterait la logique d'enregistrement API
     alert("Profil mis à jour !");
+  };
+
+  // STYLE DE FORCE : Pour s'assurer que le clic traverse n'importe quel blocage CSS
+  const forceButtonStyle = {
+    cursor: 'pointer',
+    pointerEvents: 'all',
+    position: 'relative',
+    zIndex: 9999
   };
 
   return (
@@ -36,7 +43,6 @@ export default function SettingsPage() {
               <i className="fa-solid fa-user-gear"></i>
               <h3>Mon Profil</h3>
             </div>
-            
           </div>
           
           <div className="credits-display">
@@ -44,11 +50,13 @@ export default function SettingsPage() {
               <span className="label">Solde de crédits </span>
               <span className="count">{creditsUsed.toLocaleString()} / {creditsTotal.toLocaleString()}</span>
             </div>
-            {/* Barre de progression ajoutée */}
             <div className="progress-bar-container">
               <div className="progress-bar-fill" style={{ width: `${progressWidth}%` }}></div>
             </div>
-           <Link href="/buy-credits" className="btn-buy">Acheter des crédits</Link>
+            {/* LIEN : ACHAT DE CREDITS */}
+            <Link href="/buy-credits" className="btn-buy" style={forceButtonStyle}>
+               Acheter des crédits
+            </Link>
           </div>
 
           <div className="input-group-row">
@@ -75,37 +83,44 @@ export default function SettingsPage() {
           </div>
         </section>
 
-        {/* SECTION 2 : SÉCURITÉ & SESSION */}
+        {/* SECTION 2 : SECURITE & SESSION */}
         <section className="settings-card reveal delay-1">
           <div className="card-header">
             <i className="fa-solid fa-lock"></i>
-            <h3>Sécurité & Session</h3>
+            <h3>Securite & Session</h3>
           </div>
 
           <div className="security-actions">
             <div className="action-item">
               <div>
                 <h4>Mot de passe</h4>
-                <p>Sécurisez votre compte avec un mot de passe robuste.</p>
+                <p>Securisez votre compte avec un mot de passe robuste.</p>
               </div>
-              <Link href="/change-password" className='change-password'>Changer le mot de passe</Link>
+              {/* LIEN : MODIFIER LE MOT DE PASSE */}
+              <Link href="/change-password" title="Modifier" className='change-password' style={forceButtonStyle}>
+                Changer le mot de passe
+              </Link>
             </div>
 
             <hr className="divider" />
 
             <div className="action-item logout-item">
               <div>
-                <h4>Déconnexion</h4>
+                <h4>Deconnexion</h4>
                 <p>Souhaitez-vous quitter votre session actuelle ?</p>
               </div>
-              <button className="btn-logout" onClick={() => window.location.href = '/'}>
-                <i className="fa-solid fa-right-from-bracket"></i> Se déconnecter
+              {/* BOUTON : DECONNEXION */}
+              <button 
+                className="btn-logout" 
+                style={forceButtonStyle} 
+                onClick={() => { window.location.href = '/'; }}
+              >
+                <i className="fa-solid fa-right-from-bracket"></i> Se deconnecter
               </button>
             </div>
           </div>
         </section>
-        <br />
-        <br /> <br />
+        <br /><br /><br />
       </div>
     </div>
   );

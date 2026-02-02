@@ -1152,3 +1152,149 @@ font-weight: bold;
         display: none !important;
     }
 }
+
+/* Nouveau CSS spécifique pour la page achat de crédits */
+
+.credits-page-container {
+  padding: 40px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 100vh;
+  font-family: sans-serif;
+  color: #333;
+}
+
+.credits-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.back-btn {
+  background: #f0f0f0;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.back-btn:hover { background: #e0e0e0; }
+
+.credits-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 100px;
+}
+
+.credit-pack-card {
+  background: white;
+  border: 2px solid #eee;
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.credit-pack-card:hover {
+  transform: translateY(-10px);
+  border-color: #007bff;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.credit-pack-card.is-selected {
+  border-color: #007bff;
+  background: #f8fbff;
+}
+
+.is-popular {
+  border-color: #007bff;
+  transform: scale(1.05);
+}
+
+.popular-ribbon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #007bff;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.pack-icon-wrapper {
+  font-size: 40px;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+.credit-amount {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.pack-price {
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 25px;
+}
+
+.select-box-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #007bff;
+  background: transparent;
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.is-selected .select-box-btn {
+  background: #007bff;
+  color: white;
+}
+
+/* Barre de paiement fixée en bas */
+.fixed-checkout-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.checkout-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-text { font-size: 18px; }
+.total-text span { font-size: 24px; font-weight: bold; color: #007bff; }
+
+.final-pay-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.final-pay-btn:hover { background: #218838; }
+.final-pay-btn:disabled { background: #ccc; cursor: not-allowed; }

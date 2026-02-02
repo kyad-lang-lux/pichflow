@@ -20,7 +20,7 @@ export default function Home() {
     }, observerOptions);
 
     // Cible les sections spécifiques pour le déclenchement au scroll
-    const sectionsToReveal = document.querySelectorAll('#features, #pricing');
+    const sectionsToReveal = document.querySelectorAll('#features, #pricing, .reveal');
     sectionsToReveal.forEach((section) => observer.observe(section));
 
     return () => observer.disconnect();
@@ -44,14 +44,16 @@ export default function Home() {
  
         {/* Sous-titre animé */}
         <p className="reveal delay-2">
-          Faites du contenu marketing et copywriting, de la facturation et la comptabilité avec Pichflow.
+          Faites du contenu marketing et copywriting, de la facturation et la comptabilité avec Pitchflow.
         </p>
 
         {/* Boutons animés */} 
         <div className="hero-btns reveal delay-3">
+          {/* LIEN : Renvoie vers l'inscription */}
           <a href="/inscription" className="btn-primary">
             Démarrer l'essai gratuit <i className="fa-solid fa-play"></i>
           </a>
+          {/* LIEN : Renvoie vers l'emplacement des fonctionnalités (#features) */}
           <a href="#features" className="btn-outline">
             Découvrir les fonctionnalités <i className="fa-solid fa-compass"></i>
           </a> 
@@ -99,7 +101,7 @@ export default function Home() {
       <section id="features" className="features reveal">
         <div className="features-header">
           <h2>Fonctionalités de la <span> plateforme </span></h2>
-          <p>PichFlow combine les outils essentiels pour les freelances et PME : marketing, copywriting et gestion financière propulsés par l'IA.</p>
+          <p>PitchFlow combine les outils essentiels pour les freelances et PME : marketing, copywriting et gestion financière propulsés par l'IA.</p>
         </div> 
 
         <div className="features-grid"> 
@@ -262,6 +264,7 @@ export default function Home() {
           <h2>Prêt à propulser votre activité ?</h2>
           <p>Rejoignez plus de 2,500 professionnels qui automatisent leur quotidien avec PitchFlow.</p>
           <div className="hero-btns">
+            {/* LIEN : Renvoie vers l'inscription */}
             <a href="/inscription" className="btn-white">
               Essayer gratuitement <i className="fa-solid fa-rocket"></i>
             </a>
@@ -280,14 +283,17 @@ export default function Home() {
           <div className="pricing-card">
             <h3>Essai Gratuit</h3>
             <div className="price">0€<span>/7 jours</span></div>
-            <p className="price-desc">Testez la puissance de PichFlow sans engagement</p>
+            <p className="price-desc">Testez la puissance de PitchFlow sans engagement</p>
             <ul className="price-features">
               <li><i className="fa-solid fa-circle-check"></i> 10 crédits inclus pour tester</li>
               <li><i className="fa-solid fa-circle-check"></i> Accès complet aux outils IA</li>
               <li><i className="fa-solid fa-circle-check"></i>Makerting & Copywriting </li>
               <li><i className="fa-solid fa-circle-check"></i> Facturation & rapports</li>
             </ul>
-            <button className="btn-outline-pricing">Essai gratuit</button>
+            {/* LIEN : Redirection vers inscription */}
+            <a href="/inscription" style={{textDecoration: 'none'}}>
+              <button className="btn-outline-pricing">Essai gratuit</button>
+            </a>
           </div>
 
           <div className="pricing-card featured">

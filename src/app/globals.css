@@ -277,11 +277,12 @@ body {
   color: var(--primary);
   padding: 6px 14px;
   border-radius: 50px;
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: .8rem;
+  font-weight: bold;
   backdrop-filter: blur(50px);
-  font-family: "Bitcount Single", system-ui;
+  /* font-family: "Bitcount Single", system-ui; */
   display: inline-flex;
+  
   align-items: center;
   gap: 8px;
   margin-bottom: .5rem;
