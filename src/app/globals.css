@@ -173,13 +173,14 @@ body {
   display: flex;
   align-items: center;
   cursor: pointer;
-  gap: 8px;
+  gap: 8px; 
   box-shadow: 0 4px 12px rgba(255, 122, 48, 0.2);
   transition: 0.3s;
 }
 
 .btn-primary {
   animation: annn 2s ease infinite;
+
 }
 @keyframes annn {
   0%,
@@ -188,6 +189,8 @@ body {
   }
   50% {
     transform: translateY(-2px);
+    
+     background: #f5690b;
   }
 }
 .btn-primary:hover {
@@ -222,7 +225,7 @@ body {
   border-radius: 50%;
   filter: blur(80px); /* L'effet néon vient d'ici */
   z-index: -1; /* Place les lueurs DERRIÈRE le texte */
-  opacity: 0.6; /* Ajuste l'intensité ici */
+  opacity: .6; /* Ajuste l'intensité ici */
   pointer-events: none; /* Empêche de gêner le clic sur les boutons */
 }
 
@@ -251,7 +254,7 @@ body {
   width: 400px;
   height: 200px;
   background: radial-gradient(circle, rgba(37, 99, 235, 0.15), transparent);
-  filter: blur(80px);
+  filter: blur(100px);
   z-index: -1;
 }
 
@@ -318,11 +321,11 @@ body {
 .btn-outline {
   border: 1px solid #e2e8f0;
   padding: 0.9rem 1.5rem;
-  border-radius: 10px;
+  border-radius: 15px;
   text-decoration: none;
   color: var(--primary);
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   transition: 0.3s;
   box-shadow: 0 0 10px transparent;
   background: transparent;
@@ -392,7 +395,7 @@ body {
 /* Groupe d'avatars qui se chevauchent */
 .avatar-group {
   display: flex;
-  flex-direction: row-reverse; /* Pour que le chevauchement soit dans le bon sens */
+  flex-direction: row; /* Pour que le chevauchement soit dans le bon sens */
 }
 
 .avatar {
@@ -462,7 +465,7 @@ body {
   }
   .hero .delay-1 span{
     margin-bottom: 10px;
-    line-height: 30px;
+    line-height: 40px;
     font-size: 37px;
   }
   .hero .delay-2 {
