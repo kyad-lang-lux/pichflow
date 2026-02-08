@@ -3,27 +3,21 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 
 export default function SettingsPage() {
-  // État pour rendre le profil éditable
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
     name: "Emérus",
     email: "emrussoglo@gmail.com"
   });
 
-  // Calcul du pourcentage de crédits pour la barre de progression
   const creditsUsed = 450;
   const creditsTotal = 1000;
   const progressWidth = (creditsUsed / creditsTotal) * 100;
 
-  const handleSave = () => {
-    setIsEditing(false);
-    alert("Profil mis à jour !");
-  };
-
-  // STYLE DE FORCE : Pour s'assurer que le clic traverse n'importe quel blocage CSS
-  const forceButtonStyle = {
+  // CORRECTION DU TYPE ET DE LA VALEUR
+  // On utilise 'auto' au lieu de 'all' et on définit le type CSSProperties
+  const forceButtonStyle: React.CSSProperties = {
     cursor: 'pointer',
-    pointerEvents: 'all',
+    pointerEvents: 'auto', 
     position: 'relative',
     zIndex: 9999
   };
@@ -34,9 +28,8 @@ export default function SettingsPage() {
         <h1>Paramètres</h1>
         <p>Gérez vos informations personnelles et votre sécurité.</p>
       </header>
- 
+
       <div className="settings-grid">
-        {/* SECTION 1 : PROFIL & CRÉDITS */}
         <section className="settings-card reveal">
           <div className="card-header-flex">
             <div className="card-header">
@@ -53,7 +46,6 @@ export default function SettingsPage() {
             <div className="progress-bar-container">
               <div className="progress-bar-fill" style={{ width: `${progressWidth}%` }}></div>
             </div>
-            {/* LIEN : ACHAT DE CREDITS */}
             <Link href="/buy-credits" className="btn-buy" style={forceButtonStyle}>
                Acheter des crédits
             </Link>
@@ -83,20 +75,18 @@ export default function SettingsPage() {
           </div>
         </section>
 
-        {/* SECTION 2 : SECURITE & SESSION */}
         <section className="settings-card reveal delay-1">
           <div className="card-header">
             <i className="fa-solid fa-lock"></i>
-            <h3>Securite & Session</h3>
+            <h3>Sécurité & Session</h3>
           </div>
 
           <div className="security-actions">
             <div className="action-item">
               <div>
                 <h4>Mot de passe</h4>
-                <p>Securisez votre compte avec un mot de passe robuste.</p>
+                <p>Sécurisez votre compte avec un mot de passe robuste.</p>
               </div>
-              {/* LIEN : MODIFIER LE MOT DE PASSE */}
               <Link href="/change-password" title="Modifier" className='change-password' style={forceButtonStyle}>
                 Changer le mot de passe
               </Link>
@@ -106,16 +96,16 @@ export default function SettingsPage() {
 
             <div className="action-item logout-item">
               <div>
-                <h4>Deconnexion</h4>
+                <h4>Déconnexion</h4>
                 <p>Souhaitez-vous quitter votre session actuelle ?</p>
               </div>
-              {/* BOUTON : DECONNEXION */}
               <button 
+                type="button"
                 className="btn-logout" 
                 style={forceButtonStyle} 
                 onClick={() => { window.location.href = '/'; }}
               >
-                <i className="fa-solid fa-right-from-bracket"></i> Se deconnecter
+                <i className="fa-solid fa-right-from-bracket"></i> Se déconnecter
               </button>
             </div>
           </div>
