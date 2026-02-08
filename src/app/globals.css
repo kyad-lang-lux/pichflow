@@ -609,7 +609,7 @@ body {
   .features::before,
   .features::after {
     width: 200px;
-    height: 200px;
+    height: 200px; 
     filter: blur(80px);
     opacity: 0.2; /* Plus léger sur mobile pour la lisibilité */
   }
