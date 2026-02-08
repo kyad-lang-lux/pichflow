@@ -1,10 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@862&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
-
-
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo+Black&display=swap'); 
 :root {
   --primary: #2563eb;
   --secondary: #1e3a8a;
@@ -101,7 +96,7 @@ body {
   color: #0f172a;
   letter-spacing: -0px;
    font-family: "Roboto", sans-serif;
-    font-family: "Archivo Black", sans-serif;
+    font-family: "Archivo Black", sans-serif;                  /* jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj*/
     
 }
 
@@ -226,7 +221,7 @@ body {
   filter: blur(80px); /* L'effet néon vient d'ici */
   z-index: -1; /* Place les lueurs DERRIÈRE le texte */
   opacity: .6; /* Ajuste l'intensité ici */
-  pointer-events: none; /* Empêche de gêner le clic sur les boutons */
+  pointer-events: none; 
 }
 
 /* Lueurs bleues à gauche */
@@ -295,11 +290,7 @@ body {
   color: #1e293b;
   margin-bottom: .8rem;
 }
-.hero .reveal span {
-  /* font-style: italic; */
-  /* font-family: "Italiana", serif; */
-  font-weight: bold;
-}
+
 
 .hero h1 span {
   color: var(--primary);
@@ -569,17 +560,12 @@ body {
   .dashboard-preview .preview-container img {
     width: 100%;
   }
-}
+} 
 
 /* --- SECTION FEATURES --- */
-.features {
-  padding: 80px 5%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
 
 .features {
-  padding: 80px 5%;
+  padding: 70px 0%;
   max-width: 1200px;
   margin: 0 auto;
   position: relative; /* Nécessaire pour les néons */
@@ -591,7 +577,7 @@ body {
 .features::after {
   content: "";
   position: absolute;
-  width: 350px;
+  width: 350px; 
   height: 350px;
   border-radius: 50%;
   filter: blur(130px);
@@ -687,15 +673,17 @@ body {
 
 
 .features-tt-container {
-    width: 100%;
+  width: 100%;
+  background: #0f172a;
     overflow: hidden;
     padding: 30px 0;
     position: relative;
 }
 
 .features-tt-slider {
+    background: #0f172a;
     display: flex;
-    gap: 25px;
+    gap: 25px; 
     width: max-content;
     animation: scrollInfinite 25s linear infinite; /* Ralenti un peu pour laisser lire */
 }
@@ -746,7 +734,7 @@ body {
 
 /* Pause au survol pour faciliter la lecture des paragraphes */
 .features-tt-container:hover .features-tt-slider {
-    animation-play-state: paused;
+    /* animation-play-state: paused; */
 }
 /* .active-border {
   border: 2px solid #BFDBFE;
@@ -2342,7 +2330,7 @@ color: red;}
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  pointer-events: none; /* Évite de cliquer sur un élément caché */
+  /* pointer-events: none; */
 }
 
 /* --- État quand la section entre dans le viewport (ajouté par le JS) --- */
@@ -2360,6 +2348,8 @@ color: red;}
 }
 
 /* Déclenchement de l'animation des cartes quand le parent est actif */
+
+
 .reveal.active .feature-card,
 .reveal.active .pricing-card {
   animation: cardFadeIn 0.8s ease forwards;

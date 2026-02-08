@@ -1,9 +1,8 @@
 "use client";
+import React, { useEffect } from "react";
 
-import React, { useEffect } from 'react';
-
+import Link from "next/link";
 export default function Home() {
-  
   useEffect(() => {
     const observerOptions = {
       threshold: 0.15, // Se déclenche quand 15% de la section est visible au scroll
@@ -12,7 +11,7 @@ export default function Home() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('active');
+          entry.target.classList.add("active");
           // Une fois l'animation jouée, on peut arrêter d'observer la section
           observer.unobserve(entry.target);
         }
@@ -20,7 +19,7 @@ export default function Home() {
     }, observerOptions);
 
     // Cible les sections spécifiques pour le déclenchement au scroll
-    const sectionsToReveal = document.querySelectorAll('#features, #pricing, .reveal');
+    const sectionsToReveal = document.querySelectorAll("#features, #pricing");
     sectionsToReveal.forEach((section) => observer.observe(section));
 
     return () => observer.disconnect();
@@ -37,37 +36,51 @@ export default function Home() {
 
         {/* Titre animé */}
         <h1 className="reveal delay-1">
-          Votre outil de croissance et<br />
-          <span> gestion  en un seul endroit </span> <br />
-          
-        </h1> 
- 
+          Votre outil de croissance et
+          <br />
+          <span> gestion en un seul endroit </span> <br />
+        </h1>
+
         {/* Sous-titre animé */}
         <p className="reveal delay-2">
-          Faites du contenu marketing et copywriting, de la facturation et la comptabilité avec Pitchflow.
+          Faites du contenu marketing et copywriting, de la facturation et la
+          comptabilité avec Pichflow.
         </p>
 
-        {/* Boutons animés */} 
+        {/* Boutons animés */}
         <div className="hero-btns reveal delay-3">
-          {/* LIEN : Renvoie vers l'inscription */}
+          
+
           <a href="/inscription" className="btn-primary">
             Démarrer l'essai gratuit <i className="fa-solid fa-play"></i>
           </a>
-          {/* LIEN : Renvoie vers l'emplacement des fonctionnalités (#features) */}
           <a href="#features" className="btn-outline">
-            Découvrir les fonctionnalités <i className="fa-solid fa-compass"></i>
-          </a> 
-        </div> 
+            Découvrir les fonctionnalités{" "}
+            <i className="fa-solid fa-compass"></i>
+          </a>
+        </div>
         <div className="hero-social reveal delay-3">
           <div className="avatar-group">
-            <div className="avatar"><img src="https://i.pravatar.cc/100?u=179" alt="user" /></div>
-            <div className="avatar"><img src="https://i.pravatar.cc/100?u=167" alt="user" /></div>
-            <div className="avatar"><img src="https://i.pravatar.cc/100?u=4" alt="user" /></div>
-            <div className="avatar"><img src="https://i.pravatar.cc/100?u=11" alt="user" /></div>
-            <div className="avatar"><img src="https://i.pravatar.cc/100?u=2" alt="user" /></div>
-            <div className="avatar"><img src="https://i.pravatar.cc/100?u=151" alt="user" /></div>
+            <div className="avatar">
+              <img src="https://i.pravatar.cc/100?u=179" alt="user" />
+            </div>
+            <div className="avatar">
+              <img src="https://i.pravatar.cc/100?u=167" alt="user" />
+            </div>
+            <div className="avatar">
+              <img src="https://i.pravatar.cc/100?u=4" alt="user" />
+            </div>
+            <div className="avatar">
+              <img src="https://i.pravatar.cc/100?u=11" alt="user" />
+            </div>
+            <div className="avatar">
+              <img src="https://i.pravatar.cc/100?u=2" alt="user" />
+            </div>
+            <div className="avatar">
+              <img src="https://i.pravatar.cc/100?u=151" alt="user" />
+            </div>
           </div>
-          
+
           <div className="social-text">
             <span className="count">+2,500 utilisateurs</span>
             <div className="stars">
@@ -79,15 +92,15 @@ export default function Home() {
               <span className="rating">4.9/5</span>
             </div>
           </div>
-        </div> 
+        </div>
       </section>
 
       <section className="dashboard-preview reveal delay-3">
         <div className="preview-container">
-          <img 
-            src="/img/dashboard-preview1.png" 
-            alt="Aperçu du Dashboard PitchFlow" 
-            className="main-preview" 
+          <img
+            src="/img/dashboard-preview1.png"
+            alt="Aperçu du Dashboard PitchFlow"
+            className="main-preview"
           />
           <div className="floating-card update-card">
             <i className="fa-solid fa-check-circle"></i> Mise à jour effectuée
@@ -100,45 +113,70 @@ export default function Home() {
 
       <section id="features" className="features reveal">
         <div className="features-header">
-          <h2>Fonctionalités de la <span> plateforme </span></h2>
-          <p>PitchFlow combine les outils essentiels pour les freelances et PME : marketing, copywriting et gestion financière propulsés par l'IA.</p>
-        </div> 
-
-        <div className="features-grid"> 
+          <h2>
+            Fonctionalités de la <span> plateforme </span>
+          </h2>
+          <p>
+            PichFlow combine les outils essentiels pour les freelances et PME :
+            marketing, copywriting et gestion financière propulsés par l'IA.
+          </p>
+        </div>
+        <div className="features-grid">
           <div className="feature-card">
-            <div className="icon-box blue"><i className="fa-solid fa-bolt-lightning"></i></div>
+            <div className="icon-box blue">
+              <i className="fa-solid fa-bolt-lightning"></i>
+            </div>
             <h3>Contenu Marketing</h3>
-            <p>Générez des articles de blog SEO, posts réseaux sociaux et emails marketing en quelques clics.</p>
+            <p>
+              Générez des articles de blog SEO, posts réseaux sociaux et emails
+              marketing en quelques clics.
+            </p>
           </div>
 
           <div className="feature-card">
-            <div className="icon-box orange"><i className="fa-solid fa-pen-nib"></i></div>
+            <div className="icon-box orange">
+              <i className="fa-solid fa-pen-nib"></i>
+            </div>
             <h3>Copywriting</h3>
-            <p>Créez des pages de vente, landing pages et textes publicitaires avec les méthodes AIDA, PAS et plus.</p>
-          </div> 
+            <p>
+              Créez des pages de vente, landing pages et textes publicitaires
+              avec les méthodes AIDA, PAS et plus.
+            </p>
+          </div>
 
           <div className="feature-card active-border">
-            <div className="icon-box blue-alt"><i className="fa-solid fa-file-invoice-dollar"></i></div>
+            <div className="icon-box blue-alt">
+              <i className="fa-solid fa-file-invoice-dollar"></i>
+            </div>
             <h3>Facturation Automatisée</h3>
-            <p>Créez devis et factures rapidement avec suivi des paiements et rappels automatiques.</p>
+            <p>
+              Créez devis et factures rapidement avec suivi des paiements et
+              rappels automatiques.
+            </p>
           </div>
 
           <div className="feature-card">
-            <div className="icon-box orange-alt"><i className="fa-solid fa-chart-column"></i></div>
+            <div className="icon-box orange-alt">
+              <i className="fa-solid fa-chart-column"></i>
+            </div>
             <h3>Comptabilité et rapport</h3>
-            <p>Catégorisation automatique des revenus et dépenses avec alertes financières intelligentes.</p>
+            <p>
+              Catégorisation automatique des revenus et dépenses avec alertes
+              financières intelligentes.
+            </p>
           </div>
 
           <div className="feature-card">
-            <div className="icon-box blue"><i className="fa-solid fa-envelope"></i></div>
+            <div className="icon-box blue">
+              <i className="fa-solid fa-envelope"></i>
+            </div>
             <h3>Multi-plateformes</h3>
             <p>Contenu prêt à être publié sur vos réseaux sociaux</p>
           </div>
         </div>
-
-        <br /> <br /> 
+        <br /> <br />
         <div className="features-tt-container reveal">
-          <div className="features-tt-slider">
+          <div className="features-tt-slider"> 
             <div className="sub1">
               <i className="fa-regular fa-file-pdf"></i>
               <div className="sub1-content">
@@ -201,27 +239,47 @@ export default function Home() {
 
       <section className="how-it-works reveal">
         <div className="features-header">
-          <h2>Démarrer en <span>3 étapes simples</span></h2>
-          <p>Pas de configuration complexe. Commencez à produire en moins de 2 minutes.</p>
+          <h2>
+            Démarrer en <span>3 étapes simples</span>
+          </h2>
+          <p>
+            Pas de configuration complexe. Commencez à produire en moins de 2
+            minutes.
+          </p>
         </div>
         <div className="steps-grid">
           <div className="step-card">
             <div className="step-num">1</div>
-            <div className="step-icon"><i className="fa-solid fa-hand-pointer"></i></div>
+            <div className="step-icon">
+              <i className="fa-solid fa-hand-pointer"></i>
+            </div>
             <h4>Sélectionnez un outil</h4>
-            <p>Choisissez entre la génération de contenu IA ou l'outil de facturation pro.</p>
+            <p>
+              Choisissez entre la génération de contenu IA ou l'outil de
+              facturation pro.
+            </p>
           </div>
           <div className="step-card">
             <div className="step-num">2</div>
-            <div className="step-icon"><i className="fa-solid fa-wand-magic-sparkles"></i></div>
+            <div className="step-icon">
+              <i className="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
             <h4>Saisissez vos données</h4>
-            <p>L'IA génère vos textes marketing ou calcule vos rapports financiers instantanément.</p>
+            <p>
+              L'IA génère vos textes marketing ou calcule vos rapports
+              financiers instantanément.
+            </p>
           </div>
           <div className="step-card">
             <div className="step-num">3</div>
-            <div className="step-icon"><i className="fa-solid fa-circle-check"></i></div>
+            <div className="step-icon">
+              <i className="fa-solid fa-circle-check"></i>
+            </div>
             <h4>Exportez et utilisez</h4>
-            <p>Téléchargez vos factures en PDF ou publiez vos contenus directement.</p>
+            <p>
+              Téléchargez vos factures en PDF ou publiez vos contenus
+              directement.
+            </p>
           </div>
         </div>
       </section>
@@ -229,29 +287,52 @@ export default function Home() {
       <section className="showcase-section reveal">
         <div className="showcase-container">
           <div className="showcase-text">
-            <h2>Gérez tout votre <span>écosystème</span> business</h2>
+            <h2>
+              Gérez tout votre <span>écosystème</span> business
+            </h2>
             <p>
-              De la rédaction de vos publicités à l'encaissement de vos factures, 
-              PitchFlow centralise vos outils pour vous laisser vous concentrer sur l'essentiel.
+              De la rédaction de vos publicités à l'encaissement de vos
+              factures, PitchFlow centralise vos outils pour vous laisser vous
+              concentrer sur l'essentiel.
             </p>
             <ul className="showcase-list">
-              <li><i className="fa-solid fa-check"></i> Interface ultra-fluide</li>
-              <li><i className="fa-solid fa-check"></i> Support disponible 24/7</li>
+              <li>
+                <i className="fa-solid fa-check"></i> Interface ultra-fluide
+              </li>
+              <li>
+                <i className="fa-solid fa-check"></i> Support disponible 24/7
+              </li>
             </ul>
           </div>
           <div className="showcase-visual">
             <div className="circle-bg"></div>
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop" alt="Entrepreneur" className="person-img" />
+            <img
+              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop"
+              alt="Entrepreneur"
+              className="person-img"
+            />
             <div className="floating-badge badge-top-left">
-              <div className="badge-logo"><i className="fa-solid fa-wand-magic-sparkles"></i></div>
-              <div className="badge-content"><span>PitchFlow AI</span><small>Marketing Engine</small></div>
+              <div className="badge-logo">
+                <i className="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <div className="badge-content">
+                <span>PitchFlow AI</span>
+                <small>Marketing Engine</small>
+              </div>
             </div>
             <div className="floating-badge badge-mid-right">
-              <div className="badge-logo-globe"><i className="fa-solid fa-earth-africa"></i></div>
+              <div className="badge-logo-globe">
+                <i className="fa-solid fa-earth-africa"></i>
+              </div>
             </div>
             <div className="floating-badge badge-bottom-left">
-              <div className="badge-icon-check"><i className="fa-solid fa-check"></i></div>
-              <div className="badge-content"><span className="amount">500 €</span><small>Payée</small></div>
+              <div className="badge-icon-check">
+                <i className="fa-solid fa-check"></i>
+              </div>
+              <div className="badge-content">
+                <span className="amount">500 €</span>
+                <small>Payée</small>
+              </div>
             </div>
             <div className="dot dot-1"></div>
             <div className="dot dot-2"></div>
@@ -262,63 +343,115 @@ export default function Home() {
       <section className="final-cta reveal">
         <div className="cta-content">
           <h2>Prêt à propulser votre activité ?</h2>
-          <p>Rejoignez plus de 2,500 professionnels qui automatisent leur quotidien avec PitchFlow.</p>
+          <p>
+            Rejoignez plus de 2,500 professionnels qui automatisent leur
+            quotidien avec PitchFlow.
+          </p>
           <div className="hero-btns">
-            {/* LIEN : Renvoie vers l'inscription */}
             <a href="/inscription" className="btn-white">
               Essayer gratuitement <i className="fa-solid fa-rocket"></i>
             </a>
           </div>
-          <span className="no-card">Aucune carte de crédit requise pour l'essai.</span>
+          <span className="no-card">
+            Aucune carte de crédit requise pour l'essai.
+          </span>
         </div>
       </section>
 
       <section id="pricing" className="pricing reveal">
         <div className="pricing-header">
-          <h2>Des tarifs <span>simples et flexibles</span></h2>
-          <p>Essayez gratuitement pendant 7 jours, puis rechargez vos crédits selon vos besoins.</p>
+          <h2>
+            Des tarifs <span>simples et flexibles</span>
+          </h2>
+          <p>
+            Essayez gratuitement pendant 7 jours, puis rechargez vos crédits
+            selon vos besoins.
+          </p>
         </div>
 
         <div className="pricing-grid">
           <div className="pricing-card">
             <h3>Essai Gratuit</h3>
-            <div className="price">0€<span>/7 jours</span></div>
-            <p className="price-desc">Testez la puissance de PitchFlow sans engagement</p>
+            <div className="price">
+              0€<span>/7 jours</span>
+            </div>
+            <p className="price-desc">
+              Testez la puissance de PichFlow sans engagement
+            </p>
             <ul className="price-features">
-              <li><i className="fa-solid fa-circle-check"></i> 10 crédits inclus pour tester</li>
-              <li><i className="fa-solid fa-circle-check"></i> Accès complet aux outils IA</li>
-              <li><i className="fa-solid fa-circle-check"></i>Makerting & Copywriting </li>
-              <li><i className="fa-solid fa-circle-check"></i> Facturation & rapports</li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i> 10 crédits inclus
+                pour tester
+              </li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i> Accès complet aux
+                outils IA
+              </li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i>Makerting &
+                Copywriting{" "}
+              </li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i> Facturation &
+                rapports
+              </li>
             </ul>
-            {/* LIEN : Redirection vers inscription */}
-            <a href="/inscription" style={{textDecoration: 'none'}}>
-              <button className="btn-outline-pricing">Essai gratuit</button>
-            </a>
+            <button className="btn-outline-pricing">Essai gratuit</button>
           </div>
 
           <div className="pricing-card featured">
-            <div className="popular-badge"><i className="fa-solid fa-bolt"></i> Plus Populaire</div>
+            <div className="popular-badge">
+              <i className="fa-solid fa-bolt"></i> Plus Populaire
+            </div>
             <h3>Pack Essentiel</h3>
-            <div className="price">5€<span>/100 crédits</span></div>
+            <div className="price">
+              5€<span>/100 crédits</span>
+            </div>
             <p className="price-desc">Idéal pour vos besoins </p>
             <ul className="price-features">
-              <li><i className="fa-solid fa-circle-check"></i> <strong>100 crédits</strong> automatique</li>
-              <li><i className="fa-solid fa-circle-check"></i> Génération de contenu haute qualité</li>
-              <li><i className="fa-solid fa-circle-check"></i> Accès illimité aux differents outils</li>
-              <li><i className="fa-solid fa-circle-check"></i> Export PDF disponible</li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i>{" "}
+                <strong>100 crédits</strong> automatique
+              </li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i> Génération de
+                contenu haute qualité
+              </li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i> Accès illimité aux
+                differents outils
+              </li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i> Export PDF
+                disponible
+              </li>
             </ul>
             <button className="btn-primary-pricing">+ 100 crédits</button>
           </div>
 
           <div className="pricing-card">
             <h3>Pack Business</h3>
-            <div className="price">8€<span>/200 crédits</span></div>
+            <div className="price">
+              8€<span>/200 crédits</span>
+            </div>
             <p className="price-desc">Economique et approprié</p>
             <ul className="price-features">
-              <li><i className="fa-solid fa-circle-check"></i> <strong>200 crédits</strong> automatique</li>
-              <li><i className="fa-solid fa-circle-check"></i> Économisez 20% sur le prix</li>
-              <li><i className="fa-solid fa-circle-check"></i> Génération de contenu haute qualité</li>
-              <li><i className="fa-solid fa-circle-check"></i> Export PDF disponible</li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i>{" "}
+                <strong>200 crédits</strong> automatique
+              </li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i> Économisez 20% sur
+                le prix
+              </li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i> Génération de
+                contenu haute qualité
+              </li>
+              <li>
+                <i className="fa-solid fa-circle-check"></i> Export PDF
+                disponible
+              </li>
             </ul>
             <button className="btn-blue-pricing">+ 200 crédits</button>
           </div>
@@ -328,17 +461,33 @@ export default function Home() {
           <p>Recharges sécurisées via nos partenaires</p>
           <div className="trust-badges">
             <div className="trust-card">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" style={{ height: '25px' }} />
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg"
+                alt="Stripe"
+                style={{ height: "25px" }}
+              />
             </div>
             <div className="trust-card">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" style={{ height: '25px' }} />
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+                alt="PayPal"
+                style={{ height: "25px" }}
+              />
             </div>
             <div className="trust-card">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" style={{ height: '15px', marginRight: '10px' }} />
-              <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style={{ height: '20px' }} />
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
+                alt="Visa"
+                style={{ height: "15px", marginRight: "10px" }}
+              />
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+                alt="Mastercard"
+                style={{ height: "20px" }}
+              />
             </div>
           </div>
-        </div> 
+        </div>
       </section>
 
       <div id="top"></div>
@@ -346,5 +495,5 @@ export default function Home() {
         <i className="fa-solid fa-chevron-up"></i>
       </a>
     </main>
-  ); 
+  );
 }
