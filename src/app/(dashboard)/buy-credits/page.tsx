@@ -4,7 +4,12 @@ import { useRouter } from 'next/navigation';
 
 export default function BuyCreditsPage() {
   const router = useRouter();
-  const [selectedPack, setSelectedPack] = useState(null); // Corrigé pour JS standard
+  
+  // SOLUTION : On utilise une assertion de type ou une union de types
+  // Si tu es en .tsx : useState<number | null>(null)
+  // Si tu es en .js mais que le linter râle :
+  const [selectedPack, setSelectedPack] = useState(0); 
+
   const [isPaying, setIsPaying] = useState(false);
 
   const packs = [
@@ -14,18 +19,18 @@ export default function BuyCreditsPage() {
   ];
 
   const handlePayment = () => {
-    if (!selectedPack) return;
+    // On vérifie si selectedPack est différent de 0 (notre valeur par défaut)
+    if (selectedPack === 0) return;
     setIsPaying(true);
     
-    // Simulation du paiement
     setTimeout(() => {
       setIsPaying(false);
       alert("Paiement réussi ! Vos crédits ont été ajoutés.");
-      router.push('/parametres'); // Assure-toi que cette route existe
-    }, 2500); 
+      router.push('/parametres'); 
+    }, 2500);  
   };
 
-  return (
+  return ( 
     <div className="credits-page-container">
       <div className="credits-header">
         <button className="back-btn" onClick={() => router.back()}>
@@ -40,6 +45,7 @@ export default function BuyCreditsPage() {
           <div 
             key={pack.id} 
             className={`credit-pack-card ${pack.popular ? 'is-popular' : ''} ${selectedPack === pack.id ? 'is-selected' : ''}`}
+            // Maintenant setSelectedPack accepte le nombre sans erreur !
             onClick={() => setSelectedPack(pack.id)}
           >
             {pack.popular && <div className="popular-ribbon">Le plus choisi</div>}
@@ -55,14 +61,15 @@ export default function BuyCreditsPage() {
               <span className="price-val">{pack.price}€</span>
             </div>
 
-            <button className="select-box-btn">
+            <button type="button" className="select-box-btn">
               {selectedPack === pack.id ? "Pack Sélectionné" : "Choisir ce pack"}
             </button>
           </div> 
         ))}
       </div>
 
-      {selectedPack && (
+      {/* On affiche la barre seulement si un pack est sélectionné (différent de 0) */}
+      {selectedPack !== 0 && (
         <div className="fixed-checkout-bar">
           <div className="checkout-content">
             <div className="total-text">
@@ -79,5 +86,5 @@ export default function BuyCreditsPage() {
         </div>
       )}
     </div>
-  );
+  ); 
 }

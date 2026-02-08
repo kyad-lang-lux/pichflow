@@ -1152,149 +1152,236 @@ font-weight: bold;
         display: none !important;
     }
 }
-
-/* Nouveau CSS spécifique pour la page achat de crédits */
+/* --- PAGE ACHAT DE CRÉDITS --- */
 
 .credits-page-container {
   padding: 40px 20px;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
-  font-family: sans-serif;
-  color: #333;
+  color: #1a1a1a;
 }
 
 .credits-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
+}
+
+.credits-header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+.credits-header p {
+  color: #666;
+  font-size: 1.1rem;
 }
 
 .back-btn {
-  background: #f0f0f0;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+  background: transparent;
+  border: 1px solid #ddd;
+  padding: 8px 18px;
+  border-radius: 50px;
   cursor: pointer;
-  margin-bottom: 20px;
-  transition: 0.3s;
+  margin-bottom: 30px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
 }
 
-.back-btn:hover { background: #e0e0e0; }
+.back-btn:hover {
+  background: #f8f8f8;
+  border-color: #bbb;
+  transform: translateX(-3px);
+}
 
+/* Grille Responsive */
 .credits-grid-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  margin-bottom: 100px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 120px;
+  padding: 10px;
 }
 
 .credit-pack-card {
-  background: white;
-  border: 2px solid #eee;
-  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
   padding: 40px 30px;
   text-align: center;
   cursor: pointer;
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .credit-pack-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-12px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
   border-color: #007bff;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
 }
 
 .credit-pack-card.is-selected {
-  border-color: #007bff;
-  background: #f8fbff;
+  border: 2px solid #007bff;
+  background: #f0f7ff;
 }
 
-.is-popular {
-  border-color: #007bff;
-  transform: scale(1.05);
-}
-
+/* Badge populaire */
 .popular-ribbon {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
   background: #007bff;
   color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
 }
 
 .pack-icon-wrapper {
-  font-size: 40px;
+  font-size: 3rem;
   color: #007bff;
   margin-bottom: 20px;
+  background: #f0f7ff;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 20px;
+  margin: 0 auto 20px auto;
+}
+
+.credit-pack-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  font-weight: 700;
 }
 
 .credit-amount {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 15px 0;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 15px;
 }
 
 .pack-price {
-  font-size: 32px;
-  font-weight: 900;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
+}
+
+.price-val {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #111;
 }
 
 .select-box-btn {
   width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 2px solid #007bff;
-  background: transparent;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1.5px solid #007bff;
+  background: white;
   color: #007bff;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.is-selected .select-box-btn {
+.credit-pack-card.is-selected .select-box-btn {
   background: #007bff;
   color: white;
 }
 
-/* Barre de paiement fixée en bas */
+/* Barre de paiement fixe */
 .fixed-checkout-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   padding: 20px;
-  box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
   z-index: 1000;
+  border-top: 1px solid #eee;
 }
 
 .checkout-content {
-  max-width: 1100px;
+  max-width: 1000px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
 }
 
-.total-text { font-size: 18px; }
-.total-text span { font-size: 24px; font-weight: bold; color: #007bff; }
+.total-text {
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.total-text span {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #007bff;
+  margin-left: 8px;
+}
 
 .final-pay-btn {
   background: #28a745;
   color: white;
   border: none;
-  padding: 15px 40px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: bold;
+  padding: 16px 45px;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
 }
 
-.final-pay-btn:hover { background: #218838; }
-.final-pay-btn:disabled { background: #ccc; cursor: not-allowed; }
+.final-pay-btn:hover:not(:disabled) {
+  background: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+}
+
+.final-pay-btn:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+}
+
+/* --- Media Queries (Mobile) --- */
+
+@media (max-width: 768px) {
+  .credits-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .checkout-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .final-pay-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .credits-grid-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .credit-pack-card.is-popular {
+    transform: scale(1); /* On annule le scale sur mobile pour éviter que ça déborde */
+  }
+}
