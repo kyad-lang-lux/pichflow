@@ -313,7 +313,7 @@ body {
 
 .btn-outline {
   border: 1px solid #e2e8f0;
-  padding: 0.5rem 1.9rem;
+  padding: 0.8rem 1.5rem;
   border-radius: 15px;
   text-decoration: none;
   color: var(--primary);
@@ -453,13 +453,13 @@ body {
   }
   .hero .delay-1 {
     margin-bottom: 10px;
-    line-height: 40px;
+    line-height: 38px;
     font-size: 42px;
   }
   .hero .delay-1 span{
     margin-bottom: 10px;
-    line-height: 40px;
-    font-size: 37px;
+    line-height: 38px;
+    font-size: 36px;
   }
   .hero .delay-2 {
     font-size: 12px;
@@ -472,8 +472,20 @@ body {
     align-items: center;
     text-align: center;
   }
+  .hero .btn-primary {
+  background: var(--accent);
+  color: white;
+  padding: 0.8rem 1rem;
+  font-size: 0.8rem;
+ 
+} 
+.btn-outline {
+  border: 1px solid #e2e8f0;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.8rem;
+}
   .hero .delay-3 a {
-    width: 90%;
+    width: 80%;
     text-align: center;
     justify-content: center;
   }

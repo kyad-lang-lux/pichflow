@@ -108,7 +108,7 @@ export default function Home() {
           <div className="floating-card export-card">
             <i className="fa-solid fa-file-export"></i> Rapport prêt à exporter
           </div>
-        </div> 
+        </div>  
       </section>
 
       <section id="features" className="features reveal">
