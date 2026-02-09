@@ -295,6 +295,22 @@ body {
 .hero h1 span {
   color: var(--primary);
   font-weight: 700;
+  animation: floatY 1s ease-in-out ;
+  display: inline-block;
+  will-change: transform;
+}
+
+@keyframes floatY {
+  0% {
+    transform: translateY(0px);
+  
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .hero p {
@@ -475,13 +491,13 @@ body {
   .hero .btn-primary {
   background: var(--accent);
   color: white;
-  padding: 0.8rem 1rem;
+  padding: 0.7rem 1rem;
   font-size: 0.8rem;
  
 } 
 .btn-outline {
   border: 1px solid #e2e8f0;
-  padding: 0.8rem 1.5rem;
+  padding: 0.7rem 1.5rem;
   font-size: 0.8rem;
 }
   .hero .delay-3 a {
