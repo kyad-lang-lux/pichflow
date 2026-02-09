@@ -27,10 +27,10 @@ export default function DashboardLayout({
   const allMenuItems = [
     { name: "Acceuil", path: "/dashboard", icon: "fa-house" },
     { name: "Marketing ", path: "/contenu-ia", icon: "fa-wand-magic-sparkles" },
-    { name: "Copywriting", path: "/copywriting", icon: "fa-pen-nib" },
-    { name: "Factures", path: "/factures", icon: "fa-file-invoice" },
-    { name: "Rapports", path: "/rapports", icon: "fa-chart-line" },
-    { name: "Paramètres", path: "/parametres", icon: "fa-gear" }
+    { name: "Copywriting ", path: "/copywriting", icon: "fa-pen-nib" },
+    { name: "Factures ", path: "/factures", icon: "fa-file-invoice" },
+    { name: "Rapports ", path: "/rapports", icon: "fa-chart-line" },
+    { name: "Paramètres ", path: "/parametres", icon: "fa-gear" }
   ];
 
   const sidebarPrimaryItems = allMenuItems.slice(0, 5);
@@ -40,12 +40,12 @@ export default function DashboardLayout({
   const activeTitle = activeItem ? activeItem.name : "Dashboard";
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container">  
       <aside className="sidebar">
         <div className="sidebar-header">
           <Link href="/dashboard" className="logo">
             <div className="logo-icon">
-              <i className="fa-solid fa-bolt-lightning"></i>
+              <i className="fa-solid fa-circle-nodes"></i>
             </div>
             <span className="logo-text">PichFlow</span>
           </Link>
@@ -62,7 +62,7 @@ export default function DashboardLayout({
                 <i className={`fa-solid ${item.icon}`}></i> {item.name}
               </Link>
             ))}
-          </div>
+          </div> 
 
           <div className="menu-group bottom">
             {sidebarSecondaryItems.map((item) => (
@@ -81,12 +81,15 @@ export default function DashboardLayout({
       <main className="dashboard-main">
         <header className="topbar">
           <div className="topbar-left">
-            <h1>{activeTitle}</h1>
-            <p>
+            <h1><span>
               {activeTitle === "Paramètres"
                 ? "Gérez votre compte"
-                : "PichFlow"}
-            </p>
+                : "PichFlow"} &gt;  
+            </span>
+              
+              {activeTitle}  
+            
+            </h1>
           </div>
 
           <div className="topbar-right" ref={profileRef}>

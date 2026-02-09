@@ -13,7 +13,7 @@ export const Navbar = () => {
     <header className="header">
       <Link href="/" className="logo" onClick={closeMenu}>
         <div className="logo-icon">
-          <i className="fa-solid fa-bolt-lightning"></i> 
+          <i className="fa-solid fa-circle-nodes"></i> 
         </div>
         <span className="logo-text">
           Pich<span className="blue-text">.Flow</span>

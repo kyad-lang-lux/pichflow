@@ -280,7 +280,7 @@ body {
   
   align-items: center;
   gap: 8px;
-  margin-bottom: .5rem;
+  margin-bottom: .6rem;
 }
 
 .hero h1 {
@@ -294,6 +294,7 @@ body {
 
 .hero h1 span {
   color: var(--primary);
+  font-weight: 700;
 }
 
 .hero p {
@@ -312,7 +313,7 @@ body {
 
 .btn-outline {
   border: 1px solid #e2e8f0;
-  padding: 0.9rem 1.5rem;
+  padding: 0.5rem 1.9rem;
   border-radius: 15px;
   text-decoration: none;
   color: var(--primary);
@@ -376,7 +377,7 @@ body {
 }
 
 /* --- HERO SOCIAL (AVATARS & RATING) --- */
-.hero-social {
+.hero-social { 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -618,7 +619,7 @@ body {
 .features-header {
   text-align: center;
   margin-bottom: 60px;
-}
+} 
 
 .features-header h2 {
   font-size: 2.2rem;
@@ -674,14 +675,14 @@ body {
 
 .features-tt-container {
   width: 100%;
-  background: #0f172a;
+  background: transparent;
     overflow: hidden;
+    backdrop-filter: blur(50px);
     padding: 30px 0;
     position: relative;
 }
 
 .features-tt-slider {
-    background: #0f172a;
     display: flex;
     gap: 25px; 
     width: max-content;
