@@ -1376,7 +1376,7 @@ font-weight: bold;
     justify-content: center;
   }
 
-  .credits-grid-layout {
+  .credits-grid-layout { 
     grid-template-columns: 1fr;
     gap: 40px;
   }
@@ -1385,8 +1385,12 @@ font-weight: bold;
     transform: scale(1); /* On annule le scale sur mobile pour éviter que ça déborde */
   }
 }  
-
+.dashboard-container .dashboard-main .topbar-left h1{
+  font-size: 15px;
+  color: gray;
+}
 .dashboard-container .dashboard-main .topbar-left span{
   margin-right: 5px ; 
-  color: gray;
+
+  color: rgb(0, 0, 0);
 }

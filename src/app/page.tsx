@@ -283,7 +283,7 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </section>
+      </section> 
 
       <section className="showcase-section reveal">
         <div className="showcase-container">
