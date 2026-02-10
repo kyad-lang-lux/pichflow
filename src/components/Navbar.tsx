@@ -23,7 +23,7 @@ export const Navbar = () => {
       <nav className={`nav-menu ${isOpen ? "open" : ""}`}>
         <ul className="nav-links">
           {/* Modification ici : ajout du slash '/' devant l'ancre */}
-          <li>
+          <li> 
             <Link href="/#features" onClick={closeMenu}>Fonctionnalités</Link>
           </li>
           <li>

@@ -28,6 +28,7 @@ export default function Home() {
   return (
     <main>
       <section className="hero" id="top">
+        
         {/* Badge animé */}
         <div className="badge reveal">
           <i className="fa-solid fa-wand-magic-sparkles"></i>
@@ -36,9 +37,9 @@ export default function Home() {
 
         {/* Titre animé */}
         <h1 className="reveal delay-1">
-          Votre outil de croissance et
+          Votre outil de croissance
           <br />
-          <span> gestion en un seul endroit </span> <br />
+          <span>  en un seul endroit </span> <br />
         </h1>
 
         {/* Sous-titre animé */}
@@ -52,7 +53,7 @@ export default function Home() {
           
 
           <a href="/inscription" className="btn-primary">
-            Démarrer l'essai gratuit <i className="fa-solid fa-play"></i>
+            Démarrer l'essai gratuit <i className="fa-solid fa-forward"></i>
           </a>
           <a href="#features" className="btn-outline">
             Découvrir les fonctionnalités{" "}

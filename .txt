@@ -1,0 +1,5 @@
+<h1 className="reveal delay-1">
+          Votre outil de croissance <br /> et gestion
+          <br />
+          <span>  en un seul endroit </span> <br />
+        </h1>
