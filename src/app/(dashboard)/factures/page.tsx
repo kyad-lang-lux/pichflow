@@ -79,7 +79,7 @@ export default function FacturesPage() {
     element.innerHTML = `
       <div style="padding: 40px; font-family: Arial, sans-serif; color: #333;">
         <div style="display: flex; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 20px;">
-          <h2 style="color: #2563eb; margin: 0;">PitchFlow</h2>
+          <h2 style="color: #2563eb; margin: 0;">PichFlow</h2>
           <div style="text-align: right;">
             <h1 style="margin: 0; font-size: 24px;">FACTURE</h1>
             <p style="margin: 0;">${item.id}</p>
@@ -88,7 +88,7 @@ export default function FacturesPage() {
         <div style="margin-top: 40px; display: flex; justify-content: space-between;">
           <div>
             <p style="color: #666; margin-bottom: 5px;">ÉMETTEUR</p>
-            <p><strong>PitchFlow IA Service</strong><br></p>
+            <p><strong>Pichflow Service</strong><br></p>
           </div>
           <div style="text-align: right;">
             <p style="color: #666; margin-bottom: 5px;">CLIENT</p>
@@ -105,7 +105,7 @@ export default function FacturesPage() {
           </thead>
           <tbody>
             <tr>
-              <td style="padding: 15px; border-bottom: 1px solid #eee;">Prestation PitchFlow IA</td>
+              <td style="padding: 15px; border-bottom: 1px solid #eee;">Facture de prestation</td>
               <td style="padding: 15px; text-align: right;color: #da0b0b;  border-bottom: 1px solid #eeeeee;">${item.montant} ${item.devise}</td>
             </tr>
           </tbody>
