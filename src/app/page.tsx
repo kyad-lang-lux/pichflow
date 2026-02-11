@@ -39,12 +39,12 @@ export default function Home() {
         <h1 className="reveal delay-1">
           Votre outil de croissance
           <br />
-          <span>  en un seul endroit </span> <br />
+          <span>  en un seul endroit </span> <br /> 
         </h1>
 
         {/* Sous-titre animé */}
         <p className="reveal delay-2">
-          Faites du contenu marketing et copywriting, de la facturation et la
+          Faites du contenu marketing et copywriting, de la facturation et la de
           comptabilité avec Pichflow.
         </p>
 
@@ -83,14 +83,14 @@ export default function Home() {
           </div>
 
           <div className="social-text">
-            <span className="count">+2,500 utilisateurs</span>
+            <span className="count">+2,300 utilisateurs</span>
             <div className="stars">
               <i className="fa-solid fa-star"></i>
               <i className="fa-solid fa-star"></i>
               <i className="fa-solid fa-star"></i>
               <i className="fa-solid fa-star"></i>
               <i className="fa-solid fa-star"></i>
-              <span className="rating">4.9/5</span>
+              <span className="rating">4.2/5</span>
             </div>
           </div>
         </div>
@@ -118,14 +118,14 @@ export default function Home() {
             Fonctionalités de la <span> plateforme </span>
           </h2>
           <p>
-            PichFlow combine les outils essentiels pour les freelances et PME :
+            PichFlow combine les outils essentiels pour les freelances, particuliers et PME :
             marketing, copywriting et gestion financière propulsés par l'IA.
           </p>
         </div>
         <div className="features-grid">
           <div className="feature-card">
             <div className="icon-box blue">
-              <i className="fa-solid fa-bolt-lightning"></i>
+              <i className="fa-solid fa-handshake"></i>
             </div>
             <h3>Contenu Marketing</h3>
             <p>
@@ -135,8 +135,8 @@ export default function Home() {
           </div>
 
           <div className="feature-card">
-            <div className="icon-box orange">
-              <i className="fa-solid fa-pen-nib"></i>
+            <div className="icon-box orange"> 
+              <i className="fa-solid fa-lightbulb"></i>
             </div>
             <h3>Copywriting</h3>
             <p>
@@ -167,9 +167,9 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="feature-card">
+          <div className="feature-card"> 
             <div className="icon-box blue">
-              <i className="fa-solid fa-envelope"></i>
+              <i className="fa-solid fa-circle-nodes"></i>
             </div>
             <h3>Multi-plateformes</h3>
             <p>Contenu prêt à être publié sur vos réseaux sociaux</p>
@@ -186,13 +186,13 @@ export default function Home() {
               </div>
             </div>
             <div className="sub1">
-              <i className="fa-solid fa-chart-line"></i>
+              <i className="fa-solid fa-chart-column"></i>
               <div className="sub1-content">
                 <span>Rapports mensuels</span>
                 <p>Analysez votre croissance en temps réel.</p>
               </div>
             </div>
-            <div className="sub1">
+            <div className="sub1"> 
               <i className="fa-solid fa-bolt"></i>
               <div className="sub1-content">
                 <span>Notifications</span>
@@ -214,7 +214,7 @@ export default function Home() {
               </div>
             </div>
             <div className="sub1">
-              <i className="fa-solid fa-chart-line"></i>
+              <i className="fa-solid fa-chart-column"></i>
               <div className="sub1-content">
                 <span>Rapports mensuels</span>
                 <p>Analysez votre croissance en temps réel.</p>
@@ -257,7 +257,7 @@ export default function Home() {
             <h4>Sélectionnez un outil</h4>
             <p>
               Choisissez entre la génération de contenu IA ou l'outil de
-              facturation pro.
+              facturation ou autres.
             </p>
           </div>
           <div className="step-card">
@@ -267,7 +267,7 @@ export default function Home() {
             </div>
             <h4>Saisissez vos données</h4>
             <p>
-              L'IA génère vos textes marketing ou calcule vos rapports
+              Pichflow génère vos textes marketing ou calcule vos rapports
               financiers instantanément.
             </p>
           </div>
@@ -279,7 +279,7 @@ export default function Home() {
             <h4>Exportez et utilisez</h4>
             <p>
               Téléchargez vos factures en PDF ou publiez vos contenus
-              directement.
+              facilement.
             </p>
           </div>
         </div>
@@ -289,7 +289,7 @@ export default function Home() {
         <div className="showcase-container">
           <div className="showcase-text">
             <h2>
-              Gérez tout votre <span>écosystème</span> business
+              Gérez tout votre <span>écosystème business</span> 
             </h2>
             <p>
               De la rédaction de vos publicités à l'encaissement de vos
@@ -323,7 +323,7 @@ export default function Home() {
             </div>
             <div className="floating-badge badge-mid-right">
               <div className="badge-logo-globe">
-                <i className="fa-solid fa-earth-africa"></i>
+                <i className="fa-solid fa-globe"></i>
               </div>
             </div>
             <div className="floating-badge badge-bottom-left">
@@ -341,16 +341,45 @@ export default function Home() {
         </div>
       </section>
 
+<section className="testimonials reveal">
+  <div className="features-header">
+    <h3>Ce qu'ils <span>disent de nous</span></h3>
+    <p>Faites défiler pour découvrir les avis de nos utilisateurs.</p>
+  </div>
+
+  <div className="testimonials-wrapper">
+    {[
+      { name: "Julie B.", text: "L'IA de PichFlow comprend parfaitement mon ton de voix pour mes articles de blog marketing.", color: "orange" },
+      { name: "Thomas R.", text: "Un outil indispensable pour tout freelance qui veut scaler son activité proprement.", color: "green" },
+      { name: "Anna L.", text: "Nous avons privilégié une approche structurée pour améliorer efficacement les fonctionnalités de gestion.", color: "blue" },
+      { name: "Marc D.", text: "L'interface est d'une fluidité incroyable. La facturation ne me prend plus que quelques secondes par jour.", color: "purple" },
+      { name: "Sarah M.", text: "Le support est réactif et les outils de comptabilité sont d'une clarté exemplaire.", color: "blue" }
+    ].map((item, index) => (
+      <div key={index} className="testimonial-card">
+        <p className="testimonial-text">“{item.text}”</p>
+        <div className="testimonial-user">
+          <div className="testimonial-avatar">
+            <i className="fa-solid fa-user"></i>
+          </div>
+          <span className="testimonial-name">{item.name}</span>
+        </div>
+        <div className={`card-gradient ${item.color}`}></div>
+      </div>
+    ))}
+  </div>
+</section>
+
+
       <section className="final-cta reveal">
         <div className="cta-content">
           <h2>Prêt à propulser votre activité ?</h2>
           <p>
-            Rejoignez plus de 2,500 professionnels qui automatisent leur
+            Rejoignez plus de 2,300 professionnels qui automatisent leur
             quotidien avec PitchFlow.
           </p>
           <div className="hero-btns">
             <a href="/inscription" className="btn-white">
-              Essayer gratuitement <i className="fa-solid fa-rocket"></i>
+              Essayer gratuit <i className="fa-solid fa-rocket"></i>
             </a>
           </div>
           <span className="no-card">

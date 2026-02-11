@@ -26,14 +26,14 @@ export default function DashboardLayout({
 
   const allMenuItems = [
     { name: "Acceuil", path: "/dashboard", icon: "fa-house" },
-    { name: "Marketing ", path: "/contenu-ia", icon: "fa-circle-nodes" },
-    { name: "Copywriting ", path: "/copywriting", icon: "fa-pen-nib" },
-    { name: "Factures ", path: "/factures", icon: "fa-file-invoice" },
-    { name: "Rapports ", path: "/rapports", icon: "fa-chart-line" },
+    { name: "Marketing ", path: "/contenu-ia", icon: "fa-handshake" },
+    { name: "Copywriting ", path: "/copywriting", icon: "fa-lightbulb" },
+    { name: "Factures ", path: "/factures", icon: "fa-file-invoice-dollar" },
+    { name: "Rapports ", path: "/rapports", icon: "fa-chart-bar" },
     { name: "Paramètres ", path: "/parametres", icon: "fa-gear" }
   ];
 
-  const sidebarPrimaryItems = allMenuItems.slice(0, 5);
+  const sidebarPrimaryItems = allMenuItems.slice(0, 5); 
   const sidebarSecondaryItems = allMenuItems.slice(5);
 
   const activeItem = allMenuItems.find((item) => item.path === pathname);
@@ -47,7 +47,7 @@ export default function DashboardLayout({
             <div className="logo-icon"> 
               <i className="fa-solid fa-circle-nodes"></i>
             </div>
-            <span className="logo-text">PichFlow</span>
+            <span className="logo-text">Pich.Flow</span>
           </Link>
         </div>
 
@@ -84,7 +84,7 @@ export default function DashboardLayout({
             <h1><span>
               {activeTitle === "Paramètres"
                 ? "Gérez votre compte"
-                : "PichFlow"} &gt;  
+                : "PichFlow"} -  
             </span> 
               
               {activeTitle}  

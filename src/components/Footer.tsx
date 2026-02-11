@@ -37,7 +37,7 @@ export const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>© 2025 PichFlow. Tous droits réservés.</p>
+        <p>Fait  avec amour ❤️ par l'équipe de Pichflow</p>
         <div className="social-icons">
           <Link href="#"><i className="fa-brands fa-twitter"></i></Link>
           <Link href="#"><i className="fa-brands fa-linkedin"></i></Link>

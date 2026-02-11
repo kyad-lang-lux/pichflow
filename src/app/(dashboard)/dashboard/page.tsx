@@ -6,14 +6,14 @@ export default function DashboardPage() {
     {
       title: "Contenu Marketing IA",
       desc: "Générez des articles de blog SEO, posts réseaux sociaux et emails marketing en quelques clics.",
-      icon: "fa-circle-nodes",
+      icon: "fa-handshake",
       className: "icon-marketing",
       link: "/contenu-ia"
     },
     { 
       title: "Copywriting IA",
       desc: "Créez des pages de vente, landing pages et textes publicitaires avec les méthodes AIDA, PAS et plus.",
-      icon: "fa-pen-nib",
+      icon: "fa-lightbulb",
       className: "icon-copy",
       link: "/copywriting"
     },
@@ -27,7 +27,7 @@ export default function DashboardPage() {
     {
       title: "Rapports ",
       desc: "Catégorisation automatique des revenus et dépenses avec alertes financières intelligentes.",
-      icon: "fa-chart-line",
+      icon: "fa-chart-bar",
       className: "icon-compta",
       link: "/rapports"
     }
@@ -36,6 +36,7 @@ export default function DashboardPage() {
   return (
     <div className="dashboard-home">
       <div className="tools-grid"> 
+        <h3 className="welcome"> Bienvenu chèr(e) </h3>
         {tools.map((tool, index) => (
           <div key={index} className="tool-card">
             <div className={`tool-icon-wrapper ${tool.className}`}>
