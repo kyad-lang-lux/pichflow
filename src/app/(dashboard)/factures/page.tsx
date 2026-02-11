@@ -105,7 +105,8 @@ export default function FacturesPage() {
           </thead>
           <tbody>
             <tr>
-              <td style="padding: 15px; border-bottom: 1px solid #eee;">Facture de prestation</td>
+              <td style="padding: 15px; border-bottom: 1px solid #eee;">Services d'accompagnement et gestion PichFlow</td>
+              <td style="padding: 15px; border-bottom: 1px solid #eee;">Détails des prestations réalisées pour la période</td>
               <td style="padding: 15px; text-align: right;color: #da0b0b;  border-bottom: 1px solid #eeeeee;">${item.montant} ${item.devise}</td>
             </tr>
           </tbody>
