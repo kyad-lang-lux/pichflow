@@ -26,7 +26,7 @@ export default function DashboardLayout({
 
   const allMenuItems = [
     { name: "Acceuil", path: "/dashboard", icon: "fa-house" },
-    { name: "Marketing ", path: "/contenu-ia", icon: "fa-wand-magic-sparkles" },
+    { name: "Marketing ", path: "/contenu-ia", icon: "fa-circle-nodes" },
     { name: "Copywriting ", path: "/copywriting", icon: "fa-pen-nib" },
     { name: "Factures ", path: "/factures", icon: "fa-file-invoice" },
     { name: "Rapports ", path: "/rapports", icon: "fa-chart-line" },
@@ -85,7 +85,7 @@ export default function DashboardLayout({
               {activeTitle === "Paramètres"
                 ? "Gérez votre compte"
                 : "PichFlow"} &gt;  
-            </span>
+            </span> 
               
               {activeTitle}  
             
@@ -107,7 +107,7 @@ export default function DashboardLayout({
                 </button>
               </div>
             )}
-          </div>
+          </div> 
         </header>
 
         <section className="content-area">{children}</section>

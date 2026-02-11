@@ -6,7 +6,7 @@ export default function DashboardPage() {
     {
       title: "Contenu Marketing IA",
       desc: "Générez des articles de blog SEO, posts réseaux sociaux et emails marketing en quelques clics.",
-      icon: "fa-bolt-lightning",
+      icon: "fa-circle-nodes",
       className: "icon-marketing",
       link: "/contenu-ia"
     },
@@ -17,7 +17,7 @@ export default function DashboardPage() {
       className: "icon-copy",
       link: "/copywriting"
     },
-    { 
+    {  
       title: "Facturation Automatisée",
       desc: "Créez devis et factures rapidement avec suivi des paiements et rappels automatiques.",
       icon: "fa-file-invoice-dollar",

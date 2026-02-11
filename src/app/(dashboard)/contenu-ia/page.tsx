@@ -42,7 +42,7 @@ export default function ContenuIAPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `pitchflow-${selectedType.toLowerCase().replace(/\s+/g, '-')}.txt`;
+    link.download = `pichflow-${selectedType.toLowerCase().replace(/\s+/g, '-')}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -71,7 +71,7 @@ export default function ContenuIAPage() {
   };
 
   return (
-    <div className="ia-page-container">
+    <div className="ia-page-container"> 
       {/* Colonne de gauche : Configuration */}
       <div className="ia-config-side">
         <div className="config-section">
