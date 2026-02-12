@@ -31,7 +31,7 @@ export default function Home() {
         
         {/* Badge animé */}
         <div className="badge reveal">
-          <i className="fa-solid fa-wand-magic-sparkles"></i>
+          <i className="fa-solid fa-check-circle"></i>
           Gérez vos activités facilement
         </div>
 
@@ -53,11 +53,11 @@ export default function Home() {
           
 
           <a href="/inscription" className="btn-primary">
-            Démarrer l'essai gratuit <i className="fa-solid fa-forward"></i>
+            Démarrer l'essai gratuit <i className="fa-solid fa-unlock"></i>
           </a>
           <a href="#features" className="btn-outline">
             Découvrir les fonctionnalités{" "}
-            <i className="fa-solid fa-compass"></i>
+            <i className="fa-solid fa-eye"></i>
           </a>
         </div>
         <div className="hero-social reveal delay-3">
@@ -367,6 +367,7 @@ export default function Home() {
       </div>
     ))}
   </div>
+
 </section>
 
 
@@ -522,7 +523,7 @@ export default function Home() {
 
       <div id="top"></div>
       <a href="#top" className="back-to-top" aria-label="Retour en haut">
-        <i className="fa-solid fa-chevron-up"></i>
+        <i className="fa-solid fa-circle-arrow-up"></i>
       </a>
     </main>
   );
