@@ -35,14 +35,14 @@ export default function DashboardPage() {
 
   return (
     <div className="dashboard-home">
-      <div className="tools-grid"> 
         <h3 className="welcome"> Bienvenu chèr(e) </h3>
+      <div className="tools-grid"> 
         {tools.map((tool, index) => (
           <div key={index} className="tool-card">
             <div className={`tool-icon-wrapper ${tool.className}`}>
               <i className={`fa-solid ${tool.icon}`}></i>
             </div>
-            <h3>{tool.title}</h3>
+            <h3>{tool.title}</h3> 
             <p>{tool.desc}</p>
             <Link href={tool.link} className="btn-access">
               Accéder <i className="fa-solid fa-arrow-right"></i>
