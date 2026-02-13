@@ -23,7 +23,7 @@ export default function DashboardLayout({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
+ 
   const allMenuItems = [
     { name: "Acceuil", path: "/dashboard", icon: "fa-house" },
     { name: "Marketing ", path: "/contenu-ia", icon: "fa-handshake" },

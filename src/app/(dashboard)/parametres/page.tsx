@@ -47,7 +47,7 @@ export default function SettingsPage() {
               <div className="progress-bar-fill" style={{ width: `${progressWidth}%` }}></div>
             </div>
             <Link href="/buy-credits" className="btn-buy" style={forceButtonStyle}>
-               Acheter des crédits
+               <i className="fa-solid fa-coins"></i> Achat de crédits
             </Link>
           </div>
 
@@ -90,7 +90,7 @@ export default function SettingsPage() {
               <Link href="/change-password" title="Modifier" className='change-password' style={forceButtonStyle}>
                 Changer le mot de passe
               </Link>
-            </div>
+            </div> 
 
             <hr className="divider" />
 

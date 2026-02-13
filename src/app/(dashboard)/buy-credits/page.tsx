@@ -35,7 +35,7 @@ export default function BuyCreditsPage() {
       <div className="credits-header">
         <button className="back-btn" onClick={() => router.back()}>
           <i className="fa-solid fa-arrow-left"></i> Retour
-        </button>
+        </button> 
         <h1>Acheter des crédits</h1>
         <p>Choisissez le pack qui correspond à vos besoins de croissance.</p>
       </div>

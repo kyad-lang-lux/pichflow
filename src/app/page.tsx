@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Home() {
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.15, // Se déclenche quand 15% de la section est visible au scroll
+      threshold: 0.2, // Se déclenche quand 15% de la section est visible au scroll
     }; 
 
     const observer = new IntersectionObserver((entries) => {
@@ -287,6 +287,44 @@ export default function Home() {
         </div>
       </section> 
 
+      <section className="magic-box-section reveal" id="magic-box">
+  <div className="features-header">
+    <h2>Une plateforme <span>tout-en-un</span></h2>
+    <p>Vos services marketing et financiers centralisés dans un seul outil intelligent.</p>
+  </div>
+
+  <div className="magic-container">
+    {/* Le grand cercle orbital en fond */}
+    <div className="orbit-ring"></div>
+
+    {/* Les icônes qui entrent dans l'enveloppe */}
+    <div className="floating-icons">
+      <div className="magic-icon m-marketing"><i className="fa-solid fa-handshake"></i></div>
+      <div className="magic-icon m-copy"><i className="fa-solid fa-lightbulb"></i></div>
+      <div className="magic-icon m-invoice"><i className="fa-solid fa-file-invoice-dollar"></i></div>
+      <div className="magic-icon m-report"><i className="fa-solid fa-chart-bar"></i></div>
+    </div>
+
+    {/* L'enveloppe centrale (inspirée de ton image) */}
+    <div className="magic-envelope">
+      <div className="envelope-front">
+        <div className="envelope-logo">
+          <i className="fa-solid fa-wand-magic-sparkles"></i>
+        </div>
+        <span>PichFlow Central</span>
+        <div className="photo-count">4 services actifs</div>
+      </div>
+    </div>
+  </div>
+
+  {/* Bouton d'action en bas */}
+  <div className="magic-action">
+    <a href="/inscription" className="btn-primary">
+      Commencer maintenant <i className="fa-solid fa-bolt"></i>
+    </a>
+  </div> <br />
+</section>
+
       <section className="showcase-section reveal">
         <div className="showcase-container">
           <div className="showcase-text">
@@ -373,7 +411,7 @@ export default function Home() {
           </div>
           <div className={`card-gradient ${item.color}`}></div>
         </div>
-      ))}
+      ))} 
     </div>
 
     {/* Boutons de navigation */}

@@ -1402,3 +1402,13 @@ font-weight: bold;
 
   color: rgb(0, 0, 0);
 }
+
+.security-actions .change-password {
+  padding: 5px 10px;
+  text-align: center;
+  font-weight: bold;
+  border: 2px dotted #2563EB;
+  /* text-decoration: none; */
+  border-radius: 20px;
+  color: #2563eb;
+}
