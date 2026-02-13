@@ -6,7 +6,7 @@ export default function Home() {
   useEffect(() => {
     const observerOptions = {
       threshold: 0.15, // Se déclenche quand 15% de la section est visible au scroll
-    };
+    }; 
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -25,6 +25,8 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+
+  
   return (
     <main>
       <section className="hero" id="top">
@@ -53,11 +55,11 @@ export default function Home() {
           
 
           <a href="/inscription" className="btn-primary">
-            Démarrer l'essai gratuit <i className="fa-solid fa-unlock"></i>
+            Essai gratuit <i className="fa-solid fa-circle-arrow-right"></i>
           </a>
           <a href="#features" className="btn-outline">
-            Découvrir les fonctionnalités{" "}
-            <i className="fa-solid fa-eye"></i>
+           Fonctionnalités{" "}
+            <i className="fa-solid fa-arrow-down"></i>
           </a>
         </div>
         <div className="hero-social reveal delay-3">
@@ -341,33 +343,73 @@ export default function Home() {
         </div>
       </section>
 
-<section className="testimonials reveal">
+<section className="testimonials reveal" id="testimonials">
   <div className="features-header">
     <h3>Ce qu'ils <span>disent de nous</span></h3>
     <p>Faites défiler pour découvrir les avis de nos utilisateurs.</p>
   </div>
 
-  <div className="testimonials-wrapper">
-    {[
-      { name: "Julie B.", text: "L'IA de PichFlow comprend parfaitement mon ton de voix pour mes articles de blog marketing.", color: "orange" },
-      { name: "Thomas R.", text: "Un outil indispensable pour tout freelance qui veut scaler son activité proprement.", color: "green" },
-      { name: "Anna L.", text: "Nous avons privilégié une approche structurée pour améliorer efficacement les fonctionnalités de gestion.", color: "blue" },
-      { name: "Marc D.", text: "L'interface est d'une fluidité incroyable. La facturation ne me prend plus que quelques secondes par jour.", color: "purple" },
-      { name: "Sarah M.", text: "Le support est réactif et les outils de comptabilité sont d'une clarté exemplaire.", color: "blue" }
-    ].map((item, index) => (
-      <div key={index} className="testimonial-card">
-        <p className="testimonial-text">“{item.text}”</p>
-        <div className="testimonial-user">
-          <div className="testimonial-avatar">
-            <i className="fa-solid fa-user"></i>
+  <div className="testimonials-container">
+    {/* Conteneur avec ID pour le scroll */}
+    <div 
+      className="testimonials-wrapper" 
+      id="testimonial-slider"
+      style={{ scrollBehavior: 'smooth' }}
+    >
+      {[
+        { name: "Julie B.", text: "L'IA de PichFlow comprend parfaitement mon ton de voix pour mes articles de blog marketing.", color: "orange" },
+        { name: "Thomas R.", text: "Un outil indispensable pour tout freelance qui veut scaler son activité proprement.", color: "green" },
+        { name: "Anna L.", text: "Nous avons privilégié une approche structurée pour améliorer efficacement les fonctionnalités de gestion.", color: "blue" },
+        { name: "Marc D.", text: "L'interface est d'une fluidité incroyable. La facturation ne me prend plus que quelques secondes par jour.", color: "purple" },
+        { name: "Sarah M.", text: "Le support est réactif et les outils de comptabilité sont d'une clarté exemplaire.", color: "blue" }
+      ].map((item, index) => (
+        <div key={index} className="testimonial-card">
+          <p className="testimonial-text">“{item.text}”</p>
+          <div className="testimonial-user">
+            <div className="testimonial-avatar">
+              <i className="fa-solid fa-user"></i>
+            </div>
+            <span className="testimonial-name">{item.name}</span>
           </div>
-          <span className="testimonial-name">{item.name}</span>
+          <div className={`card-gradient ${item.color}`}></div>
         </div>
-        <div className={`card-gradient ${item.color}`}></div>
-      </div>
-    ))}
-  </div>
+      ))}
+    </div>
 
+    {/* Boutons de navigation */}
+    <div className="testimonial-nav-buttons">
+      <button 
+        className="nav-btn prev" 
+        type="button"
+        onClick={() => {
+          const el = document.getElementById('testimonial-slider');
+          if (el) el.scrollLeft -= 350;
+        }}
+      >
+        <i className="fa-solid fa-chevron-left"></i>
+      </button>
+      
+      <button 
+        className="nav-btn next" 
+        type="button"
+        onClick={() => {
+          const el = document.getElementById('testimonial-slider');
+          if (el) el.scrollLeft += 350;
+        }}
+      >
+        <i className="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    {/* Pointillés (Indicateurs) */}
+    <div className="testimonial-dots">
+      <span className="dot active"></span>
+      <span className="dot"></span>
+      <span className="dot"></span>
+      <span className="dot"></span>
+      <span className="dot"></span>
+    </div>
+  </div>
 </section>
 
 
