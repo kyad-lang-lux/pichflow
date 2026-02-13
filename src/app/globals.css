@@ -2456,7 +2456,7 @@ color: red;}
 
 /* --- SECTION TEMOIGNAGES --- */
 .testimonials {
-  padding: 80px 0;
+  padding: 50px 0;
   background: #0f172a; /* Ton bleu nuit */
   width: 100%;
   position: relative;
@@ -2490,7 +2490,7 @@ color: red;}
   display: flex;
   gap: 25px;
   overflow-x: auto;
-  padding: 40px 10px 60px 10px;
+  padding: 0px 10px 30px 10px;
   scroll-snap-type: x mandatory;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE */
@@ -2507,11 +2507,14 @@ color: red;}
   border-radius: 24px;
   padding: 40px;
   min-height: 250px;
+  margin-top: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
   overflow: hidden;
+  background: rgba(156, 155, 155, 0.1);
+  backdrop-filter: blur(500px);
   border: 1px solid #334155;
   scroll-snap-align: center;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -2619,10 +2622,10 @@ color: red;}
   position: absolute;
   bottom: -30px;
   right: -30px;
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   filter: blur(50px);
-  opacity: 0.6;
+  opacity: 0.7;
   border-radius: 50%;
   z-index: 1;
 }
@@ -2633,6 +2636,6 @@ color: red;}
 
 @media (max-width: 768px) {
   .testimonial-card {
-    flex: 0 0 300px;
+    flex: 0 0 260px;
   }
 }
