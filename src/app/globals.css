@@ -152,8 +152,8 @@ body {
   font-weight: 600;
   /* background: #eeeff1; */
   border: 2px solid #eeeff1;
-  padding: 0.5rem 0.9rem;
-  font-size: 0.9rem;
+  padding: 0.5rem 0.8rem;
+  font-size: 1rem;
   border-radius: 10px;
   display: flex;
   border-radius: 50px;
@@ -174,25 +174,11 @@ body {
   align-items: center;
   cursor: pointer;
   gap: 8px; 
-  box-shadow: 0 4px 12px rgba(235, 106, 20, 0.5);
+  box-shadow: 0 6px 15px rgba(240, 103, 12, .7);
   transition: 0.3s;
 }
 
-.btn-primary {
-  /* animation: annn 4s ease infinite; */
 
-}
-@keyframes annn {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-2px);
-    
-     background: #f5690b;
-  }
-}
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(255, 122, 48, 0.3);
@@ -2521,8 +2507,9 @@ color: red;}
 }
 
 .testimonial-card:hover {
-  transform: translateY(-10px) rotateZ(1deg);
+  transform: translateY(5px) rotateZ(.5deg);
   border-color: #2563eb;
+
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
