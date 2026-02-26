@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+
 interface Facture {
   id: string;
   client: string;
@@ -62,8 +62,9 @@ export default function FacturesPage() {
     setFormData({ client: '', montant: '', devise: '€', echeance: '', statut: 'En attente' });
   };
 
-  // --- LOGIQUE DE TÉLÉCHARGEMENT PDF OPTIMISÉE (1 PAGE) ---
+  // --- LOGIQUE DE TÉLÉCHARGEMENT PDF AVEC INFOS CONFIGURÉES ---
   const downloadPDF = (item: Facture) => {
+    // Récupération des infos de l'émetteur (configurées sur l'autre page)
     const savedInfo = localStorage.getItem('pichflow_sender_info');
     const sender = savedInfo ? JSON.parse(savedInfo) : {
       nomService: 'PichFlow Service',
@@ -72,91 +73,74 @@ export default function FacturesPage() {
     };
 
     const element = document.createElement('div');
-    
-    // On force une largeur de conteneur pour éviter les sauts de ligne imprévus
-    element.style.width = '800px'; 
-    element.style.backgroundColor = 'white';
-
     element.innerHTML = `
-      <div style="padding: 40px; font-family: 'Helvetica', 'Arial', sans-serif; color: #1a202c;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px;">
-          <div style="max-width: 60%;">
-            <h1 style="color: #2563eb; font-size: 24px; font-weight: 800; margin: 0; text-transform: uppercase;">${sender.nomService}</h1>
-            <p style="margin: 5px 0; color: #64748b; font-size: 12px; line-height: 1.4;">
+      <div style="padding: 50px; font-family: 'Helvetica', 'Arial', sans-serif; color: #1a202c; background: white;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
+          <div>
+            <h1 style="color: #2563eb; font-size: 28px; font-weight: 800; margin: 0; letter-spacing: -1px;">${sender.nomService.toUpperCase()}</h1>
+            <p style="margin: 5px 0 0 0; color: #64748b; font-size: 12px; line-height: 1.5;">
               ${sender.adresse}<br>
               ${sender.contact}
             </p>
           </div>
           <div style="text-align: right;">
-            <h2 style="margin: 0; font-size: 28px; color: #cbd5e1; font-weight: 300; letter-spacing: 2px;">FACTURE</h2>
-            <p style="margin: 0; font-weight: 700; color: #1a202c; font-size: 14px;">N° ${item.id}</p>
+            <h2 style="margin: 0; font-size: 32px; color: #cbd5e1; font-weight: 300;">FACTURE</h2>
+            <p style="margin: 0; font-weight: 700; color: #1a202c;">#${item.id}</p>
           </div>
         </div>
 
-        <div style="height: 1px; background: #e2e8f0; width: 100%; margin-bottom: 30px;"></div>
+        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 40px;">
 
-        <div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 50px;">
           <div style="width: 45%;">
-            <p style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Facturé à :</p>
-            <p style="margin: 0; font-size: 16px; font-weight: 700; color: #1a202c;">${item.client}</p>
+            <p style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px;">Facturé à</p>
+            <p style="margin: 0; font-size: 16px; font-weight: 700; color: #da0b0b;">${item.client}</p>
           </div>
           <div style="text-align: right; width: 45%;">
-            <p style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Détails :</p>
-            <p style="margin: 0; font-size: 12px;">Émise le : <strong>${item.date}</strong></p>
-            <p style="margin: 4px 0; font-size: 12px;">Échéance : <strong style="color: #ef4444;">${item.echeance}</strong></p>
+            <p style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px;">Détails de paiement</p>
+            <p style="margin: 0; font-size: 13px;">Date d'émission : <strong>${item.date}</strong></p>
+            <p style="margin: 5px 0; font-size: 13px;">Échéance : <strong style="color: #ef4444;">${item.echeance}</strong></p>
           </div>
         </div>
 
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
           <thead>
             <tr style="background: #f8fafc;">
-              <th style="padding: 12px 15px; text-align: left; font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #e2e8f0;">Désignation des prestations</th>
-              <th style="padding: 12px 15px; text-align: right; font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #e2e8f0;">Total HT</th>
+              <th style="padding: 12px 15px; text-align: left; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #e2e8f0;">Description</th>
+              <th style="padding: 12px 15px; text-align: right; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #e2e8f0;">Total</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td style="padding: 20px 15px; border-bottom: 1px solid #f1f5f9;">
-                <p style="margin: 0; font-weight: 700; font-size: 14px;">Services d'accompagnement digital</p>
-                <p style="margin: 5px 0 0 0; font-size: 12px; color: #64748b;">Gestion et suivi de projet via la plateforme PichFlow pour la période définie.</p>
+                <p style="margin: 0; font-weight: 700; font-size: 14px;">Prestations de services digitaux</p>
+                <p style="margin: 5px 0 0 0; font-size: 12px; color: #64748b;">Accompagnement et gestion de projet via la plateforme PichFlow.</p>
               </td>
-              <td style="padding: 20px 15px; text-align: right; border-bottom: 1px solid #f1f5f9; font-weight: 700; font-size: 15px;">
+              <td style="padding: 20px 15px; text-align: right; border-bottom: 1px solid #f1f5f9; font-weight: 700; font-size: 16px;">
                 ${item.montant} ${item.devise}
               </td>
             </tr>
           </tbody>
         </table>
 
-        <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-          <div style="width: 280px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <div style="display: flex; justify-content: flex-end;">
+          <div style="width: 250px; background: #f8fafc; padding: 20px; border-radius: 12px;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-              <span style="color: #64748b; font-size: 12px;">Montant Total HT</span>
-              <span style="font-weight: 600; font-size: 13px;">${item.montant} ${item.devise}</span>
+              <span style="color: #64748b; font-size: 13px;">Sous-total</span>
+              <span style="font-weight: 600;">${item.montant} ${item.devise}</span>
             </div>
-            <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 2px solid #e2e8f0;">
-              <span style="color: #1a202c; font-weight: 700; font-size: 14px;">TOTAL À PAYER</span>
+            <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid #e2e8f0;">
+              <span style="color: #1a202c; font-weight: 700;">TOTAL NET</span>
               <span style="color: #2563eb; font-weight: 800; font-size: 18px;">${item.montant} ${item.devise}</span>
             </div>
           </div>
         </div>
 
-        <div style="margin-top: 60px;">
-           <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-              <div style="text-align: left;">
-                <p style="font-size: 10px; color: #94a3b8; text-transform: uppercase; margin-bottom: 40px;">Signature & Cachet</p>
-                <div style="width: 150px; border-bottom: 1px dashed #cbd5e1;"></div>
-              </div>
-              <div style="text-align: right;">
-                <p style="font-size: 11px; color: #64748b;">Merci pour votre confiance.</p>
-                <div style="margin-top: 10px; display: inline-block; padding: 5px 15px; background: ${item.statut === 'Payée' ? '#dcfce7' : '#fee2e2'}; color: ${item.statut === 'Payée' ? '#166534' : '#991b1b'}; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase;">
-                  Statut : ${item.statut}
-                </div>
-              </div>
-           </div>
-        </div>
-
-        <div style="margin-top: 50px; text-align: center; font-size: 10px; color: #cbd5e1;">
-          Cette facture est émise par PichFlow.
+        <div style="margin-top: 80px; text-align: center; border-top: 1px solid #f1f5f9; padding-top: 20px;">
+          <p style="font-size: 12px; color: #94a3b8; margin-bottom: 5px;">Facture générée numériquement par <strong>${sender.nomService}</strong></p>
+          <div style="display: inline-block; padding: 4px 12px; background: ${item.statut === 'Payée' ? '#dcfce7' : '#fee2e2'}; color: ${item.statut === 'Payée' ? '#166534' : '#991b1b'}; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase;">
+            Statut : ${item.statut}
+          </div>
         </div>
       </div>
     `;
@@ -164,18 +148,9 @@ export default function FacturesPage() {
     const options = {
       margin: 0,
       filename: `Facture_${item.id}.pdf`,
-      image: { type: 'jpeg', quality: 1 },
-      html2canvas: { 
-        scale: 2, 
-        useCORS: true, 
-        letterRendering: true,
-        width: 800 // On force la capture sur la largeur de notre élément
-      },
-      jsPDF: { 
-        unit: 'px', 
-        format: [800, 1131], // Ratio exact A4 à 96 DPI pour éviter le split de page
-        orientation: 'portrait' 
-      }
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 3 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
 
     // @ts-ignore
@@ -199,14 +174,6 @@ export default function FacturesPage() {
     const matchStatus = filterStatus === 'Tous' || f.statut === filterStatus;
     return matchSearch && matchStatus;
   });
-
-  
-    const forceButtonStyle: React.CSSProperties = {
-      cursor: 'pointer',
-      pointerEvents: 'auto', 
-      position: 'relative',
-      zIndex: 9999
-    };
 
   return (
     <div className="factures-container">
@@ -255,7 +222,6 @@ export default function FacturesPage() {
       )}
 
       <div className="table-toolbar">
-        
         <div className="toolbar-actions">
           <div className="search-box">
             <i className="fa-solid fa-magnifying-glass"></i>
@@ -268,20 +234,9 @@ export default function FacturesPage() {
               <option value="Payée">Payée</option>
               <option value="En attente">En attente</option>
               <option value="En retard">En retard</option>
-            </select> 
+            </select>
           </div>
           <button className="btn-new" onClick={()=>{setIsEditing(false); setFormData({ client: '', montant: '', devise: '€', echeance: '', statut: 'En attente' }); setIsModalOpen(true);}}>+ Nouvelle</button>
-
-              <div className="security-actions">
- <Link 
-                href="/dashboard/factureinfo" 
-                className='btn-outline-sm' 
-                style={{...forceButtonStyle, textDecoration: 'none', display: 'inline-block'}}
-              >
-               <i className="fa-solid fa-pen-to-square" style={{color: '#2563eb'}}></i> Infos de facturations
-              </Link>
-              </div>
-         
         </div>
       </div>
 

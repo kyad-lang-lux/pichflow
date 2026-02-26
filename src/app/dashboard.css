@@ -1539,18 +1539,7 @@ font-weight: bold;
     margin: 4px 0;
     word-break: break-word; /* Évite que les longs mails cassent le layout */
 }
-.security-actions .btn-outline-sm {
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  border-radius: 5px;
-  padding-bottom: 0;
-  /* background: #F97316; */
-  border: 0;
-  
-  border-bottom: 2px dashed #1d4ed8; 
-}
+
 /* Tablette et Mobile */
 @media (max-width: 768px) {
     .fi-main-layout {
