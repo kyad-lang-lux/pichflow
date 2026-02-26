@@ -61,9 +61,9 @@ export default function FactureInfoPage() {
               <h2>{info.nomService || "NOM DU SERVICE"}</h2>
               <p><strong>📍</strong> {info.adresse || "Adresse..."}</p>
               <p><strong>📞</strong> {info.contact || "Contact..."}</p>
-            </div>
+            </div> 
           </section>
-        </div>
+        </div> 
       </div>
       <br /><br /><br />
     </div>

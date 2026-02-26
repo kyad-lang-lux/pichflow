@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-
+import Link from 'next/link';
 interface Facture {
   id: string;
   client: string;
@@ -200,6 +200,14 @@ export default function FacturesPage() {
     return matchSearch && matchStatus;
   });
 
+  
+    const forceButtonStyle: React.CSSProperties = {
+      cursor: 'pointer',
+      pointerEvents: 'auto', 
+      position: 'relative',
+      zIndex: 9999
+    };
+
   return (
     <div className="factures-container">
       {isModalOpen && (
@@ -247,6 +255,7 @@ export default function FacturesPage() {
       )}
 
       <div className="table-toolbar">
+        
         <div className="toolbar-actions">
           <div className="search-box">
             <i className="fa-solid fa-magnifying-glass"></i>
@@ -259,9 +268,20 @@ export default function FacturesPage() {
               <option value="Payée">Payée</option>
               <option value="En attente">En attente</option>
               <option value="En retard">En retard</option>
-            </select>
+            </select> 
           </div>
           <button className="btn-new" onClick={()=>{setIsEditing(false); setFormData({ client: '', montant: '', devise: '€', echeance: '', statut: 'En attente' }); setIsModalOpen(true);}}>+ Nouvelle</button>
+
+              <div className="security-actions">
+ <Link 
+                href="/dashboard/factureinfo" 
+                className='btn-outline-sm' 
+                style={{...forceButtonStyle, textDecoration: 'none', display: 'inline-block'}}
+              >
+               <i className="fa-solid fa-pen-to-square" style={{color: '#2563eb'}}></i> Infos de facturations
+              </Link>
+              </div>
+         
         </div>
       </div>
 

@@ -70,7 +70,7 @@ export default function SettingsPage() {
                 onChange={(e) => setProfile({...profile, email: e.target.value})}
                 className={isEditing ? "editable" : ""}
               />
-            </div>
+            </div> 
           </div>
         </section>
 
