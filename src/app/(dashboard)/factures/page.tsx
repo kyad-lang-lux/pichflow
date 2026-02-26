@@ -18,9 +18,10 @@ export default function FacturesPage() {
     { id: 'INV-2026-032', client: 'Agency Pro', montant: '850', devise: 'FCFA', date: '05 Jan 2026', echeance: '2026-01-20', statut: 'En retard' },
   ]);
 
+  // Chargement de html2canvas pour la capture d'image
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
     script.async = true;
     document.body.appendChild(script);
   }, []);
@@ -62,9 +63,8 @@ export default function FacturesPage() {
     setFormData({ client: '', montant: '', devise: '€', echeance: '', statut: 'En attente' });
   };
 
-  // --- LOGIQUE DE TÉLÉCHARGEMENT PDF AVEC INFOS CONFIGURÉES ---
-  const downloadPDF = (item: Facture) => {
-    // Récupération des infos de l'émetteur (configurées sur l'autre page)
+  // --- LOGIQUE DE TÉLÉCHARGEMENT EN IMAGE (PNG) ---
+  const downloadAsImage = (item: Facture) => {
     const savedInfo = localStorage.getItem('pichflow_sender_info');
     const sender = savedInfo ? JSON.parse(savedInfo) : {
       nomService: 'PichFlow Service',
@@ -72,15 +72,22 @@ export default function FacturesPage() {
       contact: 'Contact non configuré'
     };
 
-    const element = document.createElement('div');
-    element.innerHTML = `
-      <div style="padding: 50px; font-family: 'Helvetica', 'Arial', sans-serif; color: #1a202c; background: white;">
+    // On crée l'élément de la facture de manière invisible pour la capture
+    const container = document.createElement('div');
+    container.style.position = 'fixed';
+    container.style.left = '-9999px';
+    container.style.top = '0';
+    container.style.width = '800px';
+    container.style.backgroundColor = 'white';
+    document.body.appendChild(container);
+
+    container.innerHTML = `
+      <div style="padding: 50px; font-family: Arial, sans-serif; color: #1a202c; background: white;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
           <div>
-            <h1 style="color: #2563eb; font-size: 28px; font-weight: 800; margin: 0; letter-spacing: -1px;">${sender.nomService.toUpperCase()}</h1>
+            <h1 style="color: #2563eb; font-size: 28px; font-weight: 800; margin: 0;">${sender.nomService.toUpperCase()}</h1>
             <p style="margin: 5px 0 0 0; color: #64748b; font-size: 12px; line-height: 1.5;">
-              ${sender.adresse}<br>
-              ${sender.contact}
+              ${sender.adresse}<br>${sender.contact}
             </p>
           </div>
           <div style="text-align: right;">
@@ -88,73 +95,56 @@ export default function FacturesPage() {
             <p style="margin: 0; font-weight: 700; color: #1a202c;">#${item.id}</p>
           </div>
         </div>
-
         <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 40px;">
-
         <div style="display: flex; justify-content: space-between; margin-bottom: 50px;">
           <div style="width: 45%;">
             <p style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px;">Facturé à</p>
             <p style="margin: 0; font-size: 16px; font-weight: 700; color: #da0b0b;">${item.client}</p>
           </div>
           <div style="text-align: right; width: 45%;">
-            <p style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px;">Détails de paiement</p>
-            <p style="margin: 0; font-size: 13px;">Date d'émission : <strong>${item.date}</strong></p>
+            <p style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px;">Détails</p>
+            <p style="margin: 0; font-size: 13px;">Date : <strong>${item.date}</strong></p>
             <p style="margin: 5px 0; font-size: 13px;">Échéance : <strong style="color: #ef4444;">${item.echeance}</strong></p>
           </div>
         </div>
-
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
           <thead>
             <tr style="background: #f8fafc;">
-              <th style="padding: 12px 15px; text-align: left; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #e2e8f0;">Description</th>
-              <th style="padding: 12px 15px; text-align: right; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #e2e8f0;">Total</th>
+              <th style="padding: 12px; text-align: left; font-size: 11px; color: #64748b; border-bottom: 2px solid #e2e8f0;">DESCRIPTION</th>
+              <th style="padding: 12px; text-align: right; font-size: 11px; color: #64748b; border-bottom: 2px solid #e2e8f0;">TOTAL</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style="padding: 20px 15px; border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 20px 12px; border-bottom: 1px solid #f1f5f9;">
                 <p style="margin: 0; font-weight: 700; font-size: 14px;">Prestations de services digitaux</p>
-                <p style="margin: 5px 0 0 0; font-size: 12px; color: #64748b;">Accompagnement et gestion de projet via la plateforme PichFlow.</p>
+                <p style="margin: 5px 0 0 0; font-size: 12px; color: #64748b;">Généré via PichFlow.</p>
               </td>
-              <td style="padding: 20px 15px; text-align: right; border-bottom: 1px solid #f1f5f9; font-weight: 700; font-size: 16px;">
+              <td style="padding: 20px 12px; text-align: right; border-bottom: 1px solid #f1f5f9; font-weight: 700;">
                 ${item.montant} ${item.devise}
               </td>
             </tr>
           </tbody>
         </table>
-
         <div style="display: flex; justify-content: flex-end;">
           <div style="width: 250px; background: #f8fafc; padding: 20px; border-radius: 12px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-              <span style="color: #64748b; font-size: 13px;">Sous-total</span>
-              <span style="font-weight: 600;">${item.montant} ${item.devise}</span>
+            <div style="display: flex; justify-content: space-between; font-weight: 700;">
+              <span>TOTAL NET</span>
+              <span style="color: #2563eb;">${item.montant} ${item.devise}</span>
             </div>
-            <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid #e2e8f0;">
-              <span style="color: #1a202c; font-weight: 700;">TOTAL NET</span>
-              <span style="color: #2563eb; font-weight: 800; font-size: 18px;">${item.montant} ${item.devise}</span>
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-top: 80px; text-align: center; border-top: 1px solid #f1f5f9; padding-top: 20px;">
-          <p style="font-size: 12px; color: #94a3b8; margin-bottom: 5px;">Facture générée numériquement par <strong>${sender.nomService}</strong></p>
-          <div style="display: inline-block; padding: 4px 12px; background: ${item.statut === 'Payée' ? '#dcfce7' : '#fee2e2'}; color: ${item.statut === 'Payée' ? '#166534' : '#991b1b'}; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase;">
-            Statut : ${item.statut}
           </div>
         </div>
       </div>
     `;
 
-    const options = {
-      margin: 0,
-      filename: `Facture_${item.id}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 3 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-
     // @ts-ignore
-    window.html2pdf().set(options).from(element).save();
+    window.html2canvas(container, { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = `Facture_${item.id}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      document.body.removeChild(container);
+    });
   };
 
   const handleStatusChange = (id: string, newStatus: string) => {
@@ -240,6 +230,7 @@ export default function FacturesPage() {
         </div>
       </div>
 
+      {/* TON TABLEAU : Structure et CSS 100% préservés */}
       <div className="div-table-container">
         <div className="div-table-header">
           <div className="col-id">ID</div>
@@ -275,7 +266,8 @@ export default function FacturesPage() {
               <div className="col-actions">
                 <button onClick={() => setHideValues(!hideValues)} title="Masquer"><i className={`fa-regular ${hideValues ? 'fa-eye-slash':'fa-eye'}`}></i></button>
                 <button onClick={() => handleEditClick(item)} title="Modifier"><i className="fa-solid fa-pen-to-square" style={{color: '#2563eb'}}></i></button>
-                <button onClick={() => downloadPDF(item)} title="Télécharger PDF"><i className="fa-solid fa-file-pdf" style={{color: '#e11d48'}}></i></button>
+                {/* Appel de la fonction IMAGE ici */}
+                <button onClick={() => downloadAsImage(item)} title="Télécharger IMAGE"><i className="fa-solid fa-image" style={{color: '#10b981'}}></i></button>
                 <button onClick={() => handleDelete(item.id)} title="Supprimer"><i className="fa-solid fa-trash-can" style={{color: '#ef4444'}}></i></button>
               </div>
             </div>
