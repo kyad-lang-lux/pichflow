@@ -13,8 +13,6 @@ export default function SettingsPage() {
   const creditsTotal = 1000;
   const progressWidth = (creditsUsed / creditsTotal) * 100;
 
-  // CORRECTION DU TYPE ET DE LA VALEUR
-  // On utilise 'auto' au lieu de 'all' et on définit le type CSSProperties
   const forceButtonStyle: React.CSSProperties = {
     cursor: 'pointer',
     pointerEvents: 'auto', 
@@ -30,6 +28,7 @@ export default function SettingsPage() {
       </header>
 
       <div className="settings-grid">
+        {/* SECTION PROFIL & CRÉDITS */}
         <section className="settings-card reveal">
           <div className="card-header-flex">
             <div className="card-header">
@@ -75,6 +74,31 @@ export default function SettingsPage() {
           </div>
         </section>
 
+        {/* NOUVELLE SECTION : CONFIGURATION FACTURATION */}
+        <section className="settings-card reveal delay-1">
+          <div className="card-header">
+            <i className="fa-solid fa-file-invoice"></i>
+            <h3>Paramètres de Facturation</h3>
+          </div>
+
+          <div className="security-actions">
+            <div className="action-item">
+              <div>
+                <h4>Informations de l'émetteur</h4>
+                <p>Configurez le nom, l'adresse et les contacts qui s'affichent sur vos factures PDF.</p>
+              </div>
+              <Link 
+                href="/dashboard/factureinfo" 
+                className='btn-outline-sm' 
+                style={{...forceButtonStyle, textDecoration: 'none', display: 'inline-block'}}
+              >
+                Configurer
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION SÉCURITÉ */}
         <section className="settings-card reveal delay-1">
           <div className="card-header">
             <i className="fa-solid fa-lock"></i>
@@ -110,6 +134,7 @@ export default function SettingsPage() {
             </div>
           </div>
         </section>
+        
         <br /><br /><br />
       </div>
     </div>

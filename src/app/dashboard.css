@@ -1412,3 +1412,136 @@ font-weight: bold;
   border-radius: 20px;
   color: #2563eb;
 }
+
+
+/* --- CONFIGURATION FACTURATION (RESPONSIVE FIX) --- */
+
+.fi-wrapper {
+    width: 100%;
+    max-width: 1000px; /* Évite que ça soit trop large sur grand écran */
+    margin: 0 auto;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.fi-header {
+    margin-bottom: 25px;
+}
+
+.fi-header h1 {
+    font-size: clamp(1.5rem, 5vw, 2rem); /* Taille adaptative */
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.fi-main-layout {
+    display: flex;
+    flex-wrap: wrap; /* Permet de passer à la ligne sur mobile */
+    gap: 20px;
+    width: 100%;
+}
+
+/* Les deux blocs prennent 100% sur mobile et se partagent l'espace sur PC */
+.fi-form-section, .fi-preview-section {
+    flex: 1 1 400px; /* 400px est la base avant de basculer */
+    min-width: 0; /* Évite le débordement des flex-items */
+}
+
+.fi-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.fi-card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #334155;
+}
+
+.fi-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.fi-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.fi-field label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.fi-field input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box; /* Crucial pour le responsive */
+}
+
+.fi-btn-save {
+    width: 100%;
+    padding: 14px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 10px;
+}
+
+.fi-btn-save.success {
+    background: #10b981;
+}
+
+/* Aperçu PDF */
+.fi-preview-box {
+    background: #f8fafc;
+    border: 2px dashed #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+}
+
+.fi-preview-box h2 {
+    color: #2563eb;
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+}
+
+.fi-preview-box p {
+    font-size: 0.9rem;
+    color: #475569;
+    margin: 4px 0;
+    word-break: break-word; /* Évite que les longs mails cassent le layout */
+}
+
+/* Tablette et Mobile */
+@media (max-width: 768px) {
+    .fi-main-layout {
+        flex-direction: column; /* Force l'empilement vertical */
+    }
+
+    .fi-form-section, .fi-preview-section {
+        flex: 1 1 100%;
+    }
+    
+    .fi-wrapper {
+        padding: 10px;
+    }
+}

@@ -20,16 +20,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="fr">
-      <head>
-        <title>Pichflow</title>
+     <head>
+  <title>PichFlow | Facturation, Marketing & Copywriting IA pour PME</title>
+  <meta name="description" content="Gérez votre business de A à Z : génération de contenu SEO, copywriting AIDA, facturation automatisée et rapports financiers. Testez PichFlow gratuitement." />
+  <meta name="keywords" content="facturation en ligne, copywriting IA, marketing digital, gestion PME, freelance, rapports financiers, outil SEO" />
+  
+  {/* Open Graph (Pour le partage sur Facebook, LinkedIn, etc.) */}
+  <meta property="og:title" content="PichFlow - Votre outil de croissance tout-en-un" />
+  <meta property="og:description" content="Automatisez votre marketing et votre comptabilité avec l'intelligence artificielle." />
+  <meta property="og:image" content="/logo.png" />
+  <meta property="og:url" content="https://www.pichflow.com" />
+  <meta property="og:type" content="website" />
 
-        <link rel="icon" href="/logo.png" type="image/png" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        />
-      </head>
+  {/* Twitter Card */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="PichFlow | Gestion & IA" />
+  <meta name="twitter:description" content="Gagnez du temps sur vos factures et votre contenu marketing." />
+  <meta name="twitter:image" content="/logo.png" />
+
+  {/* Favicon et Mobile */}
+  <link rel="icon" href="/logo.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow" />
+
+  {/* Tes scripts existants */}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
 
       <body>
         {!isDashboard && <Navbar />}

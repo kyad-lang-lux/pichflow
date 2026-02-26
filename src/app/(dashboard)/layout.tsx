@@ -30,7 +30,7 @@ export default function DashboardLayout({
     { name: "Copywriting ", path: "/copywriting", icon: "fa-lightbulb" },
     { name: "Factures ", path: "/factures", icon: "fa-file-invoice-dollar" },
     { name: "Rapports ", path: "/rapports", icon: "fa-chart-bar" },
-    { name: "Paramètres ", path: "/parametres", icon: "fa-gear" }
+    { name: "Paramètres ", path: "/parametres", icon: "fa-gear" },
   ];
 
   const sidebarPrimaryItems = allMenuItems.slice(0, 5); 

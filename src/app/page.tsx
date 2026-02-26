@@ -293,11 +293,10 @@ export default function Home() {
     <p>Vos services marketing et financiers centralisés dans un seul outil intelligent.</p>
   </div>
 
-  <div className="magic-container">
-    {/* Le grand cercle orbital en fond */}
+  <div className="magic-container"> 
+
     <div className="orbit-ring"></div>
 
-    {/* Les icônes qui entrent dans l'enveloppe */}
     <div className="floating-icons">
       <div className="magic-icon m-marketing"><i className="fa-solid fa-handshake"></i></div>
       <div className="magic-icon m-copy"><i className="fa-solid fa-lightbulb"></i></div>

@@ -203,6 +203,7 @@ body {
 }
 
 /* Conteneur de sécurité pour éviter les barres de défilement sur les côtés */
+
 .hero::before,
 .hero::after {
   content: "";

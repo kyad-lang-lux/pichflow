@@ -18,7 +18,6 @@ export default function FacturesPage() {
     { id: 'INV-2026-032', client: 'Agency Pro', montant: '850', devise: 'FCFA', date: '05 Jan 2026', echeance: '2026-01-20', statut: 'En retard' },
   ]);
 
-  // Charger la bibliothèque PDF dynamiquement 
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
@@ -30,7 +29,6 @@ export default function FacturesPage() {
   const [filterStatus, setFilterStatus] = useState('Tous');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hideValues, setHideValues] = useState(false);
-  
   const [isEditing, setIsEditing] = useState(false);
   const [currentInvoiceId, setCurrentInvoiceId] = useState<string | null>(null);
   const [formData, setFormData] = useState({ client: '', montant: '', devise: '€', echeance: '', statut: 'En attente' });
@@ -44,20 +42,13 @@ export default function FacturesPage() {
   const handleEditClick = (item: Facture) => {
     setIsEditing(true);
     setCurrentInvoiceId(item.id);
-    setFormData({
-      client: item.client,
-      montant: item.montant,
-      devise: item.devise,
-      echeance: item.echeance,
-      statut: item.statut
-    });
+    setFormData({ client: item.client, montant: item.montant, devise: item.devise, echeance: item.echeance, statut: item.statut });
     setIsModalOpen(true);
   };
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     const currentYear = new Date().getFullYear();
-
     if (isEditing && currentInvoiceId) {
       setFactures(factures.map(f => f.id === currentInvoiceId ? { ...f, ...formData } : f));
     } else {
@@ -66,67 +57,125 @@ export default function FacturesPage() {
       const newInvoice: Facture = { ...formData, id: idAuto, date: dateToday };
       setFactures([newInvoice, ...factures]);
     }
-
     setIsModalOpen(false);
     setIsEditing(false);
-    setCurrentInvoiceId(null);
     setFormData({ client: '', montant: '', devise: '€', echeance: '', statut: 'En attente' });
   };
 
-  // --- LOGIQUE DE TÉLÉCHARGEMENT PDF RÉEL ---
+  // --- LOGIQUE DE TÉLÉCHARGEMENT PDF OPTIMISÉE (1 PAGE) ---
   const downloadPDF = (item: Facture) => {
+    const savedInfo = localStorage.getItem('pichflow_sender_info');
+    const sender = savedInfo ? JSON.parse(savedInfo) : {
+      nomService: 'PichFlow Service',
+      adresse: 'Adresse non configurée',
+      contact: 'Contact non configuré'
+    };
+
     const element = document.createElement('div');
+    
+    // On force une largeur de conteneur pour éviter les sauts de ligne imprévus
+    element.style.width = '800px'; 
+    element.style.backgroundColor = 'white';
+
     element.innerHTML = `
-      <div style="padding: 40px; font-family: Arial, sans-serif; color: #333;">
-        <div style="display: flex; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 20px;">
-          <h2 style="color: #2563eb; margin: 0;">PichFlow</h2>
-          <div style="text-align: right;">
-            <h1 style="margin: 0; font-size: 24px;">FACTURE</h1>
-            <p style="margin: 0;">${item.id}</p>
-          </div>
-        </div>
-        <div style="margin-top: 40px; display: flex; justify-content: space-between;">
-          <div>
-            <p style="color: #666; margin-bottom: 5px;">ÉMETTEUR</p>
-            <p><strong>Pichflow Service</strong><br></p>
+      <div style="padding: 40px; font-family: 'Helvetica', 'Arial', sans-serif; color: #1a202c;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px;">
+          <div style="max-width: 60%;">
+            <h1 style="color: #2563eb; font-size: 24px; font-weight: 800; margin: 0; text-transform: uppercase;">${sender.nomService}</h1>
+            <p style="margin: 5px 0; color: #64748b; font-size: 12px; line-height: 1.4;">
+              ${sender.adresse}<br>
+              ${sender.contact}
+            </p>
           </div>
           <div style="text-align: right;">
-            <p style="color: #666; margin-bottom: 5px;">CLIENT</p>
-            <p><strong style="color: #da0b0b; ">${item.client}</strong></p>
-            <p >Date: ${item.date}<br>Échéance: ${item.echeance}</p>
+            <h2 style="margin: 0; font-size: 28px; color: #cbd5e1; font-weight: 300; letter-spacing: 2px;">FACTURE</h2>
+            <p style="margin: 0; font-weight: 700; color: #1a202c; font-size: 14px;">N° ${item.id}</p>
           </div>
         </div>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 50px;">
+
+        <div style="height: 1px; background: #e2e8f0; width: 100%; margin-bottom: 30px;"></div>
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+          <div style="width: 45%;">
+            <p style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Facturé à :</p>
+            <p style="margin: 0; font-size: 16px; font-weight: 700; color: #1a202c;">${item.client}</p>
+          </div>
+          <div style="text-align: right; width: 45%;">
+            <p style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Détails :</p>
+            <p style="margin: 0; font-size: 12px;">Émise le : <strong>${item.date}</strong></p>
+            <p style="margin: 4px 0; font-size: 12px;">Échéance : <strong style="color: #ef4444;">${item.echeance}</strong></p>
+          </div>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
           <thead>
-            <tr style="background: #f4f7fe;">
-              <th style="padding: 15px; text-align: left; border-bottom: 2px solid #d1d5db;">Description</th>
-              <th style="padding: 15px; text-align: right; border-bottom: 2px solid #d1d5db;">Total</th>
+            <tr style="background: #f8fafc;">
+              <th style="padding: 12px 15px; text-align: left; font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #e2e8f0;">Désignation des prestations</th>
+              <th style="padding: 12px 15px; text-align: right; font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #e2e8f0;">Total HT</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style="padding: 15px; border-bottom: 1px solid #eee;">Services d'accompagnement et gestion PichFlow</td>
-              <td style="padding: 15px; border-bottom: 1px solid #eee;">Détails des prestations réalisées pour la période</td>
-              <td style="padding: 15px; text-align: right;color: #da0b0b;  border-bottom: 1px solid #eeeeee;">${item.montant} ${item.devise}</td>
+              <td style="padding: 20px 15px; border-bottom: 1px solid #f1f5f9;">
+                <p style="margin: 0; font-weight: 700; font-size: 14px;">Services d'accompagnement digital</p>
+                <p style="margin: 5px 0 0 0; font-size: 12px; color: #64748b;">Gestion et suivi de projet via la plateforme PichFlow pour la période définie.</p>
+              </td>
+              <td style="padding: 20px 15px; text-align: right; border-bottom: 1px solid #f1f5f9; font-weight: 700; font-size: 15px;">
+                ${item.montant} ${item.devise}
+              </td>
             </tr>
           </tbody>
         </table>
-        <div style="margin-top: 30px; text-align: right; font-size: 22px; font-weight: bold; color: #2563eb;">
-          TOTAL : ${item.montant} ${item.devise}
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+          <div style="width: 280px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+              <span style="color: #64748b; font-size: 12px;">Montant Total HT</span>
+              <span style="font-weight: 600; font-size: 13px;">${item.montant} ${item.devise}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 2px solid #e2e8f0;">
+              <span style="color: #1a202c; font-weight: 700; font-size: 14px;">TOTAL À PAYER</span>
+              <span style="color: #2563eb; font-weight: 800; font-size: 18px;">${item.montant} ${item.devise}</span>
+            </div>
+          </div>
         </div>
-        <div style="margin-top: 100px; text-align: center; font-size: 12px; color: #999; border-top: 1px solid #eee; padding-top: 20px;">
-          Facture officielle générée par PitchFlow. Statut : ${item.statut}
+
+        <div style="margin-top: 60px;">
+           <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+              <div style="text-align: left;">
+                <p style="font-size: 10px; color: #94a3b8; text-transform: uppercase; margin-bottom: 40px;">Signature & Cachet</p>
+                <div style="width: 150px; border-bottom: 1px dashed #cbd5e1;"></div>
+              </div>
+              <div style="text-align: right;">
+                <p style="font-size: 11px; color: #64748b;">Merci pour votre confiance.</p>
+                <div style="margin-top: 10px; display: inline-block; padding: 5px 15px; background: ${item.statut === 'Payée' ? '#dcfce7' : '#fee2e2'}; color: ${item.statut === 'Payée' ? '#166534' : '#991b1b'}; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase;">
+                  Statut : ${item.statut}
+                </div>
+              </div>
+           </div>
+        </div>
+
+        <div style="margin-top: 50px; text-align: center; font-size: 10px; color: #cbd5e1;">
+          Cette facture est émise par PichFlow.
         </div>
       </div>
     `;
 
-    // Configuration de html2pdf 
     const options = {
       margin: 0,
       filename: `Facture_${item.id}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { 
+        scale: 2, 
+        useCORS: true, 
+        letterRendering: true,
+        width: 800 // On force la capture sur la largeur de notre élément
+      },
+      jsPDF: { 
+        unit: 'px', 
+        format: [800, 1131], // Ratio exact A4 à 96 DPI pour éviter le split de page
+        orientation: 'portrait' 
+      }
     };
 
     // @ts-ignore
@@ -258,11 +307,7 @@ export default function FacturesPage() {
           ))}
         </div>
       </div>
-
-
-      <br />
-      <br />
-      <br />
+      <br /><br /><br />
     </div>
   );
 }
