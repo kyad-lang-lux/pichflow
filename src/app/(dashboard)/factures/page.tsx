@@ -18,12 +18,16 @@ export default function FacturesPage() {
     { id: 'INV-2026-032', client: 'Agency Pro', montant: '850', devise: 'FCFA', date: '05 Jan 2026', echeance: '2026-01-20', statut: 'En retard' },
   ]);
 
-  // Chargement de html2canvas pour la capture d'image
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-    script.async = true;
-    document.body.appendChild(script);
+    const s1 = document.createElement("script");
+    s1.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+    s1.async = true;
+    document.body.appendChild(s1);
+
+    const s2 = document.createElement("script");
+    s2.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    s2.async = true;
+    document.body.appendChild(s2);
   }, []);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,6 +37,104 @@ export default function FacturesPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [currentInvoiceId, setCurrentInvoiceId] = useState<string | null>(null);
   const [formData, setFormData] = useState({ client: '', montant: '', devise: '€', echeance: '', statut: 'En attente' });
+
+  const downloadPDF = async (item: Facture) => {
+    const savedInfo = localStorage.getItem('pichflow_sender_info');
+    const sender = savedInfo ? JSON.parse(savedInfo) : {
+      nomService: 'PichFlow Service',
+      adresse: 'Adresse non configurée',
+      contact: 'Contact non configuré'
+    };
+
+    const container = document.createElement('div');
+    container.style.position = 'fixed';
+    container.style.left = '-9999px';
+    container.style.top = '0';
+    container.style.width = '800px';
+    container.style.background = 'white';
+    document.body.appendChild(container);
+
+    container.innerHTML = `
+      <div style="padding: 60px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a202c; background: white;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px;">
+          <div>
+            <h1 style="color: #2563eb; font-size: 32px; font-weight: 800; margin: 0; letter-spacing: -1px;">${sender.nomService.toUpperCase()}</h1>
+            <p style="margin: 8px 0 0 0; color: #64748b; font-size: 14px; line-height: 1.6;">
+              ${sender.adresse}<br>${sender.contact}
+            </p>
+          </div>
+          <div style="text-align: right;">
+            <h2 style="margin: 0; font-size: 40px; color: #e2e8f0; font-weight: 200; letter-spacing: 2px;">FACTURE</h2>
+            <p style="margin: 5px 0 0 0; font-weight: 700; color: #1e293b; font-size: 18px;">Référence : #${item.id}</p>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 60px;">
+          <div style="width: 45%;">
+            <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Destinataire</p>
+            <p style="margin: 0; font-size: 20px; font-weight: 700; color: #1e293b;">${item.client}</p>
+          </div>
+          <div style="text-align: right; width: 45%;">
+            <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Émission & Échéance</p>
+            <p style="margin: 0; font-size: 14px; color: #475569;">Émise le : <strong>${item.date}</strong></p>
+            <p style="margin: 6px 0 0 0; font-size: 14px; color: #475569;">À régler avant le : <strong style="color: #ef4444;">${item.echeance}</strong></p>
+          </div>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
+          <thead>
+            <tr>
+              <th style="padding: 15px; text-align: left; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #f1f5f9;">Description des prestations</th>
+              <th style="padding: 15px; text-align: right; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #f1f5f9;">Montant Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 30px 15px; border-bottom: 1px solid #f1f5f9;">
+                <p style="margin: 0; font-weight: 700; font-size: 16px; color: #1e293b;">Prestations de services digitaux</p>
+                <p style="margin: 8px 0 0 0; font-size: 14px; color: #64748b; line-height: 1.5;">Accompagnement stratégique, développement et gestion de projet via l'interface PichFlow.</p>
+              </td>
+              <td style="padding: 30px 15px; text-align: right; border-bottom: 1px solid #f1f5f9; font-weight: 700; font-size: 18px; color: #1e293b;">
+                ${item.montant} ${item.devise}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 40px;">
+          <div style="width: 250px; text-align: center;">
+            <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 40px; letter-spacing: 1px;">Signature & Cachet</p>
+            <div style="border-bottom: 1px dashed #cbd5e1; width: 100%; height: 20px;"></div>
+          </div>
+
+          <div style="width: 300px; padding: 20px 0; border-top: 3px solid #2563eb;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 14px; font-weight: 700; color: #64748b;">NET À PAYER</span>
+              <span style="font-size: 26px; font-weight: 900; color: #2563eb;">${item.montant} ${item.devise}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 100px; text-align: center; color: #94a3b8; font-size: 11px;">
+          <p>Merci pour votre confiance. En cas de question, contactez-nous via ${sender.contact}.</p>
+        </div>
+      </div>
+    `;
+
+    try {
+      // @ts-ignore
+      const canvas = await window.html2canvas(container, { scale: 3, useCORS: true });
+      const imgData = canvas.toDataURL('image/png');
+      // @ts-ignore
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`Facture_${item.id}.pdf`);
+    } catch (e) { console.error(e); } 
+    finally { document.body.removeChild(container); }
+  };
 
   const handleDelete = (id: string) => {
     if (window.confirm("Voulez-vous supprimer cette facture ?")) {
@@ -61,90 +163,6 @@ export default function FacturesPage() {
     setIsModalOpen(false);
     setIsEditing(false);
     setFormData({ client: '', montant: '', devise: '€', echeance: '', statut: 'En attente' });
-  };
-
-  // --- LOGIQUE DE TÉLÉCHARGEMENT EN IMAGE (PNG) ---
-  const downloadAsImage = (item: Facture) => {
-    const savedInfo = localStorage.getItem('pichflow_sender_info');
-    const sender = savedInfo ? JSON.parse(savedInfo) : {
-      nomService: 'PichFlow Service',
-      adresse: 'Adresse non configurée',
-      contact: 'Contact non configuré'
-    };
-
-    // On crée l'élément de la facture de manière invisible pour la capture
-    const container = document.createElement('div');
-    container.style.position = 'fixed';
-    container.style.left = '-9999px';
-    container.style.top = '0';
-    container.style.width = '800px';
-    container.style.backgroundColor = 'white';
-    document.body.appendChild(container);
-
-    container.innerHTML = `
-      <div style="padding: 50px; font-family: Arial, sans-serif; color: #1a202c; background: white;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
-          <div>
-            <h1 style="color: #2563eb; font-size: 28px; font-weight: 800; margin: 0;">${sender.nomService.toUpperCase()}</h1>
-            <p style="margin: 5px 0 0 0; color: #64748b; font-size: 12px; line-height: 1.5;">
-              ${sender.adresse}<br>${sender.contact}
-            </p>
-          </div>
-          <div style="text-align: right;">
-            <h2 style="margin: 0; font-size: 32px; color: #cbd5e1; font-weight: 300;">FACTURE</h2>
-            <p style="margin: 0; font-weight: 700; color: #1a202c;">#${item.id}</p>
-          </div>
-        </div>
-        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 40px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 50px;">
-          <div style="width: 45%;">
-            <p style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px;">Facturé à</p>
-            <p style="margin: 0; font-size: 16px; font-weight: 700; color: #da0b0b;">${item.client}</p>
-          </div>
-          <div style="text-align: right; width: 45%;">
-            <p style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px;">Détails</p>
-            <p style="margin: 0; font-size: 13px;">Date : <strong>${item.date}</strong></p>
-            <p style="margin: 5px 0; font-size: 13px;">Échéance : <strong style="color: #ef4444;">${item.echeance}</strong></p>
-          </div>
-        </div>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
-          <thead>
-            <tr style="background: #f8fafc;">
-              <th style="padding: 12px; text-align: left; font-size: 11px; color: #64748b; border-bottom: 2px solid #e2e8f0;">DESCRIPTION</th>
-              <th style="padding: 12px; text-align: right; font-size: 11px; color: #64748b; border-bottom: 2px solid #e2e8f0;">TOTAL</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding: 20px 12px; border-bottom: 1px solid #f1f5f9;">
-                <p style="margin: 0; font-weight: 700; font-size: 14px;">Prestations de services digitaux</p>
-                <p style="margin: 5px 0 0 0; font-size: 12px; color: #64748b;">Généré via PichFlow.</p>
-              </td>
-              <td style="padding: 20px 12px; text-align: right; border-bottom: 1px solid #f1f5f9; font-weight: 700;">
-                ${item.montant} ${item.devise}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="display: flex; justify-content: flex-end;">
-          <div style="width: 250px; background: #f8fafc; padding: 20px; border-radius: 12px;">
-            <div style="display: flex; justify-content: space-between; font-weight: 700;">
-              <span>TOTAL NET</span>
-              <span style="color: #2563eb;">${item.montant} ${item.devise}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-
-    // @ts-ignore
-    window.html2canvas(container, { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
-      const link = document.createElement('a');
-      link.download = `Facture_${item.id}.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-      document.body.removeChild(container);
-    });
   };
 
   const handleStatusChange = (id: string, newStatus: string) => {
@@ -230,7 +248,6 @@ export default function FacturesPage() {
         </div>
       </div>
 
-      {/* TON TABLEAU : Structure et CSS 100% préservés */}
       <div className="div-table-container">
         <div className="div-table-header">
           <div className="col-id">ID</div>
@@ -266,15 +283,15 @@ export default function FacturesPage() {
               <div className="col-actions">
                 <button onClick={() => setHideValues(!hideValues)} title="Masquer"><i className={`fa-regular ${hideValues ? 'fa-eye-slash':'fa-eye'}`}></i></button>
                 <button onClick={() => handleEditClick(item)} title="Modifier"><i className="fa-solid fa-pen-to-square" style={{color: '#2563eb'}}></i></button>
-                {/* Appel de la fonction IMAGE ici */}
-                <button onClick={() => downloadAsImage(item)} title="Télécharger IMAGE"><i className="fa-solid fa-image" style={{color: '#10b981'}}></i></button>
+                <button onClick={() => downloadPDF(item)} title="Télécharger PDF"><i className="fa-solid fa-file-pdf" style={{color: '#e11d48'}}></i></button>
                 <button onClick={() => handleDelete(item.id)} title="Supprimer"><i className="fa-solid fa-trash-can" style={{color: '#ef4444'}}></i></button>
               </div>
             </div>
           ))}
         </div>
+        <br /><br /><br />
+        <br /><br />
       </div>
-      <br /><br /><br />
     </div>
   );
 }
