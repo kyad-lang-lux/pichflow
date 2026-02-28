@@ -63,15 +63,22 @@ export default function FacturesPage() {
     container.style.background = 'white';
     document.body.appendChild(container);
 
-    // Logique du badge "Payé"
-    const paidBadge = item.statut === 'Payée' ? `
+    const isPaid = item.statut === 'Payée';
+
+    // Badge "PAYÉE" en filigrane
+    const paidBadge = isPaid ? `
       <div style="position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%) rotate(-15deg); 
                   border: 8px solid #10b981; color: #10b981; padding: 10px 30px; font-size: 60px; 
-                  font-weight: 900; letter-spacing: 5px; text-transform: uppercase; opacity: 0.2; 
+                  font-weight: 900; letter-spacing: 5px; text-transform: uppercase; opacity: 0.15; 
                   border-radius: 15px; pointer-events: none; z-index: 0;">
         PAYÉE
       </div>
     ` : '';
+
+    // Gestion dynamique de la ligne d'échéance
+    const echeanceHTML = isPaid 
+      ? `<p style="margin: 6px 0 0 0; font-size: 14px; color: #10b981;">Statut : <strong>RÉGLÉE</strong></p>`
+      : `<p style="margin: 6px 0 0 0; font-size: 14px; color: #475569;">À régler avant le : <strong style="color: #ef4444;">${item.echeance}</strong></p>`;
 
     container.innerHTML = `
       <div style="padding: 60px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a202c; background: white; position: relative;">
@@ -85,7 +92,7 @@ export default function FacturesPage() {
           </div>
           <div style="text-align: right;">
             <h2 style="margin: 0; font-size: 40px; color: #e2e8f0; font-weight: 200; letter-spacing: 2px;">FACTURE</h2>
-            <p style="margin: 5px 0 0 0; font-weight: 700; color: #1e293b; font-size: 18px;">nº : ${item.id}</p>
+            <p style="margin: 5px 0 0 0; font-weight: 700; color: #1e293b; font-size: 18px;">nº  ${item.id}</p>
           </div>
         </div>
 
@@ -95,9 +102,9 @@ export default function FacturesPage() {
             <p style="margin: 0; font-size: 20px; font-weight: 700; color: #1e293b;">${item.client}</p>
           </div>
           <div style="text-align: right; width: 45%;">
-            <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Émission & Échéance</p>
+            <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Émission & Statut</p>
             <p style="margin: 0; font-size: 14px; color: #475569;">Émise le : <strong>${item.date}</strong></p>
-            <p style="margin: 6px 0 0 0; font-size: 14px; color: #475569;">À régler avant le : <strong style="color: #ef4444;">${item.echeance}</strong></p>
+            ${echeanceHTML}
           </div>
         </div>
 
@@ -129,7 +136,7 @@ export default function FacturesPage() {
 
           <div style="width: 300px; padding: 20px 0; border-top: 3px solid #2563eb;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-size: 14px; font-weight: 700; color: #64748b;">NET À PAYER</span>
+              <span style="font-size: 14px; font-weight: 700; color: #64748b;">TOTAL ${isPaid ? 'RÉGLÉ' : 'À PAYER'}</span>
               <span style="font-size: 26px; font-weight: 900; color: #2563eb;">${item.montant} ${item.devise}</span>
             </div>
           </div>
@@ -317,14 +324,13 @@ export default function FacturesPage() {
               <div className="col-actions">
                 <button onClick={() => setHideValues(!hideValues)} title="Masquer"><i className={`fa-regular ${hideValues ? 'fa-eye-slash':'fa-eye'}`}></i></button>
                 <button onClick={() => handleEditClick(item)} title="Modifier"><i className="fa-solid fa-pen-to-square" style={{color: '#2563eb'}}></i></button>
-                <button onClick={() => downloadPDF(item)} title="Télécharger PDF"> {/* <i className="fa-solid fa-file-pdf" style={{color: '#e11d48'}}></i> */} <i className="fa fa-download" style={{color: '#e11d48'}}></i></button>
+                <button onClick={() => downloadPDF(item)} title="Télécharger PDF"> {/* <i className="fa-solid fa-file-pdf" style={{color: '#e11d48'}}></i>  */}  <i className="fa fa-download"  style={{color: '#e11d48'}} ></i> </button>
                 <button onClick={() => handleDelete(item.id)} title="Supprimer"><i className="fa-solid fa-trash-can" style={{color: '#ef4444'}}></i></button>
               </div>
             </div>
           ))}
         </div>
       </div>
-      <br /> <br />
     </div>
   );
 }
