@@ -164,7 +164,7 @@ body {
 .btn-primary {
   background: var(--accent);
   color: white; 
-  padding: 0.8rem 1rem;
+  padding: 0.7rem 1rem;
   border-radius: 50px;
   border-radius: 50px;
   text-decoration: none;
@@ -174,7 +174,7 @@ body {
   align-items: center;
   cursor: pointer;
   gap: 8px; 
-  box-shadow: 0 6px 15px rgba(240, 103, 12, .7);
+  box-shadow: 0 6px 15px rgba(240, 103, 12, .3);
   transition: 0.3s;
 }
 
