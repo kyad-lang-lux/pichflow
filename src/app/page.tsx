@@ -586,7 +586,7 @@ export default function Home() {
             </div>
             <div className="trust-card">
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
+                src="https://upload.wikimedia.org/wikipedia/commons/9/98/Visa_Inc._logo_%282005%E2%80%932014%29.svg"
                 alt="Visa"
                 style={{ height: "15px", marginRight: "10px" }}
               />
