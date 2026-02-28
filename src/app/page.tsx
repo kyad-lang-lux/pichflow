@@ -46,7 +46,7 @@ export default function Home() {
 
         {/* Sous-titre animé */}
         <p className="reveal delay-2">
-          Faites du contenu marketing et copywriting, de la facturation et la de
+          Faites du contenu marketing et copywriting, de la facturation et de la
           comptabilité avec Pichflow.
         </p>
 
