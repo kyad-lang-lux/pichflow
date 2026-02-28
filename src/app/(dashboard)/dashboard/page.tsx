@@ -10,7 +10,7 @@ export default function DashboardPage() {
       className: "icon-marketing",
       link: "/contenu-ia"
     },
-    { 
+    {  
       title: "Copywriting IA",
       desc: "Créez des pages de vente, landing pages et textes publicitaires avec les méthodes AIDA, PAS et plus.",
       icon: "fa-lightbulb",
@@ -35,7 +35,7 @@ export default function DashboardPage() {
 
   return (
     <div className="dashboard-home">
-        <h3 className="welcome"> Bienvenu chèr(e) </h3>
+        <h3 className="welcome"> Bienvenu(e) dans votre tableau de bord <span>... </span> </h3> <br />
       <div className="tools-grid"> 
         {tools.map((tool, index) => (
           <div key={index} className="tool-card">
