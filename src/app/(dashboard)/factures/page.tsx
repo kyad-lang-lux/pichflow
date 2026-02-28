@@ -1,9 +1,10 @@
-"use client";
+'use client';
 import React, { useState, useEffect } from 'react';
 
 interface Facture {
   id: string;
   client: string;
+  motif: string;
   montant: string;
   devise: string;
   date: string;
@@ -13,9 +14,9 @@ interface Facture {
 
 export default function FacturesPage() {
   const [factures, setFactures] = useState<Facture[]>([
-    { id: 'INV-2026-034', client: 'Client ABC', montant: '1250', devise: '€', date: '15 Jan 2026', echeance: '2026-01-30', statut: 'Payée' },
-    { id: 'INV-2026-033', client: 'Startup XYZ', montant: '3500', devise: '$', date: '10 Jan 2026', echeance: '2026-01-25', statut: 'En attente' },
-    { id: 'INV-2026-032', client: 'Agency Pro', montant: '850', devise: 'FCFA', date: '05 Jan 2026', echeance: '2026-01-20', statut: 'En retard' },
+    { id: 'INV-2026-034', client: 'Client ABC', motif: 'Développement Site E-commerce', montant: '1250', devise: '€', date: '15 Jan 2026', echeance: '2026-01-30', statut: 'Payée' },
+    { id: 'INV-2026-033', client: 'Startup XYZ', motif: 'Consulting Marketing IA', montant: '3500', devise: '$', date: '10 Jan 2026', echeance: '2026-01-25', statut: 'En attente' },
+    { id: 'INV-2026-032', client: 'Agency Pro', motif: 'Maintenance Serveur Annuelle', montant: '850', devise: 'FCFA', date: '05 Jan 2026', echeance: '2026-01-20', statut: 'En retard' },
   ]);
 
   useEffect(() => {
@@ -36,7 +37,15 @@ export default function FacturesPage() {
   const [hideValues, setHideValues] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [currentInvoiceId, setCurrentInvoiceId] = useState<string | null>(null);
-  const [formData, setFormData] = useState({ client: '', montant: '', devise: '€', echeance: '', statut: 'En attente' });
+  
+  const [formData, setFormData] = useState({ 
+    client: '', 
+    motif: '', 
+    montant: '', 
+    devise: '€', 
+    echeance: '', 
+    statut: 'En attente' 
+  });
 
   const downloadPDF = async (item: Facture) => {
     const savedInfo = localStorage.getItem('pichflow_sender_info');
@@ -54,9 +63,20 @@ export default function FacturesPage() {
     container.style.background = 'white';
     document.body.appendChild(container);
 
+    // Logique du badge "Payé"
+    const paidBadge = item.statut === 'Payée' ? `
+      <div style="position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%) rotate(-15deg); 
+                  border: 8px solid #10b981; color: #10b981; padding: 10px 30px; font-size: 60px; 
+                  font-weight: 900; letter-spacing: 5px; text-transform: uppercase; opacity: 0.2; 
+                  border-radius: 15px; pointer-events: none; z-index: 0;">
+        PAYÉE
+      </div>
+    ` : '';
+
     container.innerHTML = `
-      <div style="padding: 60px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a202c; background: white;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px;">
+      <div style="padding: 60px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #1a202c; background: white; position: relative;">
+        ${paidBadge}
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px; position: relative; z-index: 1;">
           <div>
             <h1 style="color: #2563eb; font-size: 32px; font-weight: 800; margin: 0; letter-spacing: -1px;">${sender.nomService.toUpperCase()}</h1>
             <p style="margin: 8px 0 0 0; color: #64748b; font-size: 14px; line-height: 1.6;">
@@ -65,11 +85,11 @@ export default function FacturesPage() {
           </div>
           <div style="text-align: right;">
             <h2 style="margin: 0; font-size: 40px; color: #e2e8f0; font-weight: 200; letter-spacing: 2px;">FACTURE</h2>
-            <p style="margin: 5px 0 0 0; font-weight: 700; color: #1e293b; font-size: 18px;">Référence : #${item.id}</p>
+            <p style="margin: 5px 0 0 0; font-weight: 700; color: #1e293b; font-size: 18px;">nº : ${item.id}</p>
           </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; margin-bottom: 60px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 60px; position: relative; z-index: 1;">
           <div style="width: 45%;">
             <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Destinataire</p>
             <p style="margin: 0; font-size: 20px; font-weight: 700; color: #1e293b;">${item.client}</p>
@@ -81,7 +101,7 @@ export default function FacturesPage() {
           </div>
         </div>
 
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px; position: relative; z-index: 1;">
           <thead>
             <tr>
               <th style="padding: 15px; text-align: left; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; border-bottom: 2px solid #f1f5f9;">Description des prestations</th>
@@ -91,8 +111,8 @@ export default function FacturesPage() {
           <tbody>
             <tr>
               <td style="padding: 30px 15px; border-bottom: 1px solid #f1f5f9;">
-                <p style="margin: 0; font-weight: 700; font-size: 16px; color: #1e293b;">Prestations de services digitaux</p>
-                <p style="margin: 8px 0 0 0; font-size: 14px; color: #64748b; line-height: 1.5;">Accompagnement stratégique, développement et gestion de projet via l'interface PichFlow.</p>
+                <p style="margin: 0; font-weight: 700; font-size: 16px; color: #1e293b;">${item.motif}</p>
+                <p style="margin: 8px 0 0 0; font-size: 14px; color: #64748b; line-height: 1.5;">Prestation réalisée par ${sender.nomService} via l'interface PitchFlow.</p>
               </td>
               <td style="padding: 30px 15px; text-align: right; border-bottom: 1px solid #f1f5f9; font-weight: 700; font-size: 18px; color: #1e293b;">
                 ${item.montant} ${item.devise}
@@ -101,7 +121,7 @@ export default function FacturesPage() {
           </tbody>
         </table>
 
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 40px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 40px; position: relative; z-index: 1;">
           <div style="width: 250px; text-align: center;">
             <p style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 40px; letter-spacing: 1px;">Signature & Cachet</p>
             <div style="border-bottom: 1px dashed #cbd5e1; width: 100%; height: 20px;"></div>
@@ -115,7 +135,7 @@ export default function FacturesPage() {
           </div>
         </div>
 
-        <div style="margin-top: 100px; text-align: center; color: #94a3b8; font-size: 11px;">
+        <div style="margin-top: 100px; text-align: center; color: #94a3b8; font-size: 11px; position: relative; z-index: 1;">
           <p>Merci pour votre confiance. En cas de question, contactez-nous via ${sender.contact}.</p>
         </div>
       </div>
@@ -145,7 +165,14 @@ export default function FacturesPage() {
   const handleEditClick = (item: Facture) => {
     setIsEditing(true);
     setCurrentInvoiceId(item.id);
-    setFormData({ client: item.client, montant: item.montant, devise: item.devise, echeance: item.echeance, statut: item.statut });
+    setFormData({ 
+      client: item.client, 
+      motif: item.motif, 
+      montant: item.montant, 
+      devise: item.devise, 
+      echeance: item.echeance, 
+      statut: item.statut 
+    });
     setIsModalOpen(true);
   };
 
@@ -162,7 +189,7 @@ export default function FacturesPage() {
     }
     setIsModalOpen(false);
     setIsEditing(false);
-    setFormData({ client: '', montant: '', devise: '€', echeance: '', statut: 'En attente' });
+    setFormData({ client: '', motif: '', montant: '', devise: '€', echeance: '', statut: 'En attente' });
   };
 
   const handleStatusChange = (id: string, newStatus: string) => {
@@ -178,7 +205,7 @@ export default function FacturesPage() {
   };
 
   const filteredFactures = factures.filter(f => {
-    const matchSearch = f.client.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchSearch = f.client.toLowerCase().includes(searchTerm.toLowerCase()) || f.motif.toLowerCase().includes(searchTerm.toLowerCase());
     const matchStatus = filterStatus === 'Tous' || f.statut === filterStatus;
     return matchSearch && matchStatus;
   });
@@ -193,7 +220,11 @@ export default function FacturesPage() {
               <div className="form-grid">
                 <div className="input-group full">
                   <label>Client</label>
-                  <input type="text" required value={formData.client} onChange={(e)=>setFormData({...formData, client: e.target.value})} />
+                  <input type="text" placeholder="Nom de l'entreprise ou client" required value={formData.client} onChange={(e)=>setFormData({...formData, client: e.target.value})} />
+                </div>
+                <div className="input-group full">
+                  <label>Motif de la facture</label>
+                  <input type="text" placeholder="Ex: Création de logo, Maintenance..." required value={formData.motif} onChange={(e)=>setFormData({...formData, motif: e.target.value})} />
                 </div>
                 <div className="input-group">
                   <label>Montant</label>
@@ -233,7 +264,7 @@ export default function FacturesPage() {
         <div className="toolbar-actions">
           <div className="search-box">
             <i className="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Rechercher un client..." value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} />
+            <input type="text" placeholder="Rechercher un client ou motif..." value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} />
           </div>
           <div className="filter-group">
             <i className="fa-solid fa-filter"></i>
@@ -244,14 +275,14 @@ export default function FacturesPage() {
               <option value="En retard">En retard</option>
             </select>
           </div>
-          <button className="btn-new" onClick={()=>{setIsEditing(false); setFormData({ client: '', montant: '', devise: '€', echeance: '', statut: 'En attente' }); setIsModalOpen(true);}}>+ Nouvelle</button>
+          <button className="btn-new" onClick={()=>{setIsEditing(false); setFormData({ client: '', motif: '', montant: '', devise: '€', echeance: '', statut: 'En attente' }); setIsModalOpen(true);}}>+ Nouvelle</button>
         </div>
       </div>
 
       <div className="div-table-container">
         <div className="div-table-header">
           <div className="col-id">ID</div>
-          <div className="col-client">Client</div>
+          <div className="col-client">Client / Motif</div>
           <div className="col-montant">Montant</div>
           <div className="col-date">Date</div>
           <div className="col-echeance">Échéance</div>
@@ -263,7 +294,10 @@ export default function FacturesPage() {
           {filteredFactures.map((item) => (
             <div className="div-table-row" key={item.id}>
               <div className="col-id font-bold" data-label="ID">{item.id}</div>
-              <div className="col-client" data-label="Client">{item.client}</div>
+              <div className="col-client" data-label="Client">
+                <div className="font-bold">{item.client}</div>
+                <div style={{fontSize: '12px', color: '#64748b'}}>{item.motif}</div>
+              </div>
               <div className="col-montant font-bold" data-label="Montant">
                 {hideValues ? '****' : `${item.montant} ${item.devise}`}
               </div>
@@ -283,15 +317,14 @@ export default function FacturesPage() {
               <div className="col-actions">
                 <button onClick={() => setHideValues(!hideValues)} title="Masquer"><i className={`fa-regular ${hideValues ? 'fa-eye-slash':'fa-eye'}`}></i></button>
                 <button onClick={() => handleEditClick(item)} title="Modifier"><i className="fa-solid fa-pen-to-square" style={{color: '#2563eb'}}></i></button>
-                <button onClick={() => downloadPDF(item)} title="Télécharger PDF"><i className="fa-solid fa-file-pdf" style={{color: '#e11d48'}}></i></button>
+                <button onClick={() => downloadPDF(item)} title="Télécharger PDF"> {/* <i className="fa-solid fa-file-pdf" style={{color: '#e11d48'}}></i> */} <i className="fa fa-download" style={{color: '#e11d48'}}></i></button>
                 <button onClick={() => handleDelete(item.id)} title="Supprimer"><i className="fa-solid fa-trash-can" style={{color: '#ef4444'}}></i></button>
               </div>
             </div>
           ))}
         </div>
-        <br /><br /><br />
-        <br /><br />
       </div>
+      <br /> <br />
     </div>
   );
 }

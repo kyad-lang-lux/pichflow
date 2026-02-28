@@ -211,12 +211,12 @@ padding: 0; }
 
 .div-table-container { background: white; border: 1px solid var(--border-light); border-radius: 20px; overflow: hidden; }
 .div-table-header { display: flex; background: #F8FAFC; padding: 15px 20px; border-bottom: 1px solid var(--border-light); color: var(--text-muted); font-weight: 600; font-size: 0.85rem; }
-.div-table-row { display: flex; padding: 15px 20px; border-bottom: 1px solid #F1F5F9; align-items: center; transition: 0.2s; }
+.div-table-row { display: flex; padding: 10px 10px; border-bottom: 1px solid #F1F5F9; align-items: center; transition: 0.2s; }
 .div-table-row:hover { background: #F8FAFC; }
 
 .col-id { flex: 1.5; } .col-client { flex: 2; } .col-montant { flex: 1.2; } .col-date { flex: 1.2; } .col-echeance { flex: 1.2; } .col-statut { flex: 1.5; } 
-.col-actions { flex: 1.5; text-align: right; display: flex; justify-content: flex-end; gap: 10px; }
-.col-actions button { background: none; border: none; color: #94A3B8; cursor: pointer; }
+.col-actions { flex: 2; text-align: right; display: flex; justify-content: flex-end; gap: 10px; }
+.col-actions button { background: none; border: none;  color: #94A3B8; cursor: pointer; font-size: 16px;}
 
 /* --- 8. BADGES & STATS --- */
 .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
@@ -282,9 +282,13 @@ padding: 0; }
  }
  
   /* Table Mobile Card Transformation */
+  .factures-container  {
+    gap: 0;
+  }
   .factures-container .div-table-container {
     font-size: 12px; 
-    
+  
+    padding: 0;
   }
   .factures-container .div-table-container .div-table-header { display: none; gap: 0px;  }
    .div-table-container { background: transparent; border: none; }
