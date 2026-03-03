@@ -39,7 +39,7 @@ export default function Home() {
 
         {/* Titre animé */}
         <h1 className="reveal delay-1">
-          Votre outil de croissance
+          Votre outil de croissance 
           <br />
           <span>  en un seul endroit </span> <br /> 
         </h1>
