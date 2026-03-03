@@ -2452,7 +2452,7 @@ color: red;}
 /* --- SECTION TEMOIGNAGES --- */
 .testimonials {
   padding: 50px 0;
-  background: #0f172a; /* Ton bleu nuit */
+  background: #000000; /* Ton bleu nuit */
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -2620,7 +2620,7 @@ color: red;}
   right: -30px;
   width: 160px;
   height: 160px;
-  filter: blur(50px);
+  filter: blur(100px);
   opacity: 0.7;
   border-radius: 50%;
   z-index: 1;
