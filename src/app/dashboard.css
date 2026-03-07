@@ -196,6 +196,7 @@ padding: 0; }
 .custom-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
 
 /* --- 7. FACTURES (DIV-TABLE RESPONSIVE) --- */ 
+
 .factures-container { display: flex; flex-direction: column; gap: 25px; }
 .table-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; }
 .tabs-container { display: flex; gap: 8px; background: #F1F5F9; padding: 4px; border-radius: 10px; width: fit-content; }
@@ -217,6 +218,214 @@ padding: 0; }
 .col-id { flex: 1.5; } .col-client { flex: 2; } .col-montant { flex: 1.2; } .col-date { flex: 1.2; } .col-echeance { flex: 1.2; } .col-statut { flex: 1.5; } 
 .col-actions { flex: 2; text-align: right; display: flex; justify-content: flex-end; gap: 10px; }
 .col-actions button { background: none; border: none;  color: #94A3B8; cursor: pointer; font-size: 16px;}
+/* --- Table d'affichage Dashboard --- */
+.col-desc { 
+  flex: 3; 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 8px; 
+}
+
+.desc-tag { 
+  background: #f1f5f9; 
+  padding: 4px 10px; 
+  border-radius: 6px; 
+  font-size: 11px; 
+  color: #475569; 
+  border: 1px solid #e2e8f0;
+}
+
+/* --- Modal & Formulaire d'ajout --- */
+.custom-modal { 
+  max-width: 600px !important; 
+  width: 96% !important; 
+  border-radius: 24px !important; 
+  padding: 15px !important;
+}
+
+.modern-form { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 10px; 
+}
+
+.main-input { 
+  width: 100%; 
+  padding: 10px; 
+  border: 1px solid #e2e8f0; 
+  border-radius: 12px; 
+  font-size: 1rem; 
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.main-input:focus { border-color: #f472b6; }
+
+.form-section .row { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 5px; 
+}
+
+.form-section .row input, .row select { 
+  padding: 10px; 
+  margin-top: 5px;
+  border: 1px solid #e2e8f0; 
+  border-radius: 12px; 
+  outline: none;
+}
+
+/* --- Section Prestations avec Scroll --- */
+.prestations-list { 
+  background: #f8fafc; 
+  padding: 10px; 
+  border-radius: 20px; 
+  border: 1px solid #e2e8f0; 
+  display: flex; 
+  flex-direction: column;
+}
+
+.prestations-list label { 
+  font-weight: 800; 
+  font-size: 0.8rem; 
+  text-transform: uppercase; 
+  letter-spacing: 0.5px;
+  margin-bottom: 5px; 
+  color: #1e293b;
+}
+
+.prestations-scroll-area {
+  max-height: 280px; /* Hauteur fixe pour le défilement */
+  overflow-y: auto;
+  padding-right: 0px;
+  margin-bottom: 0px;
+}
+
+/* Style de la scrollbar pour la zone de prestations */
+.prestations-scroll-area::-webkit-scrollbar { width: 5px; }
+.prestations-scroll-area::-webkit-scrollbar-track { background: transparent; }
+.prestations-scroll-area::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+.prestation-row { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 10px; 
+  margin-bottom: 10px; 
+}
+
+.prestation-row .row-inner {
+  display: flex;
+  gap: 5px;
+  /* flex-direction: column; */
+}
+
+.prestation-row input { 
+  padding: 10px; 
+  border: 1px solid #cbd5e1; 
+  border-radius: 10px; 
+  
+  font-size: 0.9rem; 
+}
+.prestation-row .row-inner input {
+  width: 50%;
+  padding: 5px;
+}
+
+.separator {
+  border: 0;
+  border-bottom: 1px dashed #cbd5e1;
+  margin-top: 5px;
+  width: 100%;
+}
+
+/* --- Boutons --- */
+.btn-add-line { 
+  background: white; 
+  border: 2px dashed #cbd5e1; 
+  color: #64748b; 
+  padding: 3px; 
+  border-radius: 12px; 
+  cursor: pointer; 
+  font-weight: 600;
+  font-size: 0.8rem; 
+  transition: all 0.2s; 
+}
+
+.btn-add-line:hover { 
+  background: #f1f5f9; 
+  border-color: #64748b;
+  color: #1e293b;
+}
+
+.btn-submit { 
+  background: #000 !important; 
+  color: #fff !important; 
+  padding: 15px !important; 
+  border-radius: 15px !important; 
+  font-weight: 800 !important; 
+  font-size: .8rem;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.modal-actions .btn-cancel {
+  background: #dd0a0a;
+  font-weight: bold;
+  color: #fff;
+}
+.btn-submit:active { transform: scale(0.98); }
+
+/* --- Responsive Mobile (Labels & Cards) --- */
+@media (max-width: 768px) {
+  .div-table-header { display: none; }
+
+  .div-table-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 12px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 15px;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+
+  /* Affichage des labels data-label */
+  .div-table-row > div[data-label] {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+  }
+
+  .div-table-row > div[data-label]::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+  }
+
+  .col-actions {
+    width: 100%;
+    justify-content: space-around !important;
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f5f9;
+  }
+  
+  .col-desc {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+  }
+
+  /* Ajustement modal sur mobile */
+  .row { grid-template-columns: 1fr; }
+}
 
 /* --- 8. BADGES & STATS --- */
 .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
