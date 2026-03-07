@@ -42,7 +42,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   <link rel="icon" href="/logo.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow" />
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
   {/* Tes scripts existants */}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />

@@ -550,10 +550,10 @@ padding: 0; }
   margin: auto;
   width: 100%;
 border: 0;
-padding: 0px ;
 padding: 10px;
 border-radius: 50%;
 background: linear-gradient(135deg, #FB923C, #3B82F6);
+background: #000;
 cursor: pointer;
 color: #fff;
 font-weight: bold;
@@ -824,11 +824,11 @@ width: 20px;
   margin: auto;
   width: 100%;
 border: 0;
-padding: 0px ;
-padding: 10px;
+padding: 8px;
 border-radius: 50%;
 /* background: #FB923C; */
 background: linear-gradient(135deg, #FB923C, #3B82F6);
+background: #000;
 cursor: pointer;
 color: #fff;
 font-weight: bold;

@@ -30,10 +30,6 @@ export default function FacturesPage() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentInvoiceId, setCurrentInvoiceId] = useState<string | null>(null);
-
-  // Formulaire avec gestion de plusieurs prestations
   const [formData, setFormData] = useState({
     client: '',
     echeance: '',
@@ -71,7 +67,7 @@ export default function FacturesPage() {
     const sender = savedInfo ? JSON.parse(savedInfo) : { nomService: 'PichFlow Service', adresse: 'Adresse Pro', contact: 'Contact' };
 
     const totalHT = calculateTotal(item.prestations);
-    const tva = totalHT * 0.05; // TVA 5%
+    const tva = totalHT * 0.05;
     const totalTTC = totalHT + tva;
 
     const container = document.createElement('div');
@@ -79,13 +75,13 @@ export default function FacturesPage() {
     document.body.appendChild(container);
 
     container.innerHTML = `
-      <div style="padding: 50px; font-family: 'Helvetica', Arial; color: #000; border: 15px solid #fdf2f8; min-height: 1050px;">
+      <div style="padding: 50px; font-family: 'Open Sans', sans-serif; color: #000; border: 15px solid #fdf2f8; min-height: 1130px; position: relative;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
           <div>
-            <h1 style="font-size: 32px; font-weight: 900; margin: 0;">${sender.nomService.toUpperCase()}</h1>
-            <p style="font-size: 12px; margin-top: 10px;">${sender.adresse}<br>${sender.contact}</p>
+            <h2 style="font-family: 'Bodoni Moda', serif;  font-size: 23px; font-weight: bold; margin: 0;">${sender.nomService.toUpperCase()}</h2>
+            <p style="font-size: 12px; margin-top: 5px;">${sender.adresse}<br>${sender.contact}</p>
           </div>
-          <h2 style="font-size: 50px; font-weight: 900; color: #000; margin: 0;">FACTURE</h2>
+          <h2 style=" font-family: 'Antonio', sans-serif; font-size: 40px; font-weight: 900; color: #000; margin: -10px;">FACTURE</h2>
         </div>
 
         <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 30px; font-weight: bold; font-size: 14px;">
@@ -126,6 +122,12 @@ export default function FacturesPage() {
             <span>TOTAL TTC :</span><span>${totalTTC.toFixed(2)} ${item.devise}</span>
           </div>
         </div>
+
+        <div style="position: absolute; bottom: 60px; left: 50px; width: calc(100% - 100px); text-align: center; border-top: 1px solid #eee; padding-top: 20px;">
+          <p style="font-style: italic; font-size: 14px; color: #374151;">
+            Merci pour votre confiance ! Nous restons à votre disposition pour toute question concernant cette facture.
+          </p>
+        </div>
       </div>
     `;
 
@@ -142,34 +144,32 @@ export default function FacturesPage() {
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    const id = isEditing ? currentInvoiceId! : `INV-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+    const id = `INV-2026-${Math.floor(1000 + Math.random() * 9000)}`;
     const newInvoice: Facture = {
       ...formData,
       id,
       date: new Date().toLocaleDateString('fr-FR')
     };
 
-    if (isEditing) setFactures(factures.map(f => f.id === id ? newInvoice : f));
-    else setFactures([newInvoice, ...factures]);
-
+    setFactures([newInvoice, ...factures]);
     setIsModalOpen(false);
+    setFormData({client:'', echeance:'', devise:'€', prestations:[{description:'', prixUnitaire:0, quantite:1}]});
   };
 
   const filtered = factures.filter(f => f.client.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
     <div className="factures-container">
-      {/* MODAL RESPONSIVE */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content custom-modal">
-            <h3>{isEditing ? 'Modifier la Facture' : 'Nouvelle Facture'}</h3>
+            <h3>Nouvelle Facture</h3>
             <form onSubmit={handleSave} className="modern-form">
               <div className="form-section">
                 <input type="text" placeholder="Nom du Client" required value={formData.client} onChange={(e)=>setFormData({...formData, client: e.target.value})} className="main-input" />
                 <div className="row">
-                  <input type="date" placeholder='date' required  onChange={(e)=>setFormData({...formData, echeance: e.target.value})} />
-                  <select  value={formData.devise} onChange={(e)=>setFormData({...formData, devise: e.target.value})}>
+                  <input type="date" required onChange={(e)=>setFormData({...formData, echeance: e.target.value})} />
+                  <select value={formData.devise} onChange={(e)=>setFormData({...formData, devise: e.target.value})}>
                     <option value="€">EUR (€)</option>
                     <option value="FCFA">FCFA</option>
                     <option value="$">USD ($)</option>
@@ -177,25 +177,22 @@ export default function FacturesPage() {
                 </div>
               </div>
 
-            <div className="prestations-list">
-  <label>Prestations</label>
-  
-  {/* Nouveau conteneur avec défilement */}
-  <div className="prestations-scroll-area">
-    {formData.prestations.map((p, index) => (
-      <div key={index} className="prestation-row">
-        <input type="text" placeholder="Description"  onChange={(e) => updatePrestation(index, 'description', e.target.value)} required />
-        <div className="row-inner">
-           <input type="number" placeholder="Prix unitaire"  onChange={(e) => updatePrestation(index, 'prixUnitaire', parseFloat(e.target.value))} required />
-           <input type="number" placeholder="Qté"  onChange={(e) => updatePrestation(index, 'quantite', parseInt(e.target.value))} required />
-        </div>
-        <hr className="separator" />
-      </div>
-    ))}
-  </div>
-    
-  <button type="button" onClick={addPrestationLine} className="btn-add-line">+ Ajouter une autre prestation</button>
-</div>
+              <div className="prestations-list">
+                <label>Prestations</label>
+                <div className="prestations-scroll-area">
+                  {formData.prestations.map((p, index) => (
+                    <div key={index} className="prestation-row">
+                      <input type="text" placeholder="Description" onChange={(e) => updatePrestation(index, 'description', e.target.value)} required />
+                      <div className="row-inner">
+                         <input type="number" placeholder="Prix unitaire" onChange={(e) => updatePrestation(index, 'prixUnitaire', parseFloat(e.target.value))} required />
+                         <input type="number" placeholder="Qté" onChange={(e) => updatePrestation(index, 'quantite', parseInt(e.target.value))} required />
+                      </div>
+                      <hr className="separator" />
+                    </div>
+                  ))}
+                </div>
+                <button type="button" onClick={addPrestationLine} className="btn-add-line">+ Ajouter une autre prestation</button>
+              </div>
 
               <div className="modal-actions">
                 <button type="button" onClick={()=>setIsModalOpen(false)} className="btn-cancel">Fermer</button>
@@ -206,18 +203,16 @@ export default function FacturesPage() {
         </div>
       )}
 
-      {/* TOOLBAR */}
       <div className="table-toolbar">
         <div className="search-box">
           <i className="fa-solid fa-magnifying-glass"></i>
           <input type="text" placeholder="Rechercher un client..." value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} />
         </div>
-        <button className="btn-new" onClick={() => { setFormData({client:'', echeance:'', devise:'€', prestations:[{description:'', prixUnitaire:0, quantite:1}]}); setIsEditing(false); setIsModalOpen(true); }}>
+        <button className="btn-new" onClick={() => { setIsModalOpen(true); }}>
           + Nouvelle Facture
         </button>
       </div>
 
-      {/* TABLE */}
       <div className="div-table-container">
         <div className="div-table-header">
           <div className="col-id">ID</div>
@@ -228,25 +223,25 @@ export default function FacturesPage() {
         </div>
 
         <div className="div-table-body">
-  {filtered.map((f) => (
-    <div className="div-table-row" key={f.id}>
-      <div className="col-id font-bold" data-label="ID :">{f.id}</div>
-      <div className="col-client font-bold" data-label="Client :">{f.client}</div>
-      <div className="col-desc" data-label="Prestations :">
-        {f.prestations.map((p, i) => (
-          <div key={i} className="desc-tag">{p.description} (x{p.quantite})</div>
-        ))}
+          {filtered.map((f) => (
+            <div className="div-table-row" key={f.id}>
+              <div className="col-id font-bold" data-label="ID :">{f.id}</div>
+              <div className="col-client font-bold" data-label="Client :">{f.client}</div>
+              <div className="col-desc" data-label="Prestations :">
+                {f.prestations.map((p, i) => (
+                  <div key={i} className="desc-tag">{p.description} (x{p.quantite})</div>
+                ))}
+              </div>
+              <div className="col-date" data-label="Émission :">{f.date}</div>
+              <div className="col-actions">
+                <button onClick={() => downloadPDF(f)} title="Télécharger"><i className="fa fa-download" style={{color: '#e11d48'}}></i></button>
+                <button onClick={() => setFactures(factures.filter(x => x.id !== f.id))} title="Supprimer"><i className="fa-solid fa-trash-can" style={{color: '#ef4444'}}></i></button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="col-date" data-label="Émission :">{f.date}</div>
-      <div className="col-actions">
-        <button onClick={() => downloadPDF(f)} title="Télécharger"><i className="fa fa-download" style={{color: '#e11d48'}}></i></button>
-        <button onClick={() => { setFormData(f); setIsEditing(true); setCurrentInvoiceId(f.id); setIsModalOpen(true); }} title="Modifier"><i className="fa-solid fa-pen-to-square" style={{color: '#2563eb'}}></i></button>
-        <button onClick={() => setFactures(factures.filter(x => x.id !== f.id))} title="Supprimer"><i className="fa-solid fa-trash-can" style={{color: '#ef4444'}}></i></button>
-      </div>
-    </div>
-  ))}
-</div>
-      </div>
+      <br /><br /><br /><br />
     </div>
   );
 }
