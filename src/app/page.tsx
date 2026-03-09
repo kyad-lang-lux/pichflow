@@ -383,7 +383,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
 
 <section className="testimonials reveal" id="testimonials">
   <div className="features-header">
-    <h3>Ce qu'ils <span>disent de nous</span></h3>
+    <h3>Ce qu'ils <br /> <span>disent de nous</span></h3>
     <p>Faites défiler pour découvrir les avis de nos utilisateurs.</p>
   </div>
 
@@ -468,7 +468,48 @@ Pichflow automatise le marketing, le copywriting et la facturation
           </span>
         </div>
       </section>
-      
+
+      {/* --- SECTION FAQ --- */}
+<section className="faq-section">
+  <div className="faq-container">
+    <div className="faq-header">
+      <span className="faq-badge">FAQ</span>
+      <h2>Questions <span>fréquentes</span> </h2>
+      <p>Tout ce que vous devez savoir sur PichFlow</p>
+    </div>
+
+    <div className="faq-list">
+      {[
+        { 
+          q: "Comment générer une facture ?", 
+          a: "Rendez-vous sur votre dashboard, remplissez les informations du formulaire et cliquez sur créer. Votre PDF est prêt instantanément." 
+        },
+        { 
+          q: "Mes données sont-elles sécurisées ?", 
+          a: "Oui, PichFlow utilise le stockage local de votre navigateur pour vos informations d'émetteur, garantissant ainsi votre confidentialité." 
+        },
+        { 
+          q: "Est-ce gratuit ?", 
+          a: "PichFlow propose une version gratuite pour la génération de factures standards avec toutes les fonctionnalités essentielles incluses." 
+        },
+        { 
+          q: "Puis-je l'utiliser sur mobile ?", 
+          a: "Absolument ! L'interface est optimisée pour smartphones afin de vous permettre de facturer même en déplacement." 
+        }
+      ].map((item, i) => (
+        <details key={i} className="faq-item">
+          <summary className="faq-question">
+            {item.q}
+            <i className="fa-solid fa-chevron-down"></i>
+          </summary>
+          <div className="faq-answer">
+            {item.a}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
 
       <section id="pricing" className="pricing reveal">
         <div className="pricing-header">

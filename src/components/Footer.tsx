@@ -6,13 +6,13 @@ export const Footer = () => {
       <div className="footer-container">
         {/* Colonne Logo & Description */}
         <div className="footer-brand">
-          <div className="footer-logo">
+          <div className="footer-logo"> 
             
             <Link href="/" className="logo" >
         <div className="logo-icon">
           <i className="fa-solid fa-circle-nodes"></i>
         </div>
-        <span className="logo-text">
+        <span >
           Pich<span className="blue-text">.Flow</span>
         </span>
       </Link>
