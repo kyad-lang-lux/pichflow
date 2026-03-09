@@ -9,7 +9,7 @@ export const Navbar = () => {
     setIsOpen(false);
   };
 
-  return (
+  return ( 
     <header className="header">
       <Link href="/" className="logo" onClick={closeMenu}>
         <div className="logo-icon">

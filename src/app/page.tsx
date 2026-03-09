@@ -39,15 +39,16 @@ export default function Home() {
 
         {/* Titre animé */}
         <h1 className="reveal delay-1">
-          Votre outil de croissance 
+          Votre <span className="span1"> outil </span>  de croissance 
           <br />
-          <span>  en un seul endroit </span> <br /> 
+          <span className="span2">  en un seul endroit. </span> <br /> 
         </h1>
 
         {/* Sous-titre animé */}
         <p className="reveal delay-2">
-          Faites du contenu marketing et copywriting, de la facturation et de la
-          comptabilité avec Pichflow.
+          Une seule solution pour développer votre activité.
+Pichflow automatise le marketing, le copywriting et la facturation 
+ dans un interface simple .
         </p>
 
         {/* Boutons animés */}
@@ -467,6 +468,7 @@ export default function Home() {
           </span>
         </div>
       </section>
+      
 
       <section id="pricing" className="pricing reveal">
         <div className="pricing-header">
