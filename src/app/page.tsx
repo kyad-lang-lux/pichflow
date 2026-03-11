@@ -39,7 +39,7 @@ export default function Home() {
 
         {/* Titre animé */}
         <h1 className="reveal delay-1">
-          Votre <span className="span1"> outil </span>  de croissance 
+          Votre <span className="span1">outil </span>  de croissance 
           <br />
           <span className="span2">  en un seul endroit. </span> <br /> 
         </h1>
@@ -179,6 +179,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
           </div>
         </div>
         <br /> <br />
+        
         <div className="features-tt-container reveal">
           <div className="features-tt-slider"> 
             <div className="sub1">
@@ -319,11 +320,13 @@ Pichflow automatise le marketing, le copywriting et la facturation
 
   {/* Bouton d'action en bas */}
   <div className="magic-action">
-    <a href="/inscription" className="btn-primary">
-      Commencer maintenant <i className="fa-solid fa-bolt"></i>
-    </a>
+    <a href="/inscription" className="btn-prima btn-black-border">
+  Commencer maintenant 
+  <i className="fa-solid fa-arrow-right-long icon-go"></i>
+</a>
   </div> <br />
 </section>
+
 
       <section className="showcase-section reveal">
         <div className="showcase-container">
@@ -451,23 +454,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
 </section>
 
 
-      <section className="final-cta reveal">
-        <div className="cta-content">
-          <h2>Prêt à propulser votre activité ?</h2>
-          <p>
-            Rejoignez plus de 2,300 professionnels qui automatisent leur
-            quotidien avec PitchFlow.
-          </p>
-          <div className="hero-btns">
-            <a href="/inscription" className="btn-white">
-              Essayer gratuit <i className="fa-solid fa-rocket"></i>
-            </a>
-          </div>
-          <span className="no-card">
-            Aucune carte de crédit requise pour l'essai.
-          </span>
-        </div>
-      </section>
+    
 
       {/* --- SECTION FAQ --- */}
 <section className="faq-section">
@@ -477,7 +464,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
       <h2>Questions <span>fréquentes</span> </h2>
       <p>Tout ce que vous devez savoir sur PichFlow</p>
     </div>
-
+ 
     <div className="faq-list">
       {[
         { 
@@ -510,6 +497,27 @@ Pichflow automatise le marketing, le copywriting et la facturation
     </div>
   </div>
 </section>
+
+
+  <section className="final-cta reveal">
+        <div className="cta-content">
+          <h2>Prêt à propulser votre activité ?</h2>
+          <p>
+            Rejoignez plus de 2,300 professionnels qui automatisent leur
+            quotidien avec PitchFlow.
+          </p>
+          <div className="hero-btns">
+            <a href="/inscription" className="btn-white">
+              Essaie gratuit <i className="fa-solid fa-rocket"></i>
+            </a>
+          </div>
+          <span className="no-card">
+            Aucune carte de crédit requise pour l'essai.
+          </span>
+        </div>
+      </section>
+
+
 
       <section id="pricing" className="pricing reveal">
         <div className="pricing-header">

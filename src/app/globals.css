@@ -290,17 +290,19 @@ body {
   color: var(--primary);
   padding: 6px 14px;
   border-radius: 50px;
-  font-size: .8rem;
+  font-size: .7rem;
   font-weight: bold;
   backdrop-filter: blur(50px);
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
+  /* font-family: 'Playfair Display', serif; */
+  /* font-style: italic; */
   display: inline-flex;
   border: 1px solid #e6e8ec;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
   background: #fff;
   margin-bottom: .6rem;
+  background: #000;
+  color: #fff;
 }
 
 .hero h1 {
@@ -531,7 +533,7 @@ body {
   }
   .hero .delay-1 {
     width: 100%;
-    margin-bottom: 7px;
+    margin-bottom: 0px;
     line-height: 45px;
     font-size: 55px;
     font-weight: 900;
@@ -560,14 +562,14 @@ body {
   background: var(--accent);
   background: #000;
   color: white;
-  padding: 1rem 1rem;
+  padding: .9rem 1.2rem;
   width: fit-content;
   font-size: .9rem;
  
 } 
 .hero .delay-3 .btn-outline {
   border: 1px solid #e2e8f0;
-  padding: .9rem .8rem;
+  padding: .8rem .8rem;
   backdrop-filter: blur(50px);
   font-size: .95rem;
   width: fit-content;
@@ -685,19 +687,19 @@ body {
 .features::after {
   content: "";
   position: absolute;
-  width: 350px; 
-  height: 350px;
+  width: 200px; 
+  height: 200px;
   border-radius: 50%;
-  filter: blur(130px);
+  filter: blur(150px);
   z-index: -1;
-  opacity: 0.5; /* Un peu plus discret pour ne pas gêner la lecture des cartes */
+  opacity: 0.3; /* Un peu plus discret pour ne pas gêner la lecture des cartes */
   pointer-events: none;
 }
 
 /* Lueur Orange à gauche (en haut de section) */
 .features::before {
   background: var(--accent-orange, #f5690b);
-  top: 100px;
+  top: 150px;
   left: -15%;
 }
 
@@ -706,6 +708,7 @@ body {
   background: var(--primary-blue, #2563eb);
   bottom: 0;
   right: -15%;
+  display: none;
 }
 
 /* --- ADAPTATION RESPONSIVE --- */
@@ -786,7 +789,7 @@ body {
   width: 100%;
   background: transparent;
     overflow: hidden;
-    backdrop-filter: blur(50px);
+    backdrop-filter: blur(100px);
     padding: 30px 0;
     position: relative;
 }
@@ -809,12 +812,14 @@ body {
     align-items: flex-start; /* Aligne l'icône en haut */
     gap: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    opacity: .8;
 }
 
 .sub1 i {
     color: #2563eb;
     font-size: 1.4rem;
-    margin-top: 3px;
+    color: #000;
+    margin-top: 15px;
 }
 
 .sub1-content {
@@ -2073,6 +2078,7 @@ color: red;}
     left: 50%;
     transform: translateX(-50%);
     background: #2563eb;
+    background: #000;
     color: white;
     width: 36px;
     height: 36px;
@@ -2088,6 +2094,7 @@ color: red;}
 .step-icon {
     font-size: 2.5rem;
     color: #2563eb;
+    color: #000;
     margin-bottom: 20px;
     background: white;
     width: 80px;
@@ -2116,16 +2123,18 @@ color: red;}
    SECTION : CTA FINAL (FINAL CALL TO ACTION)
    ============================================================ */
 .final-cta {
-    padding: 100px 5%;
+    /* padding: 100px 5%; */
     text-align: center;
 }
 
 .cta-content {
     background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-    border-radius: 40px;
+    background: #000;
+    border-radius: 0px;
     padding: 80px 40px;
     color: white;
-    max-width: 1100px;
+    /* max-width: 1100px; */
+    width: 100%;
     margin: 0 auto;
     position: relative;
     overflow: hidden;
@@ -2138,8 +2147,8 @@ color: red;}
     position: absolute;
     top: -50%;
     left: -10%;
-    width: 300px;
-    height: 300px;
+    width: 350px;
+    height: 400px;
     background: rgba(255,255,255,0.1);
     border-radius: 50%;
 }
@@ -2161,6 +2170,8 @@ color: red;}
 .btn-white {
     background: white;
     color: #2563eb;
+    background: var(--accent);
+    color: #fff;
     padding: 18px 45px;
     border-radius: 16px;
     font-weight: 700;
@@ -2178,6 +2189,7 @@ color: red;}
     transform: scale(1.05);
     box-shadow: 0 10px 25px rgba(255,255,255,0.3);
     background: #f8fafc;
+    color: #000;
 }
 
 .no-card {
@@ -2207,10 +2219,12 @@ color: red;}
     .how-it-works, .final-cta {
         padding: 60px 20px;
     }
-
+    .final-cta {
+      padding:0;
+    }
     .cta-content {
         padding: 50px 20px;
-        border-radius: 30px;
+        border-radius: 0px;
     }
 
     .cta-content h2 {
@@ -2244,18 +2258,6 @@ color: red;}
     margin-bottom: 0;
 }
 
-/* .showcase-container::before,
-.showcase-container::after {
-  content: "";
-  position: absolute;
-  width: 350px; 
-  height: 350px;
-  border-radius: 50%;
-  filter: blur(130px);
-  z-index: -1;
-  opacity: 0.5; 
-  pointer-events: none;
-} */
 
 /* Lueur Orange à gauche (en haut de section) */
 .showcase-container::before {
@@ -2892,7 +2894,7 @@ color: red;}
 .faq-item {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
-  border-radius: 20px;
+  border-radius: 40px;
   padding: 10px;
   transition: all 0.3s ease;
 }
@@ -2950,4 +2952,35 @@ color: red;}
   .faq-question {
     font-size: .8rem;
   }
+}
+
+
+
+.btn-black-border {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #000000 !important; 
+  color: #ffffff !important;           /* Texte blanc */
+  padding: 14px 28px;
+  border-radius: 50px;                 /* Arrondi style pilule */
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid #111111;           /* Bordure grise foncée */
+  transition: all 0.3s ease;
+}
+
+.btn-black-border:hover {
+  background-color: #000!important; /* Légèrement plus clair au survol */
+  border-color: #000;               /* La bordure devient rose PichFlow au survol */
+  transform: translateY(-2px);
+}
+
+.icon-go {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.btn-black-border:hover .icon-go {
+  transform: translateX(5px);          /* L'icône bouge vers la droite au survol */
 }
