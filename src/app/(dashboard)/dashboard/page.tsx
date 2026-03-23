@@ -35,7 +35,7 @@ export default function DashboardPage() {
 
   return (
     <div className="dashboard-home">
-        <h3 className="welcome"> Bienvenu(e) dans votre tableau de bord <span>... </span> </h3> <br />
+        <h3 className="welcome"> Bienvenu(e) dans votre tableau de bord <span>... </span> </h3> 
       <div className="tools-grid"> 
         {tools.map((tool, index) => (
           <div key={index} className="tool-card">

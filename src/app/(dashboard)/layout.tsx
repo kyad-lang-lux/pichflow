@@ -44,10 +44,12 @@ export default function DashboardLayout({
       <aside className="sidebar">
         <div className="sidebar-header">
           <Link href="/dashboard" className="logo">
-            <div className="logo-icon"> 
+            {/* <div className="logo-icon"> 
               <i className="fa-solid fa-circle-nodes"></i>
-            </div>
-            <span className="logo-text">Pich.Flow</span>
+            </div> */}
+            <span className="logo-text">
+          <span className="ft" >ll</span>Pich<span className="blue-text">Flow</span>
+        </span>
           </Link>
         </div>
 

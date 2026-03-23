@@ -319,12 +319,12 @@ Pichflow automatise le marketing, le copywriting et la facturation
   </div>
 
   {/* Bouton d'action en bas */}
-  <div className="magic-action">
+  {/* <div className="magic-action">
     <a href="/inscription" className="btn-prima btn-black-border">
   Commencer maintenant 
   <i className="fa-solid fa-arrow-right-long icon-go"></i>
 </a>
-  </div> <br />
+  </div> <br /> */}
 </section>
 
 
@@ -498,7 +498,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
   </div>
 </section>
 
-
+ 
   <section className="final-cta reveal">
         <div className="cta-content">
           <h2>Prêt à propulser votre activité ?</h2>
@@ -656,5 +656,5 @@ Pichflow automatise le marketing, le copywriting et la facturation
         <i className="fa-solid fa-circle-arrow-up"></i>
       </a>
     </main>
-  );
+  ); 
 }

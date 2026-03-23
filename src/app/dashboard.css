@@ -6,10 +6,10 @@
 
 /* --- 1. VARIABLES ET RÉINITIALISATION --- */
 :root {
-  --primary-blue: #2563EB;
+  --primary-blue: #3225eb;
   --sidebar-dark: #0F172A;
   --bg-light: #F8FAFC;
-  --text-main: #1E293B;
+  --text-main: #1E293B; 
   --text-muted: #64748B;
   --border-light: #E2E8F0;
   --white: #FFFFFF;
@@ -54,10 +54,13 @@ body {
   width: 32px; height: 32px; border-radius: 8px;
   display: flex; align-items: center; justify-content: center; color: var(--white);
 }
-.logo-text { font-weight: 700; font-size: 1.2rem; color: var(--white); }
+.logo-text { font-weight: 700; font-size: 1.5rem; color: var(--white); }
 
 .sidebar-menu { padding: 10px 16px; display: flex; flex-direction: column; height: 100%; }
 
+.logo .logo-text .ft {
+  color: #fff;
+}
 .menu-item {
   display: flex; align-items: center; gap: 10px; padding: 12px 16px;
   color: #94A3B8; text-decoration: none; border-radius: 12px;
@@ -85,7 +88,7 @@ body {
 .dashboard-main { margin-left: 260px; flex: 1; background-color: var(--bg-light); }
 
 .topbar {
-  background: var(--white); padding: 16px 40px;
+  background: var(--white); padding: 10px 40px;
   display: flex; justify-content: space-between; align-items: center;
   border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 90;
 }
@@ -146,7 +149,7 @@ body {
 .ia-textarea { height: 120px; resize: none; }
 
 .btn-generate {
-  width: 100%; background: linear-gradient(135deg, #FF7A30, #FB923C);
+  width: 100%; 
   color: white; border: none; padding: 15px; border-radius: 12px;
   font-weight: 700; font-size: 1rem; cursor: pointer; display: flex;
   align-items: center; justify-content: center; gap: 10px; 
@@ -240,13 +243,13 @@ padding: 0; }
   max-width: 600px !important; 
   width: 96% !important; 
   border-radius: 24px !important; 
-  padding: 15px !important;
+  padding: 12px !important;
 }
 
 .modern-form { 
   display: flex; 
   flex-direction: column; 
-  gap: 10px; 
+  gap: 5px; 
 }
 
 .main-input { 
@@ -254,7 +257,7 @@ padding: 0; }
   padding: 10px; 
   border: 1px solid #e2e8f0; 
   border-radius: 12px; 
-  font-size: 1rem; 
+  font-size: .9rem; 
   outline: none;
   transition: border-color 0.2s;
 }
@@ -268,7 +271,7 @@ padding: 0; }
 }
 
 .form-section .row input, .row select { 
-  padding: 10px; 
+  padding: 7px; 
   margin-top: 5px;
   border: 1px solid #e2e8f0; 
   border-radius: 12px; 
@@ -477,9 +480,9 @@ padding: 0; }
     /* border-bottom: 3px solid #d9e0e7; */
     background-color: #fff;
   } 
-  .tab-item {margin-bottom: 0; display: flex; flex-direction: column; align-items: center; color: rgb(56, 55, 55); text-decoration: none; font-size: 1.5rem; gap: 4px; flex: 1; position: relative; font-weight: 800; }
-  .tab-item.active { color: #2563eb; font-weight: bold;   bottom: 12px; gap: 2px; font-weight: bold; }
-  .tab-item.active::before { content: ' '; position: absolute; bottom: -13px;  width: 60%; height: 7px; background: #2563EB; border-radius: 5px 5px 0 0; box-shadow: 0 0 15px #2563eb, 0 0 12px #2563eb, 0 0 12px #2563eb inset;}
+  .tab-item {margin-bottom: 0; display: flex; flex-direction: column; align-items: center; color: #000; text-decoration: none; font-size: 1.5rem; gap: 0px; flex: 1; position: relative; font-weight: 800; }
+  .tab-item.active { color: #2563eb; font-weight: bold;   bottom: 8px; gap: 0px; font-weight: bold; }
+  .tab-item.active::before { content: ' '; position: absolute; bottom: -9px;  width: 60%; height: 6px; background: #2563EB; border-radius: 5px 5px 0 0; box-shadow: 0 0 15px #2563eb, 0 0 12px #2563eb, 0 0 12px #2563eb inset;}
  .mobile-tab-bar span {
   /* display: none; */ 
   font-size: .71rem;
@@ -550,9 +553,8 @@ padding: 0; }
   margin: auto;
   width: 100%;
 border: 0;
-padding: 10px;
+padding: 8px;
 border-radius: 50%;
-background: linear-gradient(135deg, #FB923C, #3B82F6);
 background: #000;
 cursor: pointer;
 color: #fff;
@@ -824,7 +826,7 @@ width: 20px;
   margin: auto;
   width: 100%;
 border: 0;
-padding: 8px;
+padding: 4px;
 border-radius: 50%;
 /* background: #FB923C; */
 background: linear-gradient(135deg, #FB923C, #3B82F6);
@@ -922,7 +924,7 @@ font-weight: bold;
 .status-late { background: #fff5f5; color: #c53030; }
 
 /* --- MODAL --- */
-.modal-overlay {
+.modal-overlay { 
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.5);
@@ -935,7 +937,7 @@ font-weight: bold;
 
 .modal-content {
   background: white;
-  padding: 25px;
+  padding: 20px;
   border-radius: 12px;
   width: 90%;
   max-width: 500px;

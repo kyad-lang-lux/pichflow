@@ -7,7 +7,7 @@
 
 
 :root {
-  --primary: #2563eb;
+  --primary: #2532eb;
   --secondary: #1e3a8a;
   --text-grey: #64748b;
   --white: #ffffff;
@@ -91,29 +91,40 @@ body {
 
 .logo-icon {
   background: var(--primary);
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
   color: white;
+  transform: rotateZ(0deg);
+  /* display: none; */
   /* margin-right: 5px; */
+
 }
 
 .logo-text {
   font-weight: 900;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: #0f172a;
   font-family: "Poppins", sans-serif;
   letter-spacing: 0px;
 
-  white-space: nowrap;           /* empêche le retour à la ligne */
-  overflow: hidden;              /* cache le texte non écrit */
-  width: 0;                      /* départ du texte invisible */
-  animation: typing 1s steps(30, end) forwards; /* steps = nb de lettres */
+  white-space: nowrap;           
+  overflow: hidden;              
+  width: 0;                   
+  animation: typing 1s steps(30, end) forwards; 
 }
 
+.logo .logo-text .ft {
+  font-size: 23px;
+  gap: 0px;
+  color: #000;
+  letter-spacing: -.9px;
+  font-weight: 800;
+  margin: 0px;
+}
 @keyframes typing {
   0% {
     width: 0;
@@ -125,7 +136,7 @@ body {
 
 .logo-text span {
   color: var(--primary);
-  letter-spacing: -.8;
+  letter-spacing: 0;
 }
 
 
@@ -170,14 +181,15 @@ body {
   color: #0f172a;
   font-weight: 600;
   /* background: #eeeff1; */
-  border: 2px solid #eeeff1;
-  padding: 0.5rem 0.8rem;
+  border: 1px solid #eeeff1;
+  padding: 0.5rem 0.9rem;
   font-size: 1rem;
   border-radius: 10px;
   display: flex;
   border-radius: 50px;
   align-items: center;
   gap: 6px;
+  transition: .5s ease;
 }
 
  .btn-primary {
@@ -197,7 +209,12 @@ body {
     box-shadow: 0 5px 2px #b3b1b1;
 }
 
-
+.btn-text:hover {
+   transform: translateY(-2px);
+   background: #1d4ed8;
+   color: #fff;
+   padding: 0.6rem 1rem;
+}
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(255, 122, 48, 0.3);
@@ -1222,10 +1239,11 @@ body {
 .footer-logo span {
   color: white;
   font-weight: 700;
-  font-size: 1.2rem;
   letter-spacing: -0.5px;
 }
-
+.footer-container .logo .logo-text .ft{
+color: #fff;
+}
 .footer-brand p {
   line-height: 1.6;
   max-width: 320px;

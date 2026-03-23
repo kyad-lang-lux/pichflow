@@ -7,16 +7,16 @@ export const Navbar = () => {
 
   const closeMenu = () => {
     setIsOpen(false);
-  };
+  }; 
 
   return ( 
     <header className="header">
       <Link href="/" className="logo" onClick={closeMenu}>
-        <div className="logo-icon">
+        {/* <div className="logo-icon">
           <i className="fa-solid fa-circle-nodes"></i> 
-        </div>
+        </div> */ }
         <span className="logo-text">
-          Pich<span className="blue-text">.Flow</span>
+          <span className="ft" >ll</span>Pich<span className="blue-text">Flow</span>
         </span>
       </Link>
 

@@ -9,11 +9,11 @@ export const Footer = () => {
           <div className="footer-logo"> 
             
             <Link href="/" className="logo" >
-        <div className="logo-icon">
+        {/* <div className="logo-icon">
           <i className="fa-solid fa-circle-nodes"></i>
-        </div>
-        <span >
-          Pich<span className="blue-text">.Flow</span>
+        </div> */}
+        <span className="logo-text">
+          <span className="ft" >ll</span>Pich<span className="blue-text">Flow</span>
         </span>
       </Link>
           </div>
