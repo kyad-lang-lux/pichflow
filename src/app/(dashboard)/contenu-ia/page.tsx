@@ -19,23 +19,21 @@ export default function ContenuIAPage() {
     { id: 'video', label: 'Script vidéo', icon: 'fa-video' },
   ];
 
-  // Fonction de nettoyage des caractères spéciaux (Markdown, astérisques, etc.)
+  // Fonction de nettoyage stricte pour un copier-coller parfait
   const cleanFormat = (text: string): string => {
     return text
-      .replace(/[*#_~`>]/g, '') // Supprime les symboles Markdown classiques
-      .replace(/\n{3,}/g, '\n\n') // Évite les trop grands espaces vides
+      .replace(/[#*`_~|>]/g, '') // Supprime les symboles Markdown
+      .replace(/\n{3,}/g, '\n\n') // Normalise les sauts de ligne
       .trim();
   };
 
-  // Fonction pour copier le texte avec un retour visuel
   const handleCopy = async () => {
     if (!generatedResult) return;
     await navigator.clipboard.writeText(generatedResult);
     setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000); // Reset après 2 secondes
+    setTimeout(() => setIsCopied(false), 2000);
   };
 
-  // Fonction pour télécharger le contenu en .txt
   const handleDownload = () => {
     if (!generatedResult) return;
     const blob = new Blob([generatedResult], { type: 'text/plain' });
@@ -49,37 +47,45 @@ export default function ContenuIAPage() {
     URL.revokeObjectURL(url);
   };
 
-  // 3. Fonction de génération (Simulation de l'appel API)
- const handleGenerate = async () => {
-  if (!prompt) return alert("Veuillez décrire un sujet !");
-  
-  setIsGenerating(true);
-  setGeneratedResult(''); 
-
-  try {
-    const res = await fetch('/api/generate-ai', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        prompt: prompt, 
-        systemPrompt: "Tu es un expert marketing." 
-      })
-    });
+  // 3. Fonction de génération améliorée
+  const handleGenerate = async () => {
+    if (!prompt) return alert("Veuillez décrire un sujet !");
     
-    const data = await res.json();
+    setIsGenerating(true);
+    setGeneratedResult(''); 
 
-    if (res.ok && data.content) {
-      setGeneratedResult(cleanFormat(data.content));
-    } else {
-      // Affiche l'erreur réelle pour comprendre le blocage
-      alert(`Erreur: ${data.error || "Impossible de générer le contenu"}`);
+    // On prépare un System Prompt qui verrouille le formatage
+    const systemInstructions = `Tu es un expert en marketing digital. 
+    Ton but est de rédiger un(e) ${selectedType} avec un ton ${tone}.
+    IMPORTANT : Ne fournis que le texte brut. N'utilise JAMAIS de symboles Markdown comme les astérisques (**) ou les hashtags (#). 
+    Utilise correctement les apostrophes, les accents et la ponctuation française. 
+    Rends le texte aéré, clair et facile à copier-coller.`;
+
+    try {
+      const res = await fetch('/api/generate-ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          prompt: `Sujet : ${prompt}`, 
+          systemPrompt: systemInstructions 
+        })
+      });
+      
+      const data = await res.json();
+
+      if (res.ok && data.content) {
+        // Double sécurité : nettoyage via cleanFormat
+        setGeneratedResult(cleanFormat(data.content));
+      } else {
+        alert(`Erreur: ${data.error || "Impossible de générer le contenu"}`);
+      }
+    } catch (error) {
+      alert("Erreur de connexion au serveur.");
+    } finally {
+      setIsGenerating(false);
     }
-  } catch (error) {
-    alert("Erreur de connexion au serveur.");
-  } finally {
-    setIsGenerating(false);
-  }
-};
+  };
+
   return (
     <div className="ia-page-container"> 
       {/* Colonne de gauche : Configuration */}
@@ -126,7 +132,7 @@ export default function ContenuIAPage() {
 
         <button 
           className="btn-generate" 
-          onClick={handleGenerate}
+          onClick={handleGenerate} 
           disabled={isGenerating}
         >
           {isGenerating ? (
@@ -183,9 +189,10 @@ export default function ContenuIAPage() {
             </div> 
           )}
         </div>
-      </div>
-      <br />
-        <br /> <br />
+        
+
+      </div> 
+      <br /> <br /> <br />
     </div>
   );
 }

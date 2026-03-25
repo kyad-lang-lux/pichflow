@@ -20,12 +20,14 @@ export default function CopywritingPage() {
     { id: 'BAB', title: 'BAB', desc: 'Avant, Après, Pont' },
   ];
 
-  // Nettoyage des caractères spéciaux Markdown
+  // Nettoyage complet : garde les accents/apostrophes, vire le reste (Markdown)
   const cleanFormat = (text: string): string => {
-    return text.replace(/[*#_~`>]/g, '').trim();
+    return text
+      .replace(/[#*`_~|>]/g, '') // Supprime les symboles parasites
+      .replace(/\n{3,}/g, '\n\n') // Évite les trop grands vides
+      .trim();
   };
 
-  // Gestion de la copie avec Fallback
   const handleCopy = async () => {
     if (!generatedResult) return;
     try {
@@ -46,7 +48,6 @@ export default function CopywritingPage() {
     }
   };
 
-  // Téléchargement en .txt
   const handleDownload = () => {
     if (!generatedResult) return;
     const blob = new Blob([generatedResult], { type: 'text/plain' });
@@ -58,22 +59,23 @@ export default function CopywritingPage() {
     URL.revokeObjectURL(url);
   };
 
-  // Fonction de génération connectée à ton API Gemini
   const handleGenerate = async () => {
     if (!product) return alert("Veuillez décrire votre produit !");
     
     setIsGenerating(true);
     setGeneratedResult('');
 
-    // Instructions précises pour Gemini
-    const systemInstructions = `Tu es un copywriter expert spécialisé dans la conversion. 
-    Ton but est de rédiger une ${type} en utilisant rigoureusement la méthode ${activeMethod}. 
-    Le ton doit être ${objective}.`;
+    // Instructions de propreté et de structure
+    const systemInstructions = `Tu es un copywriter expert. 
+    Rédige une ${type} en utilisant la méthode ${activeMethod}. 
+    Ton objectif est d'être ${objective}.
+    IMPORTANT : Ne fournis que du texte brut. INTERDICTION d'utiliser des hashtags (#) ou des astérisques (**) pour le gras. 
+    Utilise correctement les accents et les apostrophes. 
+    Le texte doit être aéré, professionnel et prêt à être copier-coller sans nettoyage manuel.`;
     
-    const userPrompt = `Rédige un texte de vente pour le produit/service suivant : ${product}. 
-    La cible est : ${target || 'tout le monde'}. 
-    Structure clairement le texte en indiquant les étapes de la méthode ${activeMethod} (ex: Attention, Intérêt...). 
-    Sois percutant et persuasif.`;
+    const userPrompt = `Produit/Service : ${product}. 
+    Cible : ${target || 'tout le monde'}. 
+    Structure le texte selon les étapes de la méthode ${activeMethod} sans utiliser de symboles Markdown.`;
 
     try {
       const res = await fetch('/api/generate-ai', {
@@ -86,15 +88,11 @@ export default function CopywritingPage() {
       });
       
       const data = await res.json();
-
       if (res.ok && data.content) {
         setGeneratedResult(cleanFormat(data.content));
-      } else {
-        alert("Erreur: " + (data.error || "Impossible de générer le texte."));
       }
     } catch (error) {
       console.error(error);
-      alert("Erreur de connexion au serveur.");
     } finally {
       setIsGenerating(false);
     }
@@ -193,7 +191,13 @@ export default function CopywritingPage() {
           </div>
 
           {generatedResult ? (
-            <div className="result-content" style={{ whiteSpace: 'pre-wrap', color: 'var(--text-main)', fontSize: '0.95rem', lineHeight: '1.6' }}>
+            <div className="result-content" style={{ 
+              whiteSpace: 'pre-wrap', 
+              color: 'var(--text-main)', 
+              fontSize: '0.95rem', 
+              lineHeight: '1.6',
+              textAlign: 'justify' // Texte bien justifié
+            }}>
               {generatedResult}
             </div>
           ) : (
@@ -213,10 +217,7 @@ export default function CopywritingPage() {
             </div>
           )}
         </div>
-
-        <br />
-        <br /> <br />
-      </div>
-    </div>
+      </div> <br /> <br /> <br />
+    </div> 
   );
 }
