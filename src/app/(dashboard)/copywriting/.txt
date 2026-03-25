@@ -15,17 +15,15 @@ export default function CopywritingPage() {
   const [isCopied, setIsCopied] = useState(false);
 
   const methods = [
-    { id: 'AIDA', title: 'AIDA', desc: 'Attention, Interest, Desire, Action' },
-    { id: 'PAS', title: 'PAS', desc: 'Problem, Agitation, Solution' },
-    { id: 'BAB', title: 'BAB', desc: 'Avant, Après, Pont' },
+    { id: 'AIDA', title: 'AIDA', desc: 'Attention, Intérêt, Désir, Action' },
+    { id: 'PAS', title: 'PAS', desc: 'Problème, Agitation, Solution' },
+    { id: 'BAB', title: 'BAB', desc: 'Before, After, Bridge' },
   ];
 
-  // Nettoyage des caractères spéciaux Markdown
   const cleanFormat = (text: string): string => {
     return text.replace(/[*#_~`>]/g, '').trim();
   };
 
-  // Gestion de la copie avec Fallback
   const handleCopy = async () => {
     if (!generatedResult) return;
     try {
@@ -46,7 +44,6 @@ export default function CopywritingPage() {
     }
   };
 
-  // Téléchargement en .txt
   const handleDownload = () => {
     if (!generatedResult) return;
     const blob = new Blob([generatedResult], { type: 'text/plain' });
@@ -58,22 +55,22 @@ export default function CopywritingPage() {
     URL.revokeObjectURL(url);
   };
 
-  // Fonction de génération connectée à ton API Gemini
+  // 3. LOGIQUE DE GÉNÉRATION (Connectée à ton API Gemini)
   const handleGenerate = async () => {
     if (!product) return alert("Veuillez décrire votre produit !");
     
     setIsGenerating(true);
     setGeneratedResult('');
 
-    // Instructions précises pour Gemini
-    const systemInstructions = `Tu es un copywriter expert spécialisé dans la conversion. 
-    Ton but est de rédiger une ${type} en utilisant rigoureusement la méthode ${activeMethod}. 
-    Le ton doit être ${objective}.`;
+    // Instructions système spécifiques au Copywriting
+    const systemInstructions = `Tu es un copywriter expert. 
+    Ta mission est de rédiger une ${type} en utilisant STRICTEMENT la méthode ${activeMethod}. 
+    Le ton doit être ${objective}. 
+    Structure ta réponse avec les titres de la méthode (ex: ATTENTION, INTERET...) mais sans symboles Markdown.`;
     
-    const userPrompt = `Rédige un texte de vente pour le produit/service suivant : ${product}. 
-    La cible est : ${target || 'tout le monde'}. 
-    Structure clairement le texte en indiquant les étapes de la méthode ${activeMethod} (ex: Attention, Intérêt...). 
-    Sois percutant et persuasif.`;
+    const userPrompt = `Produit/Service : ${product}. 
+    Cible : ${target || 'Public général'}. 
+    Rédige un texte de vente percutant et persuasif.`;
 
     try {
       const res = await fetch('/api/generate-ai', {
@@ -86,14 +83,14 @@ export default function CopywritingPage() {
       });
       
       const data = await res.json();
-
+      
       if (res.ok && data.content) {
         setGeneratedResult(cleanFormat(data.content));
       } else {
-        alert("Erreur: " + (data.error || "Impossible de générer le texte."));
+        alert("Erreur: " + (data.error || "L'IA ne répond pas."));
       }
     } catch (error) {
-      console.error(error);
+      console.error("Erreur front:", error);
       alert("Erreur de connexion au serveur.");
     } finally {
       setIsGenerating(false);
@@ -113,21 +110,22 @@ export default function CopywritingPage() {
             <option>Landing page</option>
             <option>Publicité Facebook</option>
             <option>Fiche produit</option>
+            <option>Email de prospection</option>
           </select>
         </div>
 
         <div className="config-section">
           <h4>Méthode de copywriting</h4>
-          <div className="method-grid" style={{ gap: '10px' }}>
+          <div className="method-grid" style={{ gap: '10px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))' }}>
             {methods.map((method) => (
               <div 
                 key={method.id}
                 className={`method-card ${activeMethod === method.id ? 'active' : ''}`}
                 onClick={() => setActiveMethod(method.id)}
-                style={{ padding: '12px', minWidth: '0', cursor: 'pointer' }}
+                style={{ padding: '12px', cursor: 'pointer', border: activeMethod === method.id ? '2px solid var(--primary-blue)' : '1px solid #ddd', borderRadius: '8px' }}
               >
-                <span className="method-title" style={{ fontSize: '0.9rem' }}>{method.title}</span>
-                <span className="method-desc" style={{ fontSize: '0.65rem' }}>{method.desc}</span>
+                <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{method.title}</div>
+                <div style={{ fontSize: '0.65rem', opacity: 0.8 }}>{method.desc}</div>
               </div>
             ))}
           </div>
@@ -137,8 +135,8 @@ export default function CopywritingPage() {
           <h4><i className="fa-solid fa-bolt-lightning" style={{color: '#FF7A30', marginRight: '8px'}}></i> Produit / Service</h4>
           <textarea 
             className="ia-textarea" 
-            placeholder="Décrivez votre produit..."
-            style={{ width: '100%' }}
+            placeholder="Ex: Une application de gestion de factures pour freelances au Bénin..."
+            style={{ width: '100%', minHeight: '100px' }}
             value={product}
             onChange={(e) => setProduct(e.target.value)}
           ></textarea>
@@ -149,7 +147,7 @@ export default function CopywritingPage() {
           <input 
             type="text" 
             className="ia-input" 
-            placeholder="Ex: Entrepreneurs..." 
+            placeholder="Ex: Entrepreneurs, PME..." 
             style={{ width: '100%' }}
             value={target}
             onChange={(e) => setTarget(e.target.value)}
@@ -161,61 +159,60 @@ export default function CopywritingPage() {
           <select className="ia-select" value={objective} onChange={(e) => setObjective(e.target.value)}>
             <option>Professionnel</option>
             <option>Persuasif</option>
-            <option>Urgent</option>
+            <option>Urgent & Direct</option>
+            <option>Amical & Bienveillant</option>
           </select>
         </div>
 
-        <button className="btn-generate" onClick={handleGenerate} disabled={isGenerating}>
+        <button className="btn-generate" onClick={handleGenerate} disabled={isGenerating} style={{ width: '100%', padding: '15px', marginTop: '10px' }}>
           {isGenerating ? (
-            <><i className="fa-solid fa-spinner fa-spin"></i> Génération...</>
+            <><i className="fa-solid fa-spinner fa-spin"></i> Génération en cours...</>
           ) : (
-            <><i className="fa-solid fa-pen-nib"></i> Générer le copy</>
+            <><i className="fa-solid fa-pen-nib"></i> Générer le texte de vente</>
           )}
         </button>
       </div>
 
       {/* Aperçu Droite */}
       <div className="ia-result-side" style={{ width: '100%', minWidth: '0' }}>
-        <div className="result-card" style={{ padding: '20px', minHeight: 'auto', display: 'flex', flexDirection: 'column' }}>
+        <div className="result-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', height: '100%' }}>
           
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-            <h4>Texte généré</h4>
+            <h4 style={{ margin: 0 }}>Aperçu du Copy</h4>
             {generatedResult && (
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button onClick={handleCopy} style={{ background: 'none', border: 'none', color: isCopied ? '#10B981' : 'var(--primary-blue)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' }}>
+              <div style={{ display: 'flex', gap: '15px' }}>
+                <button onClick={handleCopy} style={{ background: 'none', border: 'none', color: isCopied ? '#10B981' : '#2563EB', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 'bold' }}>
                   <i className={isCopied ? "fa-solid fa-check" : "fa-regular fa-copy"}></i> {isCopied ? 'Copié' : 'Copier'}
                 </button>
-                <button onClick={handleDownload} style={{ background: 'none', border: 'none', color: 'var(--primary-blue)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' }}>
+                <button onClick={handleDownload} style={{ background: 'none', border: 'none', color: '#2563EB', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 'bold' }}>
                   <i className="fa-solid fa-download"></i> .TXT
                 </button>
               </div>
             )}
           </div>
 
-          {generatedResult ? (
-            <div className="result-content" style={{ whiteSpace: 'pre-wrap', color: 'var(--text-main)', fontSize: '0.95rem', lineHeight: '1.6' }}>
-              {generatedResult}
-            </div>
-          ) : (
-            <div className="empty-result" style={{ padding: '30px', textAlign: 'center' }}>
-              {isGenerating ? (
-                <div className="loading-animation">
-                   <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '2rem', color: 'var(--primary-blue)' }}></i>
-                   <p>Rédaction du copy en cours...</p>
-                </div>
-              ) : (
-                <>
-                  <div className="empty-icon"><i className="fa-solid fa-pen-fancy"></i></div>
-                  <p style={{ fontSize: '0.9rem' }}>Votre texte de vente apparaîtra ici</p>
-                  <span className="empty-subtext" style={{ fontSize: '0.75rem' }}>Utilisez les méthodes AIDA, PAS ou BAB</span>
-                </>
-              )}
-            </div>
-          )}
+          <div style={{ flex: 1, backgroundColor: '#f9fafb', borderRadius: '8px', padding: '15px', border: '1px solid #e5e7eb' }}>
+            {generatedResult ? (
+              <div style={{ whiteSpace: 'pre-wrap', color: '#374151', fontSize: '1rem', lineHeight: '1.6' }}>
+                {generatedResult}
+              </div>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '40px', color: '#9ca3af' }}>
+                {isGenerating ? (
+                   <div className="loading-animation">
+                      <i className="fa-solid fa-wand-sparkles fa-bounce" style={{ fontSize: '2rem', color: '#2563EB' }}></i>
+                      <p style={{ marginTop: '15px' }}>Gemini rédige votre argumentaire de vente...</p>
+                   </div>
+                ) : (
+                  <>
+                    <i className="fa-solid fa-pen-fancy" style={{ fontSize: '2.5rem', marginBottom: '15px', display: 'block' }}></i>
+                    <p>Entrez les détails à gauche pour générer un texte persuasif.</p>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-
-        <br />
-        <br /> <br />
       </div>
     </div>
   );

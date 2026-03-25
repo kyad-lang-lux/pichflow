@@ -164,7 +164,7 @@ export default function FacturesPage() {
       prestations:[{description:'', prixUnitaire:0, quantite:1}]
     });
   };
-
+ 
   const filtered = factures.filter(f => f.client.toLowerCase().includes(searchTerm.toLowerCase()));
 const removePrestationLine = (index: number) => {
   const newPrestations = formData.prestations.filter((_, i) => i !== index);
@@ -273,7 +273,7 @@ const removePrestationLine = (index: number) => {
           <input type="text" placeholder="Rechercher un client..." value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} />
         </div>
         <button className="btn-new" onClick={() => { setIsModalOpen(true); }}>
-          + Nouvelle Facture
+          + Nouvelle Facture 
         </button>
       </div>
 

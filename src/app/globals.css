@@ -1355,7 +1355,7 @@ color: #fff;
 .auth-container {
   display: flex;
   min-height: 100vh;
-  width: 100%;
+  width: 90%;
 }
 
 /* Côté Formulaire */
@@ -1372,7 +1372,7 @@ color: #fff;
 }
 
 .auth-content {
-  max-width: 400px;
+  max-width: 360px;
   margin: 0 auto;
   width: 100%;
 }
@@ -1420,7 +1420,7 @@ color: #fff;
 
 .input-wrapper input {
   width: 100%;
-  padding: 12px 12px 12px 45px;
+  padding: 10px 10px 10px 45px;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
   font-family: inherit;
@@ -1435,13 +1435,13 @@ color: #fff;
 }
 
 .btn-auth-submit {
-  background: var(--accent); /* Orange */
+  background: var(--primary); /* Orange */
   color: white;
   border: none;
   padding: 14px;
-  border-radius: 10px;
+  border-radius: 20px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
   display: flex;
   align-items: center;

@@ -50,26 +50,36 @@ export default function ContenuIAPage() {
   };
 
   // 3. Fonction de génération (Simulation de l'appel API)
-  const handleGenerate = async () => {
-    if (!prompt) return alert("Veuillez décrire un sujet !");
+ const handleGenerate = async () => {
+  if (!prompt) return alert("Veuillez décrire un sujet !");
+  
+  setIsGenerating(true);
+  setGeneratedResult(''); 
+
+  try {
+    const res = await fetch('/api/generate-ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        prompt: prompt, 
+        systemPrompt: "Tu es un expert marketing." 
+      })
+    });
     
-    setIsGenerating(true);
-    setGeneratedResult(''); 
+    const data = await res.json();
 
-    try {
-      // Simulation d'attente (Ici sera fait le fetch vers le backend)
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const rawFakeResult = `TITRE : L'AVENIR DU MARKETING EN 2026\n\nLe marketing digital évolue rapidement. Avec PitchFlow, vous optimisez votre temps. Cette approche permet de générer des contenus percutants sans effort.`;
-      
-      setGeneratedResult(cleanFormat(rawFakeResult));
-    } catch (error) {
-      console.error("Erreur lors de la génération:", error);
-    } finally {
-      setIsGenerating(false);
+    if (res.ok && data.content) {
+      setGeneratedResult(cleanFormat(data.content));
+    } else {
+      // Affiche l'erreur réelle pour comprendre le blocage
+      alert(`Erreur: ${data.error || "Impossible de générer le contenu"}`);
     }
-  };
-
+  } catch (error) {
+    alert("Erreur de connexion au serveur.");
+  } finally {
+    setIsGenerating(false);
+  }
+};
   return (
     <div className="ia-page-container"> 
       {/* Colonne de gauche : Configuration */}
