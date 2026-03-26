@@ -19,11 +19,26 @@ export default function ContenuIAPage() {
     { id: 'video', label: 'Script vidéo', icon: 'fa-video' },
   ];
 
-  // Fonction de nettoyage stricte pour un copier-coller parfait
+  // Composant Loader Noir Solid
+  const SolidBlackLoader = ({ size = "20px" }) => (
+    <div style={{
+      width: size,
+      height: size,
+      border: '3px solid #000',
+      borderBottomColor: 'transparent',
+      borderRadius: '50%',
+      display: 'inline-block',
+      animation: 'rotation 1s linear infinite'
+    }}>
+      <style>{`@keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
+
+  // Fonction de nettoyage (garde accents et apostrophes)
   const cleanFormat = (text: string): string => {
     return text
       .replace(/[#*`_~|>]/g, '') // Supprime les symboles Markdown
-      .replace(/\n{3,}/g, '\n\n') // Normalise les sauts de ligne
+      .replace(/\n{3,}/g, '\n\n') // Évite les trop grands espaces
       .trim();
   };
 
@@ -47,19 +62,17 @@ export default function ContenuIAPage() {
     URL.revokeObjectURL(url);
   };
 
-  // 3. Fonction de génération améliorée
   const handleGenerate = async () => {
     if (!prompt) return alert("Veuillez décrire un sujet !");
     
     setIsGenerating(true);
     setGeneratedResult(''); 
 
-    // On prépare un System Prompt qui verrouille le formatage
     const systemInstructions = `Tu es un expert en marketing digital. 
-    Ton but est de rédiger un(e) ${selectedType} avec un ton ${tone}.
-    IMPORTANT : Ne fournis que le texte brut. N'utilise JAMAIS de symboles Markdown comme les astérisques (**) ou les hashtags (#). 
-    Utilise correctement les apostrophes, les accents et la ponctuation française. 
-    Rends le texte aéré, clair et facile à copier-coller.`;
+    Rédige un(e) ${selectedType} avec un ton ${tone}.
+    IMPORTANT : Ne fournis que le texte brut. N'utilise AUCUN symbole Markdown (pas de # ou de *). 
+    CONSIGNE STRICTE : Respecte parfaitement les accents (é, à, è, etc.) et les apostrophes. 
+    Le texte doit être clair, aéré et professionnel.`;
 
     try {
       const res = await fetch('/api/generate-ai', {
@@ -72,12 +85,8 @@ export default function ContenuIAPage() {
       });
       
       const data = await res.json();
-
       if (res.ok && data.content) {
-        // Double sécurité : nettoyage via cleanFormat
         setGeneratedResult(cleanFormat(data.content));
-      } else {
-        alert(`Erreur: ${data.error || "Impossible de générer le contenu"}`);
       }
     } catch (error) {
       alert("Erreur de connexion au serveur.");
@@ -108,11 +117,7 @@ export default function ContenuIAPage() {
 
         <div className="config-section">
           <h4>Ton du contenu</h4>
-          <select 
-            className="ia-select" 
-            value={tone} 
-            onChange={(e) => setTone(e.target.value)}
-          >
+          <select className="ia-select" value={tone} onChange={(e) => setTone(e.target.value)}>
             <option>Professionnel</option>
             <option>Amical</option>
             <option>Persuasif</option>
@@ -134,9 +139,10 @@ export default function ContenuIAPage() {
           className="btn-generate" 
           onClick={handleGenerate} 
           disabled={isGenerating}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
         >
           {isGenerating ? (
-            <><i className="fa-solid fa-spinner fa-spin"></i> Génération...</>
+            <><SolidBlackLoader size="16px" /> Génération...</>
           ) : (
             <><i className="fa-solid fa-wand-magic-sparkles"></i> Générer le contenu</>
           )}
@@ -150,17 +156,11 @@ export default function ContenuIAPage() {
             <h4>Contenu généré</h4>
             {generatedResult && (
                 <div style={{ display: 'flex', gap: '15px' }}>
-                  <button 
-                    onClick={handleCopy}
-                    style={{ background: 'none', border: 'none', color: isCopied ? '#10b981' : 'var(--primary-blue)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '5px' }}
-                  >
+                  <button onClick={handleCopy} style={{ background: 'none', border: 'none', color: isCopied ? '#10b981' : 'var(--primary-blue)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '5px' }}>
                     <i className={isCopied ? "fa-solid fa-check" : "fa-regular fa-copy"}></i> 
                     {isCopied ? 'Copié !' : 'Copier'}
                   </button>
-                  <button 
-                    onClick={handleDownload}
-                    style={{ background: 'none', border: 'none', color: 'var(--primary-blue)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '5px' }}
-                  >
+                  <button onClick={handleDownload} style={{ background: 'none', border: 'none', color: 'var(--primary-blue)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '5px' }}>
                     <i className="fa-solid fa-download"></i> .TXT
                   </button>
                 </div>
@@ -168,30 +168,32 @@ export default function ContenuIAPage() {
           </div>
 
           {generatedResult ? (
-            <div className="result-content" style={{ whiteSpace: 'pre-wrap', color: 'var(--text-main)', fontSize: '0.95rem', lineHeight: '1.6' }}>
+            <div className="result-content" style={{ 
+              whiteSpace: 'pre-wrap', 
+              color: 'var(--text-main)', 
+              fontSize: '0.95rem', 
+              lineHeight: '1.6',
+              textAlign: 'justify' 
+            }}>
               {generatedResult}
             </div>
           ) : (
-            <div className="empty-result">
+            <div className="empty-result" style={{ textAlign: 'center' }}>
               {isGenerating ? (
-                <div className="loading-animation">
-                   <i className="fa-solid fa-ellipsis fa-fade" style={{ fontSize: '2rem' }}></i>
-                   <p>L'intelligence artificielle rédige votre contenu...</p>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
+                   <SolidBlackLoader size="40px" />
+                   <p style={{ color: '#000', fontWeight: '600' }}>L'IA rédige votre contenu...</p>
                 </div>
               ) : (
                 <>
-                  <div className="empty-icon">
-                    <i className="fa-solid fa-sparkles"></i>
-                  </div>
+                  <div className="empty-icon"><i className="fa-solid fa-sparkles"></i></div>
                   <p>Votre contenu apparaîtra ici</p>
                 </>
               )}
             </div> 
           )}
         </div>
-        
-
-      </div> 
+      </div>
       <br /> <br /> <br />
     </div>
   );

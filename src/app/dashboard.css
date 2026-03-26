@@ -530,7 +530,7 @@ padding: 0; }
   margin-top: -5px;
 }
 .factures-container .table-toolbar {
-  justify-content: center;align-items: center;
+  justify-content: center;align-items: center; 
 }
 .factures-container .btn-new { margin-top: -6px; background: #0F172A; color: white; border: none; padding: 0 25px; height: 35px; border-radius: 50px; font-weight: 600; cursor: pointer; font-family: "Poppins";}
 

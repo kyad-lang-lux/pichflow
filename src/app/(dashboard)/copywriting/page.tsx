@@ -20,11 +20,25 @@ export default function CopywritingPage() {
     { id: 'BAB', title: 'BAB', desc: 'Avant, Après, Pont' },
   ];
 
-  // Nettoyage complet : garde les accents/apostrophes, vire le reste (Markdown)
+  // Loader Noir Solid en CSS
+  const SolidBlackLoader = ({ size = "20px" }) => (
+    <div style={{
+      width: size,
+      height: size,
+      border: '3px solid #000',
+      borderBottomColor: 'transparent',
+      borderRadius: '50%',
+      display: 'inline-block',
+      animation: 'rotation 1s linear infinite'
+    }}>
+      <style>{`@keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
+
   const cleanFormat = (text: string): string => {
     return text
-      .replace(/[#*`_~|>]/g, '') // Supprime les symboles parasites
-      .replace(/\n{3,}/g, '\n\n') // Évite les trop grands vides
+      .replace(/[#*`_~|>]/g, '')
+      .replace(/\n{3,}/g, '\n\n')
       .trim();
   };
 
@@ -61,36 +75,20 @@ export default function CopywritingPage() {
 
   const handleGenerate = async () => {
     if (!product) return alert("Veuillez décrire votre produit !");
-    
     setIsGenerating(true);
     setGeneratedResult('');
 
-    // Instructions de propreté et de structure
-    const systemInstructions = `Tu es un copywriter expert. 
-    Rédige une ${type} en utilisant la méthode ${activeMethod}. 
-    Ton objectif est d'être ${objective}.
-    IMPORTANT : Ne fournis que du texte brut. INTERDICTION d'utiliser des hashtags (#) ou des astérisques (**) pour le gras. 
-    Utilise correctement les accents et les apostrophes. 
-    Le texte doit être aéré, professionnel et prêt à être copier-coller sans nettoyage manuel.`;
-    
-    const userPrompt = `Produit/Service : ${product}. 
-    Cible : ${target || 'tout le monde'}. 
-    Structure le texte selon les étapes de la méthode ${activeMethod} sans utiliser de symboles Markdown.`;
+    const systemInstructions = `Tu es un copywriter expert. Rédige une ${type} en utilisant la méthode ${activeMethod}. IMPORTANT : Ne fournis que du texte brut sans Markdown (# ou *).`;
+    const userPrompt = `Produit/Service : ${product}. Cible : ${target || 'tout le monde'}.`;
 
     try {
       const res = await fetch('/api/generate-ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          prompt: userPrompt, 
-          systemPrompt: systemInstructions 
-        })
+        body: JSON.stringify({ prompt: userPrompt, systemPrompt: systemInstructions })
       });
-      
       const data = await res.json();
-      if (res.ok && data.content) {
-        setGeneratedResult(cleanFormat(data.content));
-      }
+      if (res.ok && data.content) setGeneratedResult(cleanFormat(data.content));
     } catch (error) {
       console.error(error);
     } finally {
@@ -101,9 +99,7 @@ export default function CopywritingPage() {
   return (
     <div className="ia-page-container" style={{ width: '100%', overflowX: 'hidden', paddingBottom: '40px' }}>
       
-      {/* Configuration Gauche */}
       <div className="ia-config-side" style={{ padding: '20px', maxWidth: '100%' }}>
-        
         <div className="config-section">
           <h4>Type de copywriting</h4>
           <select className="ia-select" value={type} onChange={(e) => setType(e.target.value)}>
@@ -133,25 +129,12 @@ export default function CopywritingPage() {
 
         <div className="config-section">
           <h4><i className="fa-solid fa-bolt-lightning" style={{color: '#FF7A30', marginRight: '8px'}}></i> Produit / Service</h4>
-          <textarea 
-            className="ia-textarea" 
-            placeholder="Décrivez votre produit..."
-            style={{ width: '100%' }}
-            value={product}
-            onChange={(e) => setProduct(e.target.value)}
-          ></textarea>
+          <textarea className="ia-textarea" placeholder="Décrivez votre produit..." style={{ width: '100%' }} value={product} onChange={(e) => setProduct(e.target.value)} />
         </div>
 
         <div className="config-section">
           <h4><i className="fa-solid fa-user-group" style={{color: '#2563EB', marginRight: '8px'}}></i> Cible</h4>
-          <input 
-            type="text" 
-            className="ia-input" 
-            placeholder="Ex: Entrepreneurs..." 
-            style={{ width: '100%' }}
-            value={target}
-            onChange={(e) => setTarget(e.target.value)}
-          />
+          <input type="text" className="ia-input" placeholder="Ex: Entrepreneurs..." style={{ width: '100%' }} value={target} onChange={(e) => setTarget(e.target.value)} />
         </div>
 
         <div className="config-section">
@@ -163,21 +146,20 @@ export default function CopywritingPage() {
           </select>
         </div>
 
-        <button className="btn-generate" onClick={handleGenerate} disabled={isGenerating}>
+        <button className="btn-generate" onClick={handleGenerate} disabled={isGenerating} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
           {isGenerating ? (
-            <><i className="fa-solid fa-spinner fa-spin"></i> Génération...</>
+            <><SolidBlackLoader size="16px" /> Génération...</>
           ) : (
             <><i className="fa-solid fa-pen-nib"></i> Générer le copy</>
           )}
         </button>
       </div>
 
-      {/* Aperçu Droite */}
       <div className="ia-result-side" style={{ width: '100%', minWidth: '0' }}>
         <div className="result-card" style={{ padding: '20px', minHeight: 'auto', display: 'flex', flexDirection: 'column' }}>
           
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-            <h4>Texte généré</h4>
+            <h4>Texte généré</h4> 
             {generatedResult && (
               <div style={{ display: 'flex', gap: '10px' }}>
                 <button onClick={handleCopy} style={{ background: 'none', border: 'none', color: isCopied ? '#10B981' : 'var(--primary-blue)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' }}>
@@ -191,21 +173,15 @@ export default function CopywritingPage() {
           </div>
 
           {generatedResult ? (
-            <div className="result-content" style={{ 
-              whiteSpace: 'pre-wrap', 
-              color: 'var(--text-main)', 
-              fontSize: '0.95rem', 
-              lineHeight: '1.6',
-              textAlign: 'justify' // Texte bien justifié
-            }}>
+            <div className="result-content" style={{ whiteSpace: 'pre-wrap', color: 'var(--text-main)', fontSize: '0.95rem', lineHeight: '1.6', textAlign: 'justify' }}>
               {generatedResult}
             </div>
           ) : (
             <div className="empty-result" style={{ padding: '30px', textAlign: 'center' }}>
               {isGenerating ? (
-                <div className="loading-animation">
-                   <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '2rem', color: 'var(--primary-blue)' }}></i>
-                   <p>Rédaction du copy en cours...</p>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
+                   <SolidBlackLoader size="40px" />
+                   <p style={{ color: '#000', fontWeight: '500' }}>Rédaction du copy en cours...</p>
                 </div>
               ) : (
                 <>
@@ -217,7 +193,8 @@ export default function CopywritingPage() {
             </div>
           )}
         </div>
-      </div> <br /> <br /> <br />
+      </div>
+      <br /> <br /> <br />
     </div> 
   );
 }
