@@ -3,8 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
 // ⚡ Initialisation du client avec ta clé API
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || "");
-
+const genAI = new GoogleGenerativeAI("AIzaSyBcXjGh18UIkmTt-ES0-QJhHbIhsnicvFw");
 // ⚠️ Limite max pour éviter timeout Vercel
 export const maxDuration = 60;
 
