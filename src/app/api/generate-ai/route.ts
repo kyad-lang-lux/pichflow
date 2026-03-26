@@ -21,10 +21,9 @@ export async function POST(req: Request) {
 
     // ✅ Modèle gratuit fonctionnel
     const model = genAI.getGenerativeModel({
-      model: "gemini-flash-lite-latest", // modèle gratuit
-      systemInstruction:
-        systemPrompt || "Tu es un expert en marketing et copywriting pour Pichflow.",
-    });
+  model: "gemini-flash-latest", // modèle correct existant
+  systemInstruction: systemPrompt || "Tu es un expert en marketing et copywriting."
+});
 
     // 🔹 Génération du contenu
     const result = await model.generateContent(prompt);
