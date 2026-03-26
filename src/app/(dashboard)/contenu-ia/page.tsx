@@ -90,7 +90,7 @@ export default function ContenuIAPage() {
       }
     } catch (error) {
       alert("Erreur de connexion au serveur.");
-    } finally {
+    } finally { 
       setIsGenerating(false);
     }
   };
