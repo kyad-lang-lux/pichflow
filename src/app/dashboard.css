@@ -474,20 +474,23 @@ padding: 0; }
     width: 97%; max-width: 450px; background-color: transparent;
     /* backdrop-filter: blur(100px); */
     height: auto; border-radius: 5px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); z-index: 1000;
-    padding-top: 22px;
+    padding-top: 15px;
     margin-top: 20px;
     padding-bottom: 3px;
     border-radius: 15px 15px 0 0; 
     transition: 1s ease;
     background-color: #fff;
+    border: 1px solid #ebeaea; 
   } 
-  .tab-item { font-family: "Roboto", sans-serif; background: #fff; padding: 0px; margin-bottom: 0; display: flex; flex-direction: column; align-items: center; color: #000; text-decoration: none; font-size: 1.5rem; gap: 0px; flex: 1; position: relative; font-weight: 650; }
-  .tab-item.active { font-family: "Roboto", sans-serif; color: #000; font-weight: bold;  bottom: 5px; gap: 0px; font-weight: 900; }
+  .tab-item { font-family: "Roboto", sans-serif; background: #fff; padding: 0px; margin-bottom: 0; display: flex; flex-direction: column; align-items: center; color: #000; text-decoration: none; font-size: 1.5rem; gap: 0px; flex: 1; position: relative; font-weight: 700;  }
+  .tab-item.active { font-family: "Roboto", sans-serif; color: #000; font-weight: bold; padding: 0; border-radius: 50px;  bottom: 5px; gap: 0px; font-weight: 900; }
+  .tab-item.active span { font-size: .75rem; }
   .tab-item.active i{ border-radius: 50px; color: #fff; background: #000; padding: 5px; padding-left: 20px; padding-right: 20px; }
   .tab-item.active::before {display: none; content: ' '; position: absolute; bottom: -8px;  width: 60%; height: 6px; background: #2563EB; border-radius:  5px 5px ; box-shadow: 0 0 15px #dcdcdd, 0 0 12px #e3e3e6, 0 0 12px #2563eb inset;}
  .mobile-tab-bar span {
   /* display: none; */ 
-  font-size: .71rem;
+  font-size: .7rem;
+  
  } 
     
  .mobile-tab-bar i {
