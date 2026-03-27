@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { generateAIContent } from "./generateAIClient"; // ⬅️ IMPORT IMPORTANT
 
 export default function ContenuIAPage() {
-  // 1️⃣ États pour les entrées du formulaire
+  // 1️⃣ États pour le formulaire
   const [selectedType, setSelectedType] = useState("Article de blog SEO");
   const [tone, setTone] = useState("Professionnel");
   const [prompt, setPrompt] = useState("");
 
-  // 2️⃣ États pour la gestion de la génération
+  // 2️⃣ États pour la génération
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedResult, setGeneratedResult] = useState("");
   const [isCopied, setIsCopied] = useState(false);
@@ -21,7 +21,7 @@ export default function ContenuIAPage() {
     { id: "video", label: "Script vidéo", icon: "fa-video" },
   ];
 
-  // Composant Loader Noir Solid
+  // 3️⃣ Loader noir animé
   const SolidBlackLoader = ({ size = "20px" }) => (
     <div
       style={{
@@ -35,19 +35,24 @@ export default function ContenuIAPage() {
       }}
     >
       <style>
-        {`@keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}
+        {`@keyframes rotation { 
+          0% { transform: rotate(0deg); } 
+          100% { transform: rotate(360deg); } 
+        }`}
       </style>
     </div>
   );
 
-  // Fonction de nettoyage (garde accents et apostrophes)
+  // 4️⃣ Nettoyage texte brut (garde accents et apostrophes)
   const cleanFormat = (text: string): string => {
     return text
-      .replace(/[#*`_~|>]/g, "") // Supprime les symboles Markdown
-      .replace(/\n{3,}/g, "\n\n") // Évite les trop grands espaces
+      .replace(/^#+\s*/gm, "")       // titres markdown
+      .replace(/[*_~`]/g, "")        // gras/italique/barré/code
+      .replace(/\n{3,}/g, "\n\n")    // trop d'espaces
       .trim();
   };
 
+  // 5️⃣ Copier
   const handleCopy = async () => {
     if (!generatedResult) return;
     await navigator.clipboard.writeText(generatedResult);
@@ -55,66 +60,126 @@ export default function ContenuIAPage() {
     setTimeout(() => setIsCopied(false), 2000);
   };
 
+  // 6️⃣ Télécharger
   const handleDownload = () => {
     if (!generatedResult) return;
     const blob = new Blob([generatedResult], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `pichflow-${selectedType
-      .toLowerCase()
-      .replace(/\s+/g, "-")}.txt`;
+    link.download = `pichflow-${selectedType.toLowerCase().replace(/\s+/g, "-")}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
-  // 🔹 Fonction principale de génération directement côté client
+  // 7️⃣ TEXTE DE STYLE À IMITER (ici tu colles tous tes styles de copywriting)
+const referenceStyleText = `
+
+Style Article de blog SEO :
+
+[ 
+Titre : Comment transformer vos compétences en revenus digitaux en 30 jours
+
+Vous avez une compétence mais ne savez pas comment la monétiser ? Que vous soyez coach, créateur de contenu ou entrepreneur en herbe, il existe une méthode claire pour générer vos premiers revenus en ligne.
+
+Avec notre programme, vous apprendrez à :  
+- Créer un produit digital professionnel, prêt à vendre.  
+- Déployer votre site et vendre sans stock ni capital.  
+- Attirer vos premiers clients via les réseaux sociaux et les campagnes simples.  
+
+Ne perdez plus de temps à improviser : en 30 jours, vous pourrez transformer vos connaissances en un revenu stable.
+
+CTA : Rejoignez notre programme aujourd’hui et commencez à générer vos premiers revenus digitaux.
+]
+
+Style Réseau sociaux :
+
+[ 
+🚀 Vous avez un talent mais pas de revenu ?  
+
+En 7 jours seulement, apprenez à transformer vos compétences en produit digital.  
+
+✅ Créez votre site depuis votre téléphone  
+✅ Vendez sans stock et sans capital  
+✅ Attirez vos clients sur Instagram et TikTok  
+
+Les places sont limitées !  
+
+🔥 Inscrivez-vous maintenant et passez à l’action !
+]
+
+Style Email marketing :
+
+[ 
+Objet : Transformez vos compétences en revenu dès ce mois-ci
+
+Bonjour [Prénom],  
+
+Vous avez déjà une compétence mais vous ne savez pas comment en tirer un revenu ?  
+
+Rejoignez notre Masterclass Digital Addict Sellers et découvrez comment créer votre premier produit digital et le vendre efficacement.  
+
+- Créez un site professionnel depuis votre téléphone  
+- Publiez du contenu stratégique pour attirer vos clients  
+- Lancez vos ventes rapidement, sans stock ni capital  
+
+Offre spéciale : seulement 20 places disponibles. Réservez la vôtre maintenant !  
+
+CTA : [Je réserve ma place]
+]
+
+Style Script vidéo :
+
+[ 
+[Intro]  
+Salut ! Vous êtes bloqué à cause d’un manque de ressources ou d’expérience ? Rassurez-vous, vous n’êtes pas seul.  
+
+[Storytelling]  
+Il y a quelques années, j’avais un téléphone et une seule question : comment gagner ma vie en ligne ? Pas de PC, pas de formation, juste la motivation.  
+
+[Solution]  
+Aujourd’hui, j’ai créé plus de 100 sites et généré des milliers d’euros. Et vous pouvez faire pareil !  
+
+[Bénéfices]  
+Dans ce programme, vous apprendrez à :  
+- Créer un site pro depuis votre téléphone  
+- Attirer vos premiers clients  
+- Vendre vos compétences en ligne  
+
+[CTA]  
+Cliquez sur le lien et commencez votre transformation dès aujourd’hui. Ne restez pas spectateur, devenez acteur de votre succès digital !
+]
+`;
+
+  // 8️⃣ Génération IA
   const handleGenerate = async () => {
     if (!prompt) return alert("Veuillez décrire un sujet !");
-
-    if (!process.env.NEXT_PUBLIC_GOOGLE_AI_API_KEY) {
-      return alert(
-        "Clé API Google manquante. Vérifiez vos variables d'environnement."
-      );
-    }
 
     setIsGenerating(true);
     setGeneratedResult("");
 
-    const systemInstructions = `Tu es un expert en marketing digital. 
+    const systemInstructions = `
+Tu es un expert en marketing digital.
 Rédige un(e) ${selectedType} avec un ton ${tone}.
-IMPORTANT : Ne fournis que le texte brut. N'utilise AUCUN symbole Markdown (pas de # ou de *). 
-CONSIGNE STRICTE : Respecte parfaitement les accents (é, à, è, etc.) et les apostrophes. 
-Le texte doit être clair, aéré et professionnel.`;
+IMPORTANT : Ne fournis que le texte brut. Pas de Markdown (#, *, etc.).
+Respecte parfaitement les accents et les apostrophes.
+Le texte doit être clair, aéré et professionnel.
+UTILISE LES STYLES SUIVANTS COMME RÉFÉRENCE POUR TON STYLE D'ÉCRITURE :
+${referenceStyleText}
+`;
 
     try {
-      // ⚡ Initialisation du client Google Generative AI
-      const genAI = new GoogleGenerativeAI(
-        process.env.NEXT_PUBLIC_GOOGLE_AI_API_KEY || ""
-      );
-
-      const model = genAI.getGenerativeModel({
-        model: "gemini-flash-latest",
-        systemInstruction: systemInstructions,
-      });
-
-      // 🔹 Génération du contenu
-      const result = await model.generateContent(`Sujet : ${prompt}`);
-      const text = (await result.response).text();
-
+      const text = await generateAIContent(`Sujet : ${prompt}`, systemInstructions);
       setGeneratedResult(cleanFormat(text));
     } catch (error: any) {
-      console.error("ERREUR GOOGLE AI:", error);
-      if (error.message?.includes("403")) {
-        alert(
-          "Clé API bloquée ou compromise. Veuillez utiliser une nouvelle clé."
-        );
-      } else if (error.message?.includes("429")) {
-        alert("Trop de requêtes. Patientez quelques secondes.");
+      console.error("ERREUR IA:", error);
+
+      if (error.message?.includes("clé") || error.message?.includes("API")) {
+        alert("Problème de clé API. Vérifiez votre configuration.");
       } else {
-        alert("Erreur serveur IA. Voir console pour détails.");
+        alert("Erreur serveur IA.");
       }
     } finally {
       setIsGenerating(false);
@@ -123,7 +188,8 @@ Le texte doit être clair, aéré et professionnel.`;
 
   return (
     <div className="ia-page-container">
-      {/* Colonne de gauche : Configuration */}
+
+      {/* ----- COLONNE GAUCHE ----- */}
       <div className="ia-config-side">
         <div className="config-section">
           <h4>Type de contenu</h4>
@@ -131,9 +197,7 @@ Le texte doit être clair, aéré et professionnel.`;
             {contentTypes.map((type) => (
               <button
                 key={type.id}
-                className={`type-card ${
-                  selectedType === type.label ? "active" : ""
-                }`}
+                className={`type-card ${selectedType === type.label ? "active" : ""}`}
                 onClick={() => setSelectedType(type.label)}
               >
                 <i className={`fa-solid ${type.icon}`}></i>
@@ -145,11 +209,7 @@ Le texte doit être clair, aéré et professionnel.`;
 
         <div className="config-section">
           <h4>Ton du contenu</h4>
-          <select
-            className="ia-select"
-            value={tone}
-            onChange={(e) => setTone(e.target.value)}
-          >
+          <select className="ia-select" value={tone} onChange={(e) => setTone(e.target.value)}>
             <option>Professionnel</option>
             <option>Amical</option>
             <option>Persuasif</option>
@@ -171,12 +231,7 @@ Le texte doit être clair, aéré et professionnel.`;
           className="btn-generate"
           onClick={handleGenerate}
           disabled={isGenerating}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px",
-          }}
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}
         >
           {isGenerating ? (
             <>
@@ -184,28 +239,18 @@ Le texte doit être clair, aéré et professionnel.`;
             </>
           ) : (
             <>
-              <i className="fa-solid fa-wand-magic-sparkles"></i> Générer le
-              contenu
+              <i className="fa-solid fa-wand-magic-sparkles"></i> Générer le contenu
             </>
           )}
         </button>
       </div>
 
-      {/* Colonne de droite : Aperçu/Résultat */}
+      {/* ----- COLONNE DROITE ----- */}
       <div className="ia-result-side" style={{ height: "100%" }}>
-        <div
-          className="result-card"
-          style={{ display: "flex", flexDirection: "column", height: "100%" }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "15px",
-            }}
-          >
+        <div className="result-card" style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
             <h4>Contenu généré</h4>
+
             {generatedResult && (
               <div style={{ display: "flex", gap: "15px" }}>
                 <button
@@ -222,13 +267,10 @@ Le texte doit être clair, aéré et professionnel.`;
                     gap: "5px",
                   }}
                 >
-                  <i
-                    className={
-                      isCopied ? "fa-solid fa-check" : "fa-regular fa-copy"
-                    }
-                  ></i>{" "}
+                  <i className={isCopied ? "fa-solid fa-check" : "fa-regular fa-copy"}></i>
                   {isCopied ? "Copié !" : "Copier"}
                 </button>
+
                 <button
                   onClick={handleDownload}
                   style={{
@@ -265,18 +307,9 @@ Le texte doit être clair, aéré et professionnel.`;
           ) : (
             <div className="empty-result" style={{ textAlign: "center" }}>
               {isGenerating ? (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "15px",
-                  }}
-                >
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "15px" }}>
                   <SolidBlackLoader size="40px" />
-                  <p style={{ color: "#000", fontWeight: "600" }}>
-                    L'IA rédige votre contenu...
-                  </p>
+                  <p style={{ color: "#000", fontWeight: "600" }}>L'IA rédige votre contenu...</p>
                 </div>
               ) : (
                 <>
@@ -290,9 +323,8 @@ Le texte doit être clair, aéré et professionnel.`;
           )}
         </div>
       </div>
-      <br />
-      <br />
-      <br />
+
+      <br /><br /><br />
     </div>
   );
 }
