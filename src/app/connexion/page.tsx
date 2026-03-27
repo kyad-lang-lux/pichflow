@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
@@ -12,7 +12,6 @@ function GoogleLoginButton({ onLoading }: { onLoading: (loading: boolean) => voi
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       console.log('Token récupéré:', tokenResponse);
-      // Ici, en production, on enverrait le token au backend pour vérification
       router.push('/dashboard');
     },
     onError: () => {
@@ -42,10 +41,29 @@ export default function Connexion() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
 
+  // 1️⃣ Logique de validation du mot de passe
+  const passwordRequirements = useMemo(() => {
+    const p = formData.password;
+    return [
+      { label: "8 caractères minimum", met: p.length >= 8 },
+      { label: "Une majuscule (A-Z)", met: /[A-Z]/.test(p) },
+      { label: "Une minuscule (a-z)", met: /[a-z]/.test(p) },
+      { label: "Un chiffre (0-9)", met: /[0-9]/.test(p) },
+      { label: "Un symbole (!@#$%...)", met: /[^A-Za-z0-9]/.test(p) },
+    ];
+  }, [formData.password]);
+
+  const isPasswordValid = passwordRequirements.every(req => req.met);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     
+    // Sécurité supplémentaire avant l'envoi
+    if (!isPasswordValid) {
+      return alert("Le mot de passe ne respecte pas les critères de sécurité.");
+    }
+
+    setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
       router.push('/dashboard');
@@ -56,20 +74,11 @@ export default function Connexion() {
     <GoogleOAuthProvider clientId="917194298260-1sp5ltg1h2lprjmne64elqgqltsdogor.apps.googleusercontent.com">
       <div className="auth-container">
         <div className="auth-form-side">
-          <div className="auth-header">
-            <Link href="/" className="logo">
-              <div className="logo-icon">
-                <i className="fa-solid fa-bolt-lightning"></i>
-              </div>
-              <span className="logo-text">Pitch<span>Flow</span></span>
-            </Link>
-          </div>
-
+<br /> 
           <div className="auth-content">
-            <h1>Bon retour !</h1>
+            <h1>Bon retour parmi nous 👋</h1>
             <p className="subtitle">Connectez-vous pour accéder à votre dashboard</p>
 
-            {/* BOUTON GOOGLE AVEC TON STYLE ET LA VRAIE LOGIQUE */}
             {isGoogleLoading ? (
               <button className="btn-google" disabled>
                 <i className="fa-solid fa-spinner fa-spin"></i>
@@ -113,12 +122,31 @@ export default function Connexion() {
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                   />
                 </div>
+
+                {/* 2️⃣ Liste visuelle des exigences (s'affiche quand on commence à taper) */}
+                {formData.password.length > 0 && (
+                  <div className="password-checklist" style={{ marginTop: '10px', fontSize: '0.75rem' }}>
+                    {passwordRequirements.map((req, i) => (
+                      <div key={i} style={{ 
+                        color: req.met ? '#10B981' : '#9CA3AF', 
+                        display: 'flex', 
+                        alignItems: 'center',
+                        gap: '6px',
+                        marginBottom: '2px'
+                      }}>
+                        <i className={req.met ? "fa-solid fa-circle-check" : "fa-regular fa-circle"}></i>
+                        <span>{req.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <button 
                 type="submit" 
                 className="btn-auth-submit" 
-                disabled={isLoading || isGoogleLoading}
+                disabled={isLoading || isGoogleLoading || !isPasswordValid}
+                style={{ opacity: !isPasswordValid ? 0.6 : 1 }}
               >
                 {isLoading ? (
                   <>
@@ -136,7 +164,7 @@ export default function Connexion() {
             </p>
           </div>
         </div>
-
+ 
         <div className="auth-info-side">
           <div className="info-content">
             <div className="info-icon-box">

@@ -1353,32 +1353,38 @@ color: #fff;
 
 /* --- PAGE AUTH (INSCRIPTION / CONNEXION) --- */
 .auth-container {
+  width: 100%;
+  height: 70vh;
   display: flex;
-  min-height: 100vh;
-  width: 90%;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  
 }
 
 /* Côté Formulaire */
 .auth-form-side {
+  margin: auto;
   flex: 1;
   background: white;
-  padding: 40px;
+  padding: 30px;
   display: flex;
   flex-direction: column;
 }
 
 .auth-header {
-  margin-bottom: 60px;
+  margin-bottom: 35px;
 }
 
 .auth-content {
-  max-width: 360px;
+  max-width: 400px;
   margin: 0 auto;
   width: 100%;
 }
 
 .auth-content h1 {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 800;
   color: #0f172a;
   margin-bottom: 8px;
@@ -1386,20 +1392,20 @@ color: #fff;
 
 .auth-content .subtitle {
   color: var(--text-grey);
-  font-size: 0.9rem;
-  margin-bottom: 30px;
+  font-size: 0.8rem;
+  margin-bottom: 20px;
 }
 
 /* Inputs */
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
 .input-group label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   margin-bottom: 8px;
   color: #1e293b;
@@ -1415,14 +1421,14 @@ color: #fff;
   position: absolute;
   left: 15px;
   color: #94a3b8;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .input-wrapper input {
   width: 100%;
   padding: 10px 10px 10px 45px;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
+  border: 1px solid #8d8f91;
+  border-radius: 15px;
   font-family: inherit;
   font-size: 0.9rem;
   transition: 0.3s;
@@ -1437,11 +1443,12 @@ color: #fff;
 .btn-auth-submit {
   background: var(--primary); /* Orange */
   color: white;
+  background: #000;
   border: none;
   padding: 14px;
   border-radius: 20px;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1493,29 +1500,16 @@ color: #fff;
 }
 
 /* Néon Bleu (Haut-Gauche) */
-.auth-container::before {
-  width: 500px;
-  height: 500px;
-  background: #2563eb;
-  top: -150px;
-  left: -150px;
-}
+
 
 /* Néon Orange (Bas-Droite) */
-.auth-container::after {
-  width: 500px;
-  height: 500px;
-  background: #ff7a30;
-  bottom: -150px;
-  right: -150px;
-  animation-delay: -6s;
-}
+
 
 /* Ajoute cet élément vide dans ton HTML juste après l'ouverture de .auth-container */
 /* <div className="glow-center"></div> */
 .glow-center {
   width: 400px;
-  height: 400px;
+  height: 400px; 
   background: rgba(37, 99, 235, 0.1); /* Mélange léger au centre */
   top: 50%;
   left: 50%;
@@ -1534,12 +1528,16 @@ color: #fff;
 }
 
 @media (max-width: 768px) {
+  .auth-container {
+    margin-top: 0;
+  }
   .auth-container::before,
   .auth-container::after {
     width: 280px;
     height: 280px;
     filter: blur(90px);
     opacity: 0.18;
+    
   }
   .glow-center {
     display: none;
@@ -1548,13 +1546,17 @@ color: #fff;
 
 /* Côté Info (Bleu) */
 .auth-info-side {
+  margin: auto;
+  display: flex;
+  height: 80%;
+  width: 100%;
   flex: 1;
   background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
-  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  border-radius: 50px 0 0 50px;
   color: white;
+  margin-top: 80px;
 }
 
 .info-content {

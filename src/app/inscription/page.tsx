@@ -79,14 +79,7 @@ export default function Inscription() {
     <GoogleOAuthProvider clientId="917194298260-1sp5ltg1h2lprjmne64elqgqltsdogor.apps.googleusercontent.com">
       <div className="auth-container">
         <div className="auth-form-side">
-          <div className="auth-header">
-            <Link href="/" className="logo">
-              <div className="logo-icon">
-                <i className="fa-solid fa-bolt-lightning"></i>
-              </div>
-              <span className="logo-text">Pitch<span>Flow</span></span>
-            </Link>
-          </div>
+          <br />
 
           <div className="auth-content">
             <h1>Créez votre compte</h1>

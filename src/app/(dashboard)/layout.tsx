@@ -12,7 +12,10 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const profileRef = useRef<HTMLDivElement>(null);  
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  // Simulation du nombre de crédits (à remplacer par tes données réelles plus tard)
+  const [credits, setCredits] = useState(250);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -23,7 +26,7 @@ export default function DashboardLayout({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
- 
+
   const allMenuItems = [
     { name: "Acceuil", path: "/dashboard", icon: "fa-house" },
     { name: "Marketing ", path: "/contenu-ia", icon: "fa-handshake" },
@@ -33,23 +36,20 @@ export default function DashboardLayout({
     { name: "Paramètres ", path: "/parametres", icon: "fa-gear" },
   ];
 
-  const sidebarPrimaryItems = allMenuItems.slice(0, 5); 
+  const sidebarPrimaryItems = allMenuItems.slice(0, 5);
   const sidebarSecondaryItems = allMenuItems.slice(5);
 
   const activeItem = allMenuItems.find((item) => item.path === pathname);
   const activeTitle = activeItem ? activeItem.name : "Dashboard";
 
   return (
-    <div className="dashboard-container">  
+    <div className="dashboard-container">
       <aside className="sidebar">
         <div className="sidebar-header">
           <Link href="/dashboard" className="logo">
-            {/* <div className="logo-icon"> 
-              <i className="fa-solid fa-circle-nodes"></i>
-            </div> */}
             <span className="logo-text">
-          <span className="ft" >ll</span>Pich<span className="blue-text">Flow</span>
-        </span>
+              <span className="ft">ll</span>Pich<span className="blue-text">Flow</span>
+            </span>
           </Link>
         </div>
 
@@ -64,7 +64,7 @@ export default function DashboardLayout({
                 <i className={`fa-solid ${item.icon}`}></i> {item.name}
               </Link>
             ))}
-          </div> 
+          </div>
 
           <div className="menu-group bottom">
             {sidebarSecondaryItems.map((item) => (
@@ -83,33 +83,75 @@ export default function DashboardLayout({
       <main className="dashboard-main">
         <header className="topbar">
           <div className="topbar-left">
-            <h1><span>
-              {activeTitle === "Paramètres"
-                ? "Gérez votre compte"
-                : "PichFlow"} -  
-            </span> 
-              
-              {activeTitle}  
-            
+            <h1>
+              <span>
+                {activeTitle === "Paramètres"
+                  ? "Gérez votre compte"
+                  : "PichFlow"}{" "}
+                -{" "}
+              </span>
+              {activeTitle}
             </h1>
           </div>
 
           <div className="topbar-right" ref={profileRef}>
-            <button className="user-btn" onClick={() => setIsProfileOpen(!isProfileOpen)}>  
-              <span className="user-badge"><i className="fa-solid fa-user"></i></span>
-            </button> 
+            <button
+              className="user-btn"
+              onClick={() => setIsProfileOpen(!isProfileOpen)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "12px",
+                padding: "3px 7px",
+                borderRadius: "20px",
+                background: "rgba(0,0,0,0.03)",
+                border: "2px solid rgba(0,0,0,0.5)",
+              }}
+            >
+              {/* Badge Crédit */}
+              <div
+                className="credits-badge"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  fontSize: "0.68rem",
+                  fontWeight: "900",
+                  color: "#fff",
+                  padding: "2px 6px",
+                  background: "#000",
+                  borderRadius: "12px",
+                }}
+              >
+                <i className="fa-solid fa-coins"></i>
+                <span>{credits}</span>
+              </div>
+
+              {/* User Badge original */}
+              <span style={{color: "#000", fontSize: "18px",}} className="user-badge">
+                <i className="fa-solid fa-user"></i>
+              </span>
+            </button>
 
             {isProfileOpen && (
               <div className="profile-dropdown">
-                <Link href="/parametres" className="menu-item" onClick={() => setIsProfileOpen(false)}>
+                <Link
+                  href="/parametres"
+                  className="menu-item"
+                  onClick={() => setIsProfileOpen(false)}
+                >
                   <i className="fa-solid fa-user-gear"></i> Paramètres
                 </Link>
-                <button className="menu-item logout-btn" onClick={() => window.location.href = '/'}>
+                <button
+                  className="menu-item logout-btn"
+                  onClick={() => (window.location.href = "/")}
+                >
                   <i className="fa-solid fa-right-from-bracket"></i> Déconnexion
                 </button>
               </div>
             )}
-          </div> 
+          </div>
         </header>
 
         <section className="content-area">{children}</section>
@@ -124,9 +166,12 @@ export default function DashboardLayout({
           >
             <i className={`fa-solid ${item.icon}`}></i>
             <span>{item.name}</span>
-          </Link> 
+          </Link>
         ))}
-        <Link href="/parametres" className={`tab-item ${pathname === "/parametres" ? "active" : ""}`}>
+        <Link
+          href="/parametres"
+          className={`tab-item ${pathname === "/parametres" ? "active" : ""}`}
+        >
           <i className="fa-solid fa-gear"></i>
           <span>Paramètres</span>
         </Link>
