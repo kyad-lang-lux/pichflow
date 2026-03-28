@@ -14,7 +14,6 @@ export default function DashboardLayout({
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
 
-  // Simulation du nombre de crédits (à remplacer par tes données réelles plus tard)
   const [credits, setCredits] = useState(250);
 
   useEffect(() => {
@@ -29,15 +28,22 @@ export default function DashboardLayout({
 
   const allMenuItems = [
     { name: "Acceuil", path: "/dashboard", icon: "fa-house" },
+    { name: "Devis", path: "/devis", icon: "fas fa-receipt" },
+    { name: "Factures ", path: "/factures", icon: "fa-file-invoice-dollar" },
     { name: "Marketing ", path: "/contenu-ia", icon: "fa-handshake" },
     { name: "Copywriting ", path: "/copywriting", icon: "fa-lightbulb" },
-    { name: "Factures ", path: "/factures", icon: "fa-file-invoice-dollar" },
     { name: "Rapports ", path: "/rapports", icon: "fa-chart-bar" },
     { name: "Paramètres ", path: "/parametres", icon: "fa-gear" },
   ];
 
+  // Sidebar : Division classique
   const sidebarPrimaryItems = allMenuItems.slice(0, 5);
   const sidebarSecondaryItems = allMenuItems.slice(5);
+
+  // Mobile : On filtre pour exclure "Rapports" et "Paramètres"
+  const mobileMenuItems = allMenuItems.filter(
+    (item) => item.name !== "Rapports " && item.name !== "Paramètres "
+  );
 
   const activeItem = allMenuItems.find((item) => item.path === pathname);
   const activeTitle = activeItem ? activeItem.name : "Dashboard";
@@ -109,7 +115,6 @@ export default function DashboardLayout({
                 border: "2px solid rgba(0,0,0,0.5)",
               }}
             >
-              {/* Badge Crédit */}
               <div
                 className="credits-badge"
                 style={{
@@ -128,8 +133,7 @@ export default function DashboardLayout({
                 <span>{credits}</span>
               </div>
 
-              {/* User Badge original */}
-              <span style={{color: "#000", fontSize: "18px",}} className="user-badge">
+              <span style={{ color: "#000", fontSize: "18px" }} className="user-badge">
                 <i className="fa-solid fa-user"></i>
               </span>
             </button>
@@ -142,6 +146,13 @@ export default function DashboardLayout({
                   onClick={() => setIsProfileOpen(false)}
                 >
                   <i className="fa-solid fa-user-gear"></i> Paramètres
+                </Link>
+                <Link
+                  href="/rapports"
+                  className="menu-item"
+                  onClick={() => setIsProfileOpen(false)}
+                >
+                  <i className="fa-solid fa-chart-bar"></i> Rapports
                 </Link>
                 <button
                   className="menu-item logout-btn"
@@ -157,8 +168,9 @@ export default function DashboardLayout({
         <section className="content-area">{children}</section>
       </main>
 
+      {/* Barre de navigation mobile mise à jour */}
       <nav className="mobile-tab-bar">
-        {sidebarPrimaryItems.slice(0, 4).map((item) => (
+        {mobileMenuItems.map((item) => (
           <Link
             key={item.path}
             href={item.path}
@@ -168,13 +180,6 @@ export default function DashboardLayout({
             <span>{item.name}</span>
           </Link>
         ))}
-        <Link 
-          href="/parametres"
-          className={`tab-item ${pathname === "/parametres" ? "active" : ""}`}
-        >
-          <i className="fa-solid fa-gear"></i>
-          <span>Paramètres</span>
-        </Link>
       </nav>
     </div>
   );
