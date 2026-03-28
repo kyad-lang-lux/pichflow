@@ -49,8 +49,6 @@ export default function FacturesPage() {
       const today = new Date();
       const nextMonth = new Date();
       nextMonth.setDate(today.getDate() + 30);
-      
-      // Format YYYY-MM-DD pour l'input type date
       const echeanceAuto = nextMonth.toISOString().split('T')[0];
       setFormData(prev => ({ ...prev, echeance: echeanceAuto }));
     }
@@ -84,8 +82,7 @@ export default function FacturesPage() {
   const downloadPDF = async (item: Facture) => {
     const savedInfo = localStorage.getItem('pichflow_sender_info');
     const sender = savedInfo ? JSON.parse(savedInfo) : { nomService: 'PichFlow Service', adresse: 'Adresse Pro', contact: 'Contact' };
-
-    const totalHT = calculateTotal(item.prestations);
+    const totalHT = calculateTotal(item.prestations); 
 
     const container = document.createElement('div');
     container.style.cssText = 'position:fixed; left:-9999px; width:800px; background:white;';
@@ -100,7 +97,7 @@ export default function FacturesPage() {
           </div>
           <div style="text-align: right;">
             <h2 style="font-family: 'Antonio', sans-serif; font-size: 45px; font-weight: 900; color: #000; margin: 0; line-height: 1;">FACTURE</h2>
-            <p style="font-weight: bold; margin-top: 10px;">N° : ${item.id}</p>
+            <p style="font-weight: bold; margin-top: 10px;">N°: ${item.id}</p>
           </div>
         </div>
 
@@ -151,7 +148,6 @@ export default function FacturesPage() {
               <strong>Information Importante :</strong> Veuillez effectuer le paiement dans le bref délai possible pour éviter tout désagrément.
             </p>
           </div>
-
           <div style="text-align: center; border-top: 1.5px solid #000; padding-top: 20px;">
             <p style="font-style: italic; font-size: 13px; color: #000; font-weight: 600; margin: 0;">Merci pour votre confiance !</p>
             <p style="font-size: 10px; color: #666; margin-top: 10px; margin-bottom: 0;">Généré via PichFlow - pichflow.com</p>
@@ -171,17 +167,13 @@ export default function FacturesPage() {
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // --- FORMAT DU NUMÉRO DE FACTURE : F-2026-5265 ---
     const year = new Date().getFullYear();
     const randomNum = Math.floor(1000 + Math.random() * 9000);
     const id = `F-${year}-${randomNum}`;
 
     const newInvoice: Facture = {
-      ...formData,
-      id,
+      ...formData, id,
       date: new Date().toLocaleDateString('fr-FR'),
-      // On formate l'échéance pour l'affichage tableau
       echeance: new Date(formData.echeance).toLocaleDateString('fr-FR')
     };
 
@@ -193,7 +185,11 @@ export default function FacturesPage() {
     });
   };
 
-  const filtered = factures.filter(f => f.client.toLowerCase().includes(searchTerm.toLowerCase()));
+  // 🔹 RECHERCHE PAR NOM OU NUMÉRO DE FACTURE (ID)
+  const filtered = factures.filter(f => 
+    f.client.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    f.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   
   const removePrestationLine = (index: number) => {
     const newPrestations = formData.prestations.filter((_, i) => i !== index);
@@ -208,33 +204,15 @@ export default function FacturesPage() {
             <h3>Nouvelle Facture</h3>
             <form onSubmit={handleSave} className="modern-form">
               <div className="form-section">
-                <input 
-                  type="text" placeholder="Nom du Client" required 
-                  value={formData.client} 
-                  onChange={(e)=>setFormData({...formData, client: e.target.value})} 
-                  className="main-input" 
-                />
+                <input type="text" placeholder="Nom du Client" required value={formData.client} onChange={(e)=>setFormData({...formData, client: e.target.value})} className="main-input" />
                 <div className="row">
-                  <input style={{width: '100%'}}
-                    type="text" placeholder="Contact (Tél/Email)" required 
-                    value={formData.clientContact} 
-                    onChange={(e)=>setFormData({...formData, clientContact: e.target.value})} 
-                  /> 
-                  <input style={{width: '100%'}}
-                    type="text" placeholder="Adresse Client" required 
-                    value={formData.clientAdresse} 
-                    onChange={(e)=>setFormData({...formData, clientAdresse: e.target.value})} 
-                  />
+                  <input style={{width: '100%'}} type="text" placeholder="Contact (Tél/Email)" required value={formData.clientContact} onChange={(e)=>setFormData({...formData, clientContact: e.target.value})} /> 
+                  <input style={{width: '100%'}} type="text" placeholder="Adresse Client" required value={formData.clientAdresse} onChange={(e)=>setFormData({...formData, clientAdresse: e.target.value})} />
                 </div>
                 <div className="row">
                   <div style={{width: '100%'}}>
                     <label style={{fontSize: '11px', color: '#666', marginBottom: '4px', display: 'block'}}>DATE D'ÉCHÉANCE (Auto +30j)</label>
-                    <input style={{textTransform: 'uppercase', width: '100%'}}
-                      type="date" 
-                      required 
-                      value={formData.echeance}
-                      onChange={(e)=>setFormData({...formData, echeance: e.target.value})} 
-                    />
+                    <input style={{textTransform: 'uppercase', width: '100%'}} type="date" required value={formData.echeance} onChange={(e)=>setFormData({...formData, echeance: e.target.value})} />
                   </div>
                   <div style={{width: '100%'}}>
                     <label style={{fontSize: '11px', color: '#666', marginBottom: '4px', display: 'block'}}>DEVISE</label>
@@ -257,29 +235,10 @@ export default function FacturesPage() {
                     <div key={index} className="prestation-row" style={{position: 'relative'}}>
                       <input type="text" placeholder="Description" value={p.description} onChange={(e) => updatePrestation(index, 'description', e.target.value)} required />
                       <div className="row-inner" style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                         <input 
-                            type="number" 
-                            placeholder="Prix unitaire" 
-                            min="0"
-                            step="0.01"
-                            // value={p.prixUnitaire}
-                            onChange={(e) => updatePrestation(index, 'prixUnitaire', Math.max(0, parseFloat(e.target.value)))} 
-                            required 
-                         />
-                         <input 
-                            type="number" 
-                            placeholder="Qté" 
-                            min="1"
-                            // value={p.quantite}
-                            onChange={(e) => updatePrestation(index, 'quantite', Math.max(1, parseInt(e.target.value)))} 
-                            required 
-                         />
+                         <input type="number" placeholder="Prix unitaire" min="0" step="0.01" onChange={(e) => updatePrestation(index, 'prixUnitaire', Math.max(0, parseFloat(e.target.value)))} required />
+                         <input type="number" placeholder="Qté" min="1" onChange={(e) => updatePrestation(index, 'quantite', Math.max(1, parseInt(e.target.value)))} required />
                          {index !== 0 && (
-                           <button 
-                             type="button" 
-                             onClick={() => removePrestationLine(index)}
-                             style={{background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px'}}
-                           >
+                           <button type="button" onClick={() => removePrestationLine(index)} style={{background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px'}}>
                              <i className="fa-solid fa-trash-can"></i>
                            </button>
                          )}
@@ -303,7 +262,7 @@ export default function FacturesPage() {
       <div className="table-toolbar">
         <div className="search-box">
           <i className="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Rechercher un client..." value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} />
+          <input type="text" placeholder="Rechercher par nom ou numéro..." value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} />
         </div>
         <button className="btn-new" onClick={() => { setIsModalOpen(true); }}>
           + Nouvelle Facture 
@@ -320,7 +279,7 @@ export default function FacturesPage() {
         </div>
 
         <div className="div-table-body">  
-          {filtered.map((f) => (
+          {filtered.length > 0 ? filtered.map((f) => (
             <div className="div-table-row" key={f.id}>
               <div className="col-id font-bold" data-label="ID :">{f.id}</div>
               <div className="col-client font-bold" data-label="Client :">{f.client}</div>
@@ -335,7 +294,9 @@ export default function FacturesPage() {
                 <button onClick={() => setFactures(factures.filter(x => x.id !== f.id))} title="Supprimer"><i className="fa-solid fa-trash-can" style={{color: '#ef4444'}}></i></button>
               </div>
             </div>
-          ))} 
+          )) : (
+            <div style={{padding:'20px', textAlign:'center', color:'#888'}}>Aucune facture trouvée.</div>
+          )} 
         </div>
       </div>
     </div>

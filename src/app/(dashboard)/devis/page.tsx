@@ -78,7 +78,7 @@ export default function DevisPage() {
     document.body.appendChild(container);
 
     container.innerHTML = `
-      <div style="padding: 50px; font-family: 'Open Sans', sans-serif; color: #000; border-left: 15px solid #313030; min-height: 1130px; position: relative; background: #fff;">
+      <div style="padding: 50px; font-family: 'Open Sans', sans-serif; color: #000; border-left: 15px solid #c7dff0; min-height: 1130px; position: relative; background: #fff;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
           <div>
             <h2 style="font-family: 'Antonio', sans-serif; font-size: 26px; font-weight: bold; margin: 0; color: #000;">${sender.nomService.toUpperCase()}</h2>
@@ -86,7 +86,7 @@ export default function DevisPage() {
           </div>
           <div style="text-align: right;">
             <h2 style="font-family: 'Antonio', sans-serif; font-size: 45px; font-weight: 900; color: #000; margin: 0; line-height: 1;">DEVIS</h2>
-            <p style="font-weight: bold; margin-top: 10px;">N° : ${item.id}</p>
+            <p style="font-weight: bold; margin-top: 10px;">N°: ${item.id}</p>
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export default function DevisPage() {
 
         <table style="width: 100%; border-collapse: collapse; border: 1.2px solid #313030;">
           <thead>
-            <tr style="background: #f3f4f6; color: #000;">
+            <tr style="background: #c7dff0; color: #000;">
               <th style="text-align: left; padding: 12px; font-size: 11px; border: 1px solid #313030;">DESCRIPTION</th>
               <th style="text-align: right; padding: 12px; font-size: 11px; border: 1px solid #313030;">PRIX UNITAIRE</th>
               <th style="text-align: right; padding: 12px; font-size: 11px; border: 1px solid #313030;">QTÉ</th>
@@ -134,7 +134,7 @@ export default function DevisPage() {
         <div style="position: absolute; bottom: 60px; left: 50px; width: calc(100% - 100px);">
           <div style="text-align: left; margin-bottom: 10px;">
             <p style="font-size: 11px; color: #000; margin: 0; line-height: 1.2;">
-              <strong>Information Importante :</strong> Ce devis est une estimation. Veuillez le retourner signé pour validation finale de la commande.
+              <strong>Information Importante :</strong> Ce devis est une estimation. Veuillez le retourner signé si possible pour validation finale de la commande.
             </p>
           </div>
           <div style="text-align: center; border-top: 1.5px solid #000; padding-top: 20px;">
@@ -169,7 +169,11 @@ export default function DevisPage() {
     setFormData({ client:'', clientContact:'', clientAdresse:'', echeance:'', devise:'€', prestations:[{description:'', prixUnitaire:0, quantite:1}] });
   };
 
-  const filtered = devis.filter(d => d.client.toLowerCase().includes(searchTerm.toLowerCase()));
+  // 🔹 RECHERCHE PAR NOM OU NUMÉRO (ID)
+  const filtered = devis.filter(d => 
+    d.client.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    d.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="factures-container"> 
@@ -178,7 +182,6 @@ export default function DevisPage() {
           <div className="modal-content custom-modal">
             <h3>Nouveau Devis</h3>
             <form onSubmit={handleSave} className="modern-form">
-              {/* Le formulaire reste identique à la facture pour la cohérence */}
               <div className="form-section">
                 <input type="text" placeholder="Nom du Client" required value={formData.client} onChange={(e)=>setFormData({...formData, client: e.target.value})} className="main-input" />
                 <div className="row">
@@ -220,10 +223,10 @@ export default function DevisPage() {
                           setFormData({...formData, prestations: news});
                         }} required />
                         {index !== 0 && (
-                          <button type="button" onClick={() => {
+                          <button  type="button" onClick={() => {
                             const news = formData.prestations.filter((_, i) => i !== index);
                             setFormData({...formData, prestations: news});
-                          }} style={{color:'#ef4444'}}><i className="fa-solid fa-trash-can"></i></button>
+                          }} style={{color:'#ef4444', border: "0"}}><i className="fa-solid fa-trash-can"></i></button>
                         )}
                       </div>
                     </div>
@@ -244,7 +247,7 @@ export default function DevisPage() {
       <div className="table-toolbar">
         <div className="search-box">
           <i className="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Rechercher un devis..." value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} />
+          <input type="text" placeholder="Rechercher par nom ou numéro..." value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} />
         </div>
         <button className="btn-new" onClick={() => setIsModalOpen(true)}>+ Nouveau Devis</button>
       </div>
@@ -259,7 +262,7 @@ export default function DevisPage() {
         </div>
 
         <div className="div-table-body">  
-          {filtered.map((d) => (
+          {filtered.length > 0 ? filtered.map((d) => (
             <div className="div-table-row" key={d.id}>
               <div className="col-id font-bold" data-label="ID :">{d.id}</div>
               <div className="col-client font-bold" data-label="Client :">{d.client}</div>
@@ -274,7 +277,9 @@ export default function DevisPage() {
                 <button onClick={() => setDevis(devis.filter(x => x.id !== d.id))} title="Supprimer"><i className="fa-solid fa-trash-can" style={{color: '#ef4444'}}></i></button>
               </div>
             </div>
-          ))} 
+          )) : (
+            <div style={{padding:'20px', textAlign:'center', color:'#888'}}>Aucun résultat trouvé.</div>
+          )} 
         </div>
       </div>
     </div>

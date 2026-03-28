@@ -25,7 +25,7 @@ export default function DashboardLayout({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
+ 
   const allMenuItems = [
     { name: "Acceuil", path: "/dashboard", icon: "fa-house" },
     { name: "Devis", path: "/devis", icon: "fas fa-receipt" },
@@ -146,6 +146,13 @@ export default function DashboardLayout({
                   onClick={() => setIsProfileOpen(false)}
                 >
                   <i className="fa-solid fa-user-gear"></i> Paramètres
+                </Link>
+                <Link
+                  href="/buy-credits"
+                  className="menu-item"
+                  onClick={() => setIsProfileOpen(false)}
+                >
+                  <i className="fa-solid fa-coins"></i> Achat crédits
                 </Link>
                 <Link
                   href="/rapports"

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+IE:wght@100..400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
  
 
@@ -150,11 +150,49 @@ body {
 .ia-textarea { height: 120px; resize: none; }
 
 .btn-generate {
-  width: 100%; 
-  color: white; border: none; padding: 15px; border-radius: 12px;
-  font-weight: 700; font-size: 1rem; cursor: pointer; display: flex;
-  align-items: center; justify-content: center; gap: 10px; 
-  background: linear-gradient(50deg, #3B82F6 , #FF7A30 , #FF7A30);
+  width: 100%;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  
+  /* On définit un dégradé plus large (300%) pour avoir de la matière à déplacer */
+  background: linear-gradient(50deg, #3B82F6, #FF7A30, #3B82F6, #FF7A30);
+  background-size: 300% 300%;
+  
+  /* Liaison avec l'animation */
+  animation: gradientAnimation 4s ease infinite;
+  transition: transform 0.2s ease;
+}
+
+/* Effet au survol pour le rendre interactif */
+.btn-generate:hover {
+  transform: scale(1.02);
+}
+
+/* Effet au clic */
+.btn-generate:active {
+  transform: scale(0.98);
+}
+
+/* L'animation qui déplace le background */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .result-card {
@@ -518,7 +556,7 @@ padding: 0; }
   .factures-container .div-table-body .div-table-row > div::before { content: attr(data-label); font-weight: 600; gap: 0; margin-bottom: 0px;color: var(--text-muted); }
   .col-actions { border-bottom: none !important; padding-top: 15px !important; justify-content: center !important; }
 .factures-container .div-table-container .div-table-body .div-table-row {
-  padding: 10px;
+  padding: 8px;
   gap: 0;
 } 
   .tools-grid, .stats-grid, .ia-page-container, .charts-main-grid { grid-template-columns: 1fr; }
@@ -1027,8 +1065,8 @@ font-weight: bold;
     display: flex;
     flex-direction: column;
     background: #fff;
-    margin-bottom: 15px;
-    padding: 15px;
+    margin-bottom: 12px;
+    padding: 13px;
     border-radius: 10px;
     border: 1px solid #eee;
   }

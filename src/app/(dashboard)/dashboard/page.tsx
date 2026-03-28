@@ -18,8 +18,15 @@ export default function DashboardPage() {
       link: "/copywriting"
     },
     {  
-      title: "Facturation Automatisée",
-      desc: "Créez devis et factures rapidement avec suivi des paiements et rappels automatiques.",
+      title: "Devis Rapide",
+      desc: "Créez des factures rapidement avec téléchargement illimité sur pichflow .",
+      icon: "fas fa-receipt",
+      className: "icon-facture",
+      link: "/factures" 
+    },
+    {  
+      title: "Facturation Rapide",
+      desc: "Créez des devis de manière facile et rapideme avec téléchargement illimité sur pichflow .",
       icon: "fa-file-invoice-dollar",
       className: "icon-facture",
       link: "/factures" 
@@ -47,7 +54,7 @@ export default function DashboardPage() {
             <p>{tool.desc}</p>
             <Link href={tool.link} className="btn-access">
               Accéder <i className="fa-solid fa-arrow-right"></i>
-            </Link>
+            </Link> 
           </div>
         ))}
       </div>
