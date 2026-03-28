@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
 
 // Composant interne pour garder ton style de bouton personnalisé
 function GoogleSignupButton({ onDataFetched, onLoading }: { 
@@ -15,13 +14,10 @@ function GoogleSignupButton({ onDataFetched, onLoading }: {
     onSuccess: async (tokenResponse) => {
       onLoading(true);
       try {
-        // On récupère les infos utilisateur via l'API Google UserInfo
         const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
           headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
         });
         const data = await res.json();
-        
-        // On transmet les données au formulaire (email, given_name, family_name)
         onDataFetched(data);
       } catch (error) {
         console.error("Erreur lors de la récupération des infos Google", error);
@@ -56,6 +52,20 @@ export default function Inscription() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
 
+  // --- LOGIQUE DE VALIDATION DU MOT DE PASSE ---
+  const passwordRequirements = useMemo(() => {
+    const pw = formData.password;
+    return [
+      { label: "8 caractères minimum", met: pw.length >= 8 },
+      { label: "Une majuscule (A-Z)", met: /[A-Z]/.test(pw) },
+      { label: "Une minuscule (a-z)", met: /[a-z]/.test(pw) },
+      { label: "Un chiffre (0-9)", met: /[0-9]/.test(pw) },
+      { label: "Un symbole (!@#$%...)", met: /[^A-Za-z0-9]/.test(pw) },
+    ];
+  }, [formData.password]);
+
+  const isPasswordValid = passwordRequirements.every(req => req.met);
+
   // Remplissage auto après succès Google
   const handleGoogleData = (data: any) => {
     setFormData({
@@ -67,8 +77,9 @@ export default function Inscription() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    if (!isPasswordValid) return;
 
+    setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
       router.push('/dashboard');
@@ -80,12 +91,11 @@ export default function Inscription() {
       <div className="auth-container">
         <div className="auth-form-side">
           <br />
-
+ <br /> <br />
           <div className="auth-content">
             <h1>Créez votre compte</h1>
             <p className="subtitle">Commencez votre essai gratuit de 7 jours</p>
 
-            {/* BOUTON GOOGLE AVEC TON STYLE CONSERVÉ */}
             {isGoogleLoading ? (
               <button className="btn-google" disabled>
                 <i className="fa-solid fa-spinner fa-spin"></i>
@@ -137,18 +147,42 @@ export default function Inscription() {
                   <i className="fa-solid fa-lock"></i>
                   <input 
                     type="password" 
-                    placeholder="Créez un mot de passe" 
+                    placeholder="Créez un mot de passe fort" 
                     required 
                     value={formData.password}
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                   />
                 </div>
+
+                {/* --- LISTE DE VALIDATION EN TEMPS RÉEL --- */}
+                {formData.password.length > 0 && (
+                  <div className="password-checklist" style={{ marginTop: '12px' }}>
+                    {passwordRequirements.map((req, i) => (
+                      <div key={i} style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '8px', 
+                        fontSize: '0.75rem', 
+                        color: req.met ? '#10B981' : '#9CA3AF',
+                        marginBottom: '4px'
+                      }}>
+                        <i className={req.met ? "fa-solid fa-circle-check" : "fa-solid fa-circle-dot"}></i>
+                        <span>{req.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <button 
                 type="submit" 
                 className="btn-auth-submit" 
-                disabled={isLoading || isGoogleLoading}
+                disabled={isLoading || isGoogleLoading || !isPasswordValid}
+                style={{ 
+                    marginTop: '15px',
+                    opacity: isPasswordValid ? 1 : 0.6,
+                    cursor: isPasswordValid ? 'pointer' : 'not-allowed'
+                }}
               >
                 {isLoading ? (
                   <>

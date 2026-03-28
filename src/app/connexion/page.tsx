@@ -74,7 +74,7 @@ export default function Connexion() {
     <GoogleOAuthProvider clientId="917194298260-1sp5ltg1h2lprjmne64elqgqltsdogor.apps.googleusercontent.com">
       <div className="auth-container">
         <div className="auth-form-side">
-<br /> 
+<br />  <br />
           <div className="auth-content">
             <h1>Bon retour parmi nous 👋</h1>
             <p className="subtitle">Connectez-vous pour accéder à votre dashboard</p>

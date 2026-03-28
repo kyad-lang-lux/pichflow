@@ -427,6 +427,7 @@ body {
     display: block;
     border: 2px solid #fafafa;
     font-weight: bold; 
+    background: #fafbfc;
     padding: 0px 10px;
     border-radius: 15px;
     cursor: pointer;
