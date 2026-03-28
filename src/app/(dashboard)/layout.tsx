@@ -168,7 +168,7 @@ export default function DashboardLayout({
             <span>{item.name}</span>
           </Link>
         ))}
-        <Link
+        <Link 
           href="/parametres"
           className={`tab-item ${pathname === "/parametres" ? "active" : ""}`}
         >

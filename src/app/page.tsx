@@ -66,7 +66,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
         <div className="hero-social reveal delay-3">
           <div className="avatar-group">
             <div className="avatar">
-              <img src="https://i.pravatar.cc/100?u=179" alt="user" />
+              <img src="https://i.pravatar.cc/100?u=166" alt="user" />
             </div>
             <div className="avatar">
               <img src="https://i.pravatar.cc/100?u=167" alt="user" />
@@ -316,7 +316,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
         <div className="photo-count">4 services actifs</div>
       </div>
     </div>
-  </div>
+  </div> 
 
   {/* Bouton d'action en bas */}
   {/* <div className="magic-action">

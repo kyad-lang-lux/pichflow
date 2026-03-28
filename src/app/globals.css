@@ -310,10 +310,8 @@ body {
   font-size: .7rem;
   font-weight: bold;
   backdrop-filter: blur(50px);
-  /* font-family: 'Playfair Display', serif; */
-  /* font-style: italic; */
   display: inline-flex;
-  border: 1px solid #e6e8ec;
+   border: 1px solid #babacc;
   align-items: center;
   gap: 5px;
   background: #fff;
@@ -1446,7 +1444,8 @@ color: #fff;
   color: white;
   background: #000;
   border: none;
-  padding: 14px;
+  border: 2px solid #babacc;
+  padding: 14px; 
   border-radius: 20px;
   font-weight: 700;
   font-size: 1rem;

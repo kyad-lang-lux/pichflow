@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
+ 
 
 /* --- 1. VARIABLES ET RÉINITIALISATION --- */
 :root {
@@ -485,7 +485,7 @@ padding: 0; }
   .tab-item { font-family: "Roboto", sans-serif; background: #fff; padding: 0px; margin-bottom: 0; display: flex; flex-direction: column; align-items: center; color: #000; text-decoration: none; font-size: 1.5rem; gap: 0px; flex: 1; position: relative; font-weight: 700;  }
   .tab-item.active { font-family: "Roboto", sans-serif; color: #000; font-weight: bold; padding: 0; border-radius: 50px;  bottom: 5px; gap: 0px; font-weight: 900; }
   .tab-item.active span { font-size: .75rem; }
-  .tab-item.active i{ border-radius: 50px; color: #fff; background: #000; padding: 5px; padding-left: 20px; padding-right: 20px; }
+  .tab-item.active i{ border-radius: 50px; color: #fff; background: #000; padding: 5px; padding-left: 20px; padding-right: 20px;  border: 1.5px solid #babacc;}
   .tab-item.active::before {display: none; content: ' '; position: absolute; bottom: -8px;  width: 60%; height: 6px; background: #2563EB; border-radius:  5px 5px ; box-shadow: 0 0 15px #dcdcdd, 0 0 12px #e3e3e6, 0 0 12px #2563eb inset;}
  .mobile-tab-bar span {
   /* display: none; */ 
@@ -567,6 +567,7 @@ background: #000;
 cursor: pointer;
 color: #fff;
 font-weight: bold;
+
 }
 
 
@@ -600,6 +601,7 @@ border-radius: 50px;
   z-index: 1;
   border: none !important; /* On enlève la bordure classique */
   background: white !important; /* Fond propre */
+   border: 5px solid #babacc;
 }
 
 /* Le cercle de couleur qui tourne derrière */
