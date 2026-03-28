@@ -1,7 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import { generateAIContent } from "./generateAIClient"; // ⬅️ IMPORT IMPORTANT
+import React, { useState, useEffect } from "react";
+import { generateAIContent } from "./generateAIClient"; 
+
+interface HistoriqueItem {
+  id: string;
+  type: string;
+  sujet: string;
+  contenu: string;
+  date: string;
+}
 
 export default function ContenuIAPage() {
   // 1️⃣ États pour le formulaire
@@ -14,6 +22,16 @@ export default function ContenuIAPage() {
   const [generatedResult, setGeneratedResult] = useState("");
   const [isCopied, setIsCopied] = useState(false);
 
+  // 3️⃣ États pour l'Historique
+  const [historique, setHistorique] = useState<HistoriqueItem[]>([]);
+  const [selectedHistory, setSelectedHistory] = useState<HistoriqueItem | null>(null);
+
+  // Charger l'historique au démarrage
+  useEffect(() => {
+    const saved = localStorage.getItem("pichflow_marketing_history");
+    if (saved) setHistorique(JSON.parse(saved));
+  }, []);
+
   const contentTypes = [
     { id: "blog", label: "Article de blog SEO", icon: "fa-file-lines" },
     { id: "social", label: "Réseau sociaux", icon: "fa-share-nodes" },
@@ -21,12 +39,10 @@ export default function ContenuIAPage() {
     { id: "video", label: "Script vidéo", icon: "fa-video" },
   ];
 
-  // 3️⃣ Loader noir animé
   const SolidBlackLoader = ({ size = "20px" }) => (
     <div
       style={{
-        width: size,
-        height: size,
+        width: size, height: size,
         border: "3px solid #000",
         borderBottomColor: "transparent",
         borderRadius: "50%",
@@ -34,49 +50,48 @@ export default function ContenuIAPage() {
         animation: "rotation 1s linear infinite",
       }}
     >
-      <style>
-        {`@keyframes rotation { 
-          0% { transform: rotate(0deg); } 
-          100% { transform: rotate(360deg); } 
-        }`}
-      </style>
+      <style>{`@keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
     </div>
   );
 
-  // 4️⃣ Nettoyage texte brut (garde accents et apostrophes)
   const cleanFormat = (text: string): string => {
     return text
-      .replace(/^#+\s*/gm, "")       // titres markdown
-      .replace(/[*_~`]/g, "")        // gras/italique/barré/code
-      .replace(/\n{3,}/g, "\n\n")    // trop d'espaces
+      .replace(/^#+\s*/gm, "")
+      .replace(/[*_~`]/g, "")
+      .replace(/\n{3,}/g, "\n\n")
       .trim();
   };
 
-  // 5️⃣ Copier
-  const handleCopy = async () => {
-    if (!generatedResult) return;
-    await navigator.clipboard.writeText(generatedResult);
+  const handleCopy = async (text?: string) => {
+    const contentToCopy = text || generatedResult;
+    if (!contentToCopy) return;
+    await navigator.clipboard.writeText(contentToCopy);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
 
-  // 6️⃣ Télécharger
-  const handleDownload = () => {
-    if (!generatedResult) return;
-    const blob = new Blob([generatedResult], { type: "text/plain" });
+  const handleDownload = (text?: string, type?: string) => {
+    const content = text || generatedResult;
+    if (!content) return;
+    const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `pichflow-${selectedType.toLowerCase().replace(/\s+/g, "-")}.txt`;
+    link.download = `pichflow-${(type || selectedType).toLowerCase().replace(/\s+/g, "-")}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
-  // 7️⃣ TEXTE DE STYLE À IMITER (ici tu colles tous tes styles de copywriting)
-const referenceStyleText = `
+  const deleteHistory = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const updated = historique.filter(h => h.id !== id);
+    setHistorique(updated);
+    localStorage.setItem("pichflow_marketing_history", JSON.stringify(updated));
+  };
 
+  const referenceStyleText = `
 Style Article de blog SEO :
 
 [ 
@@ -151,36 +166,38 @@ Dans ce programme, vous apprendrez à :
 [CTA]  
 Cliquez sur le lien et commencez votre transformation dès aujourd’hui. Ne restez pas spectateur, devenez acteur de votre succès digital !
 ]
+
 `;
 
-  // 8️⃣ Génération IA
   const handleGenerate = async () => {
     if (!prompt) return alert("Veuillez décrire un sujet !");
-
     setIsGenerating(true);
     setGeneratedResult("");
 
     const systemInstructions = `
-Tu es un expert en marketing digital.
-Rédige un(e) ${selectedType} avec un ton ${tone}.
-IMPORTANT : Ne fournis que le texte brut. Pas de Markdown (#, *, etc.).
-Respecte parfaitement les accents et les apostrophes.
-Le texte doit être clair, aéré et professionnel.
-UTILISE LES STYLES SUIVANTS COMME RÉFÉRENCE POUR TON STYLE D'ÉCRITURE :
-${referenceStyleText}
-`;
+Tu es un expert en marketing digital. Rédige un(e) ${selectedType} avec un ton ${tone}.
+IMPORTANT : Ne fournis que le texte brut. Pas de Markdown. Respecte les accents.
+UTILISE LES STYLES SUIVANTS COMME RÉFÉRENCE : ${referenceStyleText}`;
 
     try {
       const text = await generateAIContent(`Sujet : ${prompt}`, systemInstructions);
-      setGeneratedResult(cleanFormat(text));
-    } catch (error: any) {
-      console.error("ERREUR IA:", error);
+      const cleaned = cleanFormat(text);
+      setGeneratedResult(cleaned);
 
-      if (error.message?.includes("clé") || error.message?.includes("API")) {
-        alert("Problème de clé API. Vérifiez votre configuration.");
-      } else {
-        alert("Erreur serveur IA.");
-      }
+      // Sauvegarde dans l'historique
+      const newItem: HistoriqueItem = {
+        id: Date.now().toString(),
+        type: selectedType,
+        sujet: prompt,
+        contenu: cleaned,
+        date: new Date().toLocaleString("fr-FR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })
+      };
+      const updatedHistory = [newItem, ...historique];
+      setHistorique(updatedHistory);
+      localStorage.setItem("pichflow_marketing_history", JSON.stringify(updatedHistory));
+
+    } catch (error: any) {
+      alert("Erreur serveur IA.");
     } finally {
       setIsGenerating(false);
     }
@@ -188,143 +205,121 @@ ${referenceStyleText}
 
   return (
     <div className="ia-page-container">
-
-      {/* ----- COLONNE GAUCHE ----- */}
-      <div className="ia-config-side">
-        <div className="config-section">
-          <h4>Type de contenu</h4>
-          <div className="type-grid">
-            {contentTypes.map((type) => (
-              <button
-                key={type.id}
-                className={`type-card ${selectedType === type.label ? "active" : ""}`}
-                onClick={() => setSelectedType(type.label)}
-              >
-                <i className={`fa-solid ${type.icon}`}></i>
-                {type.label}
-              </button>
-            ))}
+      
+      {/* POPUP DE DÉTAIL HISTORIQUE */}
+      {selectedHistory && (
+        <div className="modal-overlay" onClick={() => setSelectedHistory(null)}>
+          <div className="modal-content custom-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '700px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+              <h3>{selectedHistory.type}</h3>
+              <button onClick={() => setSelectedHistory(null)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer' }}>×</button>
+            </div>
+            <p style={{ fontSize: '12px', color: '#666' }}>Sujet : {selectedHistory.sujet}</p>
+            <hr />
+            <div style={{ maxHeight: '400px', overflowY: 'auto', padding: '10px', whiteSpace: 'pre-wrap', lineHeight: '1.6', fontSize: '0.95rem' }}>
+              {selectedHistory.contenu}
+            </div>
+            <div className="modal-actions" style={{ marginTop: '20px' }}>
+              <button className="btn-cancel" onClick={() => handleDownload(selectedHistory.contenu, selectedHistory.type)}>Télécharger</button>
+              <button className="btn-submit" onClick={() => { handleCopy(selectedHistory.contenu); setSelectedHistory(null); }}>Copier & Fermer</button>
+            </div>
           </div>
         </div>
+      )}
 
-        <div className="config-section">
-          <h4>Ton du contenu</h4>
-          <select className="ia-select" value={tone} onChange={(e) => setTone(e.target.value)}>
-            <option>Professionnel</option>
-            <option>Amical</option>
-            <option>Persuasif</option>
-            <option>Enthousiaste</option>
-          </select>
+      <div style={{ display: "flex", gap: "25px", flexWrap: "wrap" }}>
+        {/* ----- COLONNE GAUCHE ----- */}
+        <div className="ia-config-side" style={{ flex: "1", minWidth: "300px" }}>
+          <div className="config-section">
+            <h4>Type de contenu</h4>
+            <div className="type-grid">
+              {contentTypes.map((type) => (
+                <button key={type.id} className={`type-card ${selectedType === type.label ? "active" : ""}`} onClick={() => setSelectedType(type.label)}>
+                  <i className={`fa-solid ${type.icon}`}></i> {type.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="config-section">
+            <h4>Ton du contenu</h4>
+            <select className="ia-select" value={tone} onChange={(e) => setTone(e.target.value)}>
+              <option>Professionnel</option>
+              <option>Amical</option>
+              <option>Persuasif</option>
+              <option>Enthousiaste</option>
+            </select>
+          </div>
+
+          <div className="config-section">
+            <h4>Sujet ou thème</h4>
+            <textarea className="ia-textarea" placeholder="Décrivez le sujet..." value={prompt} onChange={(e) => setPrompt(e.target.value)}></textarea>
+          </div>
+
+          <button className="btn-generate" onClick={handleGenerate} disabled={isGenerating} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", width: "100%" }}>
+            {isGenerating ? <><SolidBlackLoader size="16px" /> Génération...</> : <><i className="fa-solid fa-wand-magic-sparkles"></i> Générer</>}
+          </button>
         </div>
 
-        <div className="config-section">
-          <h4>Sujet ou thème</h4>
-          <textarea
-            className="ia-textarea"
-            placeholder="Décrivez le sujet de votre contenu..."
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-          ></textarea>
-        </div>
-
-        <button
-          className="btn-generate"
-          onClick={handleGenerate}
-          disabled={isGenerating}
-          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}
-        >
-          {isGenerating ? (
-            <>
-              <SolidBlackLoader size="16px" /> Génération...
-            </>
-          ) : (
-            <>
-              <i className="fa-solid fa-wand-magic-sparkles"></i> Générer le contenu
-            </>
-          )}
-        </button>
-      </div>
-
-      {/* ----- COLONNE DROITE ----- */}
-      <div className="ia-result-side" style={{ height: "100%" }}>
-        <div className="result-card" style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
-            <h4>Contenu généré</h4>
-
-            {generatedResult && (
-              <div style={{ display: "flex", gap: "15px" }}>
-                <button
-                  onClick={handleCopy}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: isCopied ? "#10b981" : "var(--primary-blue)",
-                    cursor: "pointer",
-                    fontSize: "0.8rem",
-                    fontWeight: "bold",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                  }}
-                >
-                  <i className={isCopied ? "fa-solid fa-check" : "fa-regular fa-copy"}></i>
-                  {isCopied ? "Copié !" : "Copier"}
-                </button>
-
-                <button
-                  onClick={handleDownload}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: "var(--primary-blue)",
-                    cursor: "pointer",
-                    fontSize: "0.8rem",
-                    fontWeight: "bold",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                  }}
-                >
-                  <i className="fa-solid fa-download"></i> .TXT
-                </button>
+        {/* ----- COLONNE DROITE ----- */}
+        <div className="ia-result-side" style={{ flex: "1.5", minWidth: "300px" }}>
+          <div className="result-card" style={{ height: "100%", minHeight: "450px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "15px" }}>
+              <h4>Résultat</h4>
+              {generatedResult && (
+                <div style={{ display: "flex", gap: "15px" }}>
+                  <button onClick={() => handleCopy()} style={{ background: "none", border: "none", color: isCopied ? "#10b981" : "#000", fontWeight: "bold", cursor: "pointer" }}>
+                    <i className={isCopied ? "fa-solid fa-check" : "fa-regular fa-copy"}></i> {isCopied ? "Copié" : "Copier"}
+                  </button>
+                </div>
+              )}
+            </div>
+            {generatedResult ? (
+              <div style={{ whiteSpace: "pre-wrap", lineHeight: "1.6" }}>{generatedResult}</div>
+            ) : (
+              <div style={{ textAlign: "center", marginTop: "100px", color: "#999" }}>
+                {isGenerating ? <SolidBlackLoader size="40px" /> : <p>L'IA attend vos instructions...</p>}
               </div>
             )}
           </div>
-
-          {generatedResult ? (
-            <div
-              className="result-content"
-              style={{
-                whiteSpace: "pre-wrap",
-                color: "var(--text-main)",
-                fontSize: "0.95rem",
-                lineHeight: "1.6",
-                textAlign: "justify",
-              }}
-            >
-              {generatedResult}
-            </div>
-          ) : (
-            <div className="empty-result" style={{ textAlign: "center" }}>
-              {isGenerating ? (
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "15px" }}>
-                  <SolidBlackLoader size="40px" />
-                  <p style={{ color: "#000", fontWeight: "600" }}>L'IA rédige votre contenu...</p>
-                </div>
-              ) : (
-                <>
-                  <div className="empty-icon">
-                    <i className="fa-solid fa-sparkles"></i>
-                  </div>
-                  <p>Votre contenu apparaîtra ici</p>
-                </>
-              )}
-            </div>
-          )}
         </div>
       </div>
 
-      <br /><br /><br />
+      {/* ----- SECTION HISTORIQUE (EN BAS) ----- */}
+      <div style={{ marginTop: "50px" }}>
+        <h4 style={{ marginBottom: "20px", display: "flex", alignItems: "center", gap: "10px" }}>
+          <i className="fa-solid fa-clock-rotate-left"></i> Historique des générations
+        </h4>
+        
+        {historique.length === 0 ? (
+          <p style={{ color: "#999", fontStyle: "italic" }}>Aucun historique pour le moment.</p>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "20px" }}>
+            {historique.map((item) => (
+              <div 
+                key={item.id} 
+                onClick={() => setSelectedHistory(item)}
+                style={{ 
+                  background: "#fff", padding: "15px", borderRadius: "12px", border: "1px solid #eee", 
+                  cursor: "pointer", position: "relative", transition: "0.2s hover"
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = "#000"}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = "#eee"}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                  <span style={{ fontSize: "10px", fontWeight: "bold", background: "#f0f0f0", padding: "2px 8px", borderRadius: "4px" }}>{item.type}</span>
+                  <button onClick={(e) => deleteHistory(item.id, e)} style={{ background: "none", border: "none", color: "#ff4d4d", cursor: "pointer" }}>
+                    <i className="fa-solid fa-trash-can"></i>
+                  </button>
+                </div>
+                <p style={{ fontSize: "13px", fontWeight: "600", margin: "5px 0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.sujet}</p>
+                <p style={{ fontSize: "11px", color: "#999" }}>{item.date}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <br /><br /> <br /> 
     </div>
   );
 }

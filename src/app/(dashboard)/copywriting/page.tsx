@@ -1,7 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getGoogleAIModel } from "./generateCopywriting";
+
+interface CopyHistoryItem {
+  id: string;
+  method: string;
+  product: string;
+  content: string;
+  date: string;
+}
 
 export default function CopywritingPage() {
   // 1️⃣ États du formulaire
@@ -10,12 +18,22 @@ export default function CopywritingPage() {
   const [product, setProduct] = useState("");
   const [target, setTarget] = useState("");
   const [objective, setObjective] = useState("Professionnel");
-  const [textLength, setTextLength] = useState("400-600"); // <- Nouvel état pour longueur
+  const [textLength, setTextLength] = useState("400-600");
 
   // 2️⃣ États génération
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedResult, setGeneratedResult] = useState("");
   const [isCopied, setIsCopied] = useState(false);
+
+  // 3️⃣ États Historique & Modal
+  const [history, setHistory] = useState<CopyHistoryItem[]>([]);
+  const [selectedHistory, setSelectedHistory] = useState<CopyHistoryItem | null>(null);
+
+  // Charger l'historique au montage
+  useEffect(() => {
+    const saved = localStorage.getItem("pichflow_copy_history");
+    if (saved) setHistory(JSON.parse(saved));
+  }, []);
 
   const methods = [
     { id: "AIDA", title: "AIDA", desc: "Attention, Interest, Desire, Action" },
@@ -23,12 +41,10 @@ export default function CopywritingPage() {
     { id: "BAB", title: "BAB", desc: "Avant, Après, Pont" },
   ];
 
-  // Loader Noir Solid
   const SolidBlackLoader = ({ size = "20px" }) => (
     <div
       style={{
-        width: size,
-        height: size,
+        width: size, height: size,
         border: "3px solid #000",
         borderBottomColor: "transparent",
         borderRadius: "50%",
@@ -36,25 +52,22 @@ export default function CopywritingPage() {
         animation: "rotation 1s linear infinite",
       }}
     >
-      <style>
-        {`@keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}
-      </style>
+      <style>{`@keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
     </div>
   );
 
-  // 🔹 Fonction de nettoyage sécurisée
   const cleanFormat = (text: string): string =>
     text.replace(/^#+\s*/gm, "").replace(/[*_~`]/g, "").replace(/\n{3,}/g, "\n\n").trim();
 
-  // 🔹 Copier dans le presse-papiers
-  const handleCopy = async () => {
-    if (!generatedResult) return;
+  const handleCopy = async (textToCopy?: string) => {
+    const content = textToCopy || generatedResult;
+    if (!content) return;
     try {
       if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(generatedResult);
+        await navigator.clipboard.writeText(content);
       } else {
         const textArea = document.createElement("textarea");
-        textArea.value = generatedResult;
+        textArea.value = content;
         document.body.appendChild(textArea);
         textArea.select();
         document.execCommand("copy");
@@ -62,32 +75,31 @@ export default function CopywritingPage() {
       }
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
-    } catch (err) {
-      console.error("Erreur copie:", err);
-    }
+    } catch (err) { console.error("Erreur copie:", err); }
   };
 
-  // 🔹 Télécharger en .txt
-  const handleDownload = () => {
-    if (!generatedResult) return;
-    const blob = new Blob([generatedResult], { type: "text/plain" });
+  const handleDownload = (textToDownload?: string, methodUsed?: string) => {
+    const content = textToDownload || generatedResult;
+    if (!content) return;
+    const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `copy-${activeMethod.toLowerCase()}.txt`;
+    link.download = `copy-${(methodUsed || activeMethod).toLowerCase()}.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
-  // 🔹 Génération IA
-  const handleGenerate = async () => {
-    if (!product) return alert("Veuillez décrire votre produit !");
-    setIsGenerating(true);
-    setGeneratedResult("");
+  const deleteFromHistory = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const updated = history.filter(item => item.id !== id);
+    setHistory(updated);
+    localStorage.setItem("pichflow_copy_history", JSON.stringify(updated));
+  };
 
-    const systemInstructions = `
+  const systemInstructions = `
 Tu es un modèle expert en copywriting émotionnel optimisé pour Facebook et Instagram.
 
 🎯 OBJECTIF PRINCIPAL  
@@ -437,13 +449,16 @@ Prends la décision maintenant.
 👉 Clique maintenant pour découvrir comment ce système peut changer ta vie — avant que quelqu’un d’autre ne le fasse à ta place.]
 
 
-
-
 IMPORTANT  
 Tu ne dois jamais copier les textes mot pour mot.  
 Tu dois uniquement imiter la structure, le ton, le rythme et l’énergie de tous les styles présentés ci-dessus.
 
 `;
+
+  const handleGenerate = async () => {
+    if (!product) return alert("Veuillez décrire votre produit !");
+    setIsGenerating(true);
+    setGeneratedResult("");
 
     const userPrompt = `Produit/Service : ${product}. Cible : ${target || "tout le monde"}. Objectif : ${objective}. Méthode : ${activeMethod}.`;
 
@@ -451,12 +466,23 @@ Tu dois uniquement imiter la structure, le ton, le rythme et l’énergie de tou
       const model = getGoogleAIModel(systemInstructions);
       const result = await model.generateContent(userPrompt);
       const text = (await result.response).text();
-      setGeneratedResult(cleanFormat(text));
+      const cleanedText = cleanFormat(text);
+      setGeneratedResult(cleanedText);
+
+      // Sauvegarde Historique
+      const newItem: CopyHistoryItem = {
+        id: Date.now().toString(),
+        method: activeMethod,
+        product: product,
+        content: cleanedText,
+        date: new Date().toLocaleString("fr-FR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })
+      };
+      const updatedHistory = [newItem, ...history];
+      setHistory(updatedHistory);
+      localStorage.setItem("pichflow_copy_history", JSON.stringify(updatedHistory));
+
     } catch (error: any) {
-      console.error("ERREUR GOOGLE AI:", error);
-      if (error.message?.includes("403")) alert("Clé API bloquée ou invalide.");
-      else if (error.message?.includes("429")) alert("Trop de requêtes. Patientez quelques secondes.");
-      else alert("Erreur serveur IA. Voir console pour détails.");
+      alert("Erreur serveur IA.");
     } finally {
       setIsGenerating(false);
     }
@@ -464,128 +490,156 @@ Tu dois uniquement imiter la structure, le ton, le rythme et l’énergie de tou
 
   return (
     <div className="ia-page-container" style={{ width: "100%", overflowX: "hidden", paddingBottom: "40px" }}>
-      {/* Configuration */}
-      <div className="ia-config-side" style={{ padding: "20px", maxWidth: "100%" }}>
-        <div className="config-section">
-          <h4>Type de copywriting</h4>
-          <select className="ia-select" value={type} onChange={(e) => setType(e.target.value)}>
-            <option>Page de vente</option>
-            <option>Landing page</option>
-            <option>Publicité Facebook</option>
-            <option>Fiche produit</option>
-          </select>
-        </div>
-
-        <div className="config-section">
-          <h4>Méthode de copywriting</h4>
-          <div className="method-grid" style={{ gap: "10px" }}>
-            {methods.map((method) => (
-              <div
-                key={method.id}
-                className={`method-card ${activeMethod === method.id ? "active" : ""}`}
-                onClick={() => setActiveMethod(method.id)}
-                style={{ padding: "12px", minWidth: "0", cursor: "pointer" }}
-              >
-                <span className="method-title" style={{ fontSize: "0.9rem" }}>{method.title}</span>
-                <span className="method-desc" style={{ fontSize: "0.65rem" }}>{method.desc}</span>
-              </div>
-            ))}
+      
+      {/* MODAL HISTORIQUE */}
+      {selectedHistory && (
+        <div className="modal-overlay" onClick={() => setSelectedHistory(null)}>
+          <div className="modal-content custom-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '750px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+              <h3>Copie - {selectedHistory.method}</h3>
+              <button onClick={() => setSelectedHistory(null)} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>×</button>
+            </div>
+            <p style={{ fontSize: '13px', color: '#555', marginBottom: '10px' }}><strong>Produit :</strong> {selectedHistory.product}</p>
+            <hr />
+            <div style={{ maxHeight: '450px', overflowY: 'auto', padding: '15px', whiteSpace: 'pre-wrap', lineHeight: '1.7', fontSize: '0.95rem', background: '#f9f9f9', borderRadius: '8px' }}>
+              {selectedHistory.content}
+            </div>
+            <div className="modal-actions" style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+              <button className="btn-cancel" onClick={() => handleDownload(selectedHistory.content, selectedHistory.method)}>Télécharger</button>
+              <button className="btn-submit" onClick={() => { handleCopy(selectedHistory.content); setSelectedHistory(null); }}>Copier & Fermer</button>
+            </div>
           </div>
         </div>
+      )}
 
-        <div className="config-section">
-          <h4>Produit / Service</h4>
-          <textarea
-            className="ia-textarea"
-            placeholder="Décrivez votre produit..."
-            style={{ width: "100%" }}
-            value={product}
-            onChange={(e) => setProduct(e.target.value)}
-          />
+      <div style={{ display: "flex", gap: "25px", flexWrap: "wrap" }}>
+        {/* Configuration */}
+        <div className="ia-config-side" style={{ padding: "20px", flex: "1", minWidth: "300px" }}>
+          <div className="config-section">
+            <h4>Type de copywriting</h4>
+            <select className="ia-select" value={type} onChange={(e) => setType(e.target.value)}>
+              <option>Page de vente</option>
+              <option>Landing page</option>
+              <option>Publicité Facebook</option>
+              <option>Fiche produit</option>
+            </select>
+          </div>
+
+          <div className="config-section">
+            <h4>Méthode de copywriting</h4>
+            <div className="method-grid" style={{ gap: "10px" }}>
+              {methods.map((method) => (
+                <div
+                  key={method.id}
+                  className={`method-card ${activeMethod === method.id ? "active" : ""}`}
+                  onClick={() => setActiveMethod(method.id)}
+                  style={{ padding: "12px", cursor: "pointer" }}
+                >
+                  <span className="method-title" style={{ fontSize: "0.9rem" }}>{method.title}</span>
+                  <span className="method-desc" style={{ fontSize: "0.65rem" }}>{method.desc}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="config-section">
+            <h4>Produit / Service</h4>
+            <textarea
+              className="ia-textarea"
+              placeholder="Décrivez votre produit..."
+              value={product}
+              onChange={(e) => setProduct(e.target.value)}
+            />
+          </div>
+
+          <div className="config-section">
+            <h4>Cible</h4>
+            <input
+              type="text"
+              className="ia-input"
+              placeholder="Ex: Entrepreneurs..."
+              value={target}
+              onChange={(e) => setTarget(e.target.value)}
+            />
+          </div>
+
+          <div className="config-section">
+            <h4>Objectif</h4>
+            <select className="ia-select" value={objective} onChange={(e) => setObjective(e.target.value)}>
+              <option>Professionnel</option>
+              <option>Persuasif</option>
+              <option>Urgent</option>
+            </select>
+          </div>
+
+          <div className="config-section">
+            <h4>Longueur du texte (mots)</h4>
+            <select className="ia-select" value={textLength} onChange={(e) => setTextLength(e.target.value)}>
+              <option value="200-300">200 - 300</option>
+              <option value="400-600">400 - 600</option>
+              <option value="600-800">600 - 800</option>
+            </select>
+          </div>
+
+          <button className="btn-generate" onClick={handleGenerate} disabled={isGenerating} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", width: "100%" }}>
+            {isGenerating ? <><SolidBlackLoader size="16px" /> Génération...</> : <><i className="fa-solid fa-pen-nib"></i> Générer le copy</>}
+          </button>
         </div>
 
-        <div className="config-section">
-          <h4>Cible</h4>
-          <input
-            type="text"
-            className="ia-input"
-            placeholder="Ex: Entrepreneurs..."
-            style={{ width: "100%" }}
-            value={target}
-            onChange={(e) => setTarget(e.target.value)}
-          />
-        </div>
-
-        <div className="config-section">
-          <h4>Objectif</h4>
-          <select className="ia-select" value={objective} onChange={(e) => setObjective(e.target.value)}>
-            <option>Professionnel</option>
-            <option>Persuasif</option>
-            <option>Urgent</option>
-          </select>
-        </div>
-
-        {/* 🔹 Nouvelle section : Longueur du texte */}
-        <div className="config-section">
-          <h4>Longueur du texte (en mots)</h4>
-          <select className="ia-select" value={textLength} onChange={(e) => setTextLength(e.target.value)}>
-            <option value="200-300">200 - 300</option>
-            <option value="400-600">400 - 600</option>
-            <option value="600-800">600 - 800</option>
-            <option value="800-1000">800 - 1000</option>
-          </select>
-        </div>
-
-        <button
-          className="btn-generate"
-          onClick={handleGenerate}
-          disabled={isGenerating}
-          style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}
-        >
-          {isGenerating ? <><SolidBlackLoader size="16px" /> Génération...</> : <><i className="fa-solid fa-pen-nib"></i> Générer le copy</>}
-        </button>
-      </div>
-
-      {/* Résultat */}
-      <div className="ia-result-side" style={{ width: "100%", minWidth: "0" }}>
-        <div className="result-card" style={{ padding: "20px", minHeight: "auto", display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
-            <h4>Texte généré</h4>
-            {generatedResult && (
-              <div style={{ display: "flex", gap: "10px" }}>
-                <button onClick={handleCopy} style={{ background: "none", border: "none", color: isCopied ? "#10B981" : "var(--primary-blue)", cursor: "pointer", fontSize: "0.8rem", fontWeight: "bold" }}>
-                  <i className={isCopied ? "fa-solid fa-check" : "fa-regular fa-copy"}></i> {isCopied ? "Copié" : "Copier"}
-                </button>
-                <button onClick={handleDownload} style={{ background: "none", border: "none", color: "var(--primary-blue)", cursor: "pointer", fontSize: "0.8rem", fontWeight: "bold" }}>
-                  <i className="fa-solid fa-download"></i> .TXT
-                </button>
+        {/* Résultat */}
+        <div className="ia-result-side" style={{ flex: "1.5", minWidth: "300px" }}>
+          <div className="result-card" style={{ padding: "20px", height: "100%", display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "15px" }}>
+              <h4>Texte généré</h4>
+              {generatedResult && (
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button onClick={() => handleCopy()} style={{ background: "none", border: "none", color: isCopied ? "#10B981" : "#000", cursor: "pointer", fontWeight: "bold" }}>
+                    <i className={isCopied ? "fa-solid fa-check" : "fa-regular fa-copy"}></i> {isCopied ? "Copié" : "Copier"}
+                  </button>
+                </div>
+              )}
+            </div>
+            {generatedResult ? (
+              <div style={{ whiteSpace: "pre-wrap", lineHeight: "1.6" }}>{generatedResult}</div>
+            ) : (
+              <div style={{ textAlign: "center", marginTop: "100px", color: "#999" }}>
+                {isGenerating ? <SolidBlackLoader size="40px" /> : <p>Décrivez votre produit pour commencer...</p>}
               </div>
             )}
           </div>
-
-          {generatedResult ? (
-            <div className="result-content" style={{ whiteSpace: "pre-wrap", color: "var(--text-main)", fontSize: "0.95rem", lineHeight: "1.6", textAlign: "justify" }}>
-              {generatedResult}
-            </div>
-          ) : (
-            <div className="empty-result" style={{ padding: "30px", textAlign: "center" }}>
-              {isGenerating ? (
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "15px" }}>
-                  <SolidBlackLoader size="40px" />
-                  <p style={{ color: "#000", fontWeight: "500" }}>Rédaction du copy en cours...</p>
-                </div>
-              ) : (
-                <>
-                  <div className="empty-icon"><i className="fa-solid fa-pen-fancy"></i></div>
-                  <p style={{ fontSize: "0.9rem" }}>Votre texte de vente apparaîtra ici</p>
-                  <span className="empty-subtext" style={{ fontSize: "0.75rem" }}>Utilisez les méthodes AIDA, PAS ou BAB</span>
-                </>
-              )}
-            </div>
-          )}
         </div>
       </div>
-      <br /><br /><br />
+
+      {/* SECTION HISTORIQUE */}
+      <div style={{ marginTop: "50px", padding: "0 20px" }}>
+        <h4 style={{ marginBottom: "20px", display: "flex", alignItems: "center", gap: "10px" }}>
+          <i className="fa-solid fa-clock-rotate-left"></i> Historique Copywriting
+        </h4>
+        {history.length === 0 ? (
+          <p style={{ color: "#999", fontStyle: "italic" }}>Aucun texte sauvegardé.</p>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "20px" }}>
+            {history.map((item) => (
+              <div 
+                key={item.id} 
+                onClick={() => setSelectedHistory(item)}
+                style={{ background: "#fff", padding: "18px", borderRadius: "12px", border: "1px solid #eee", cursor: "pointer", transition: "0.2s" }}
+                onMouseEnter={(e) => e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.05)"}
+                onMouseLeave={(e) => e.currentTarget.style.boxShadow = "none"}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+                  <span style={{ fontSize: "10px", fontWeight: "bold", background: "#000", color: "#fff", padding: "2px 8px", borderRadius: "4px" }}>{item.method}</span>
+                  <button onClick={(e) => deleteFromHistory(item.id, e)} style={{ background: "none", border: "none", color: "#ff4d4d", cursor: "pointer" }}>
+                    <i className="fa-solid fa-trash-can"></i>
+                  </button>
+                </div>
+                <p style={{ fontSize: "13px", fontWeight: "700", marginBottom: "5px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.product}</p>
+                <p style={{ fontSize: "11px", color: "#888" }}>{item.date}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div> <br /> <br />
     </div>
   );
 }
