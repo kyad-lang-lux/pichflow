@@ -91,82 +91,88 @@ export default function ContenuIAPage() {
     localStorage.setItem("pichflow_marketing_history", JSON.stringify(updated));
   };
 
-  const referenceStyleText = `
+ const referenceStyleText = `
 Style Article de blog SEO :
 
-[ 
+[
 Titre : Comment transformer vos compétences en revenus digitaux en 30 jours
 
-Vous avez une compétence mais ne savez pas comment la monétiser ? Que vous soyez coach, créateur de contenu ou entrepreneur en herbe, il existe une méthode claire pour générer vos premiers revenus en ligne.
+Vous avez une compétence mais vous ne savez pas comment la convertir en revenu ? Aujourd’hui, n’importe qui peut monétiser son expertise grâce au digital — encore faut-il utiliser la bonne méthode.
 
-Avec notre programme, vous apprendrez à :  
-- Créer un produit digital professionnel, prêt à vendre.  
-- Déployer votre site et vendre sans stock ni capital.  
-- Attirer vos premiers clients via les réseaux sociaux et les campagnes simples.  
+Dans cet article, découvrez comment créer un produit digital professionnel, lancer votre site sans compétence technique et attirer vos premiers clients grâce à une stratégie simple mais efficace.
 
-Ne perdez plus de temps à improviser : en 30 jours, vous pourrez transformer vos connaissances en un revenu stable.
+Avec notre programme, vous apprendrez à :
+- Créer un produit digital structuré et prêt à vendre ;
+- Construire un site fonctionnel sans matériel coûteux ;
+- Mettre en place une stratégie de contenu qui génère des ventes.
 
-CTA : Rejoignez notre programme aujourd’hui et commencez à générer vos premiers revenus digitaux.
+Ne laissez plus votre talent dormir : en 30 jours, vous pouvez passer de simple compétence à revenu concret.
+
+CTA : Rejoignez le programme dès aujourd’hui et commencez votre transformation digitale.
 ]
 
 Style Réseau sociaux :
 
-[ 
-🚀 Vous avez un talent mais pas de revenu ?  
+[
+🚀 Vous avez du talent… mais pas encore de revenus ?
 
-En 7 jours seulement, apprenez à transformer vos compétences en produit digital.  
+Bonne nouvelle : en seulement 7 jours, vous pouvez transformer vos compétences en un produit digital rentable.
 
-✅ Créez votre site depuis votre téléphone  
-✅ Vendez sans stock et sans capital  
-✅ Attirez vos clients sur Instagram et TikTok  
+✔ Créez votre site depuis votre téléphone  
+✔ Lancez vos offres sans stock ni capital  
+✔ Attirez vos clients grâce à des contenus simples et efficaces
 
-Les places sont limitées !  
+Si vous êtes prêt à passer de l’idée à l’action, c’est maintenant.
 
-🔥 Inscrivez-vous maintenant et passez à l’action !
+🔥 Rejoignez la formation et commencez votre business digital !
 ]
 
 Style Email marketing :
 
-[ 
+[
 Objet : Transformez vos compétences en revenu dès ce mois-ci
 
-Bonjour [Prénom],  
+Bonjour [Prénom],
 
-Vous avez déjà une compétence mais vous ne savez pas comment en tirer un revenu ?  
+Vous avez une compétence, mais vous ne savez pas comment la monétiser ?  
+Notre Masterclass Digital Addict Sellers vous montre pas à pas comment créer votre premier produit digital et le vendre efficacement — même si vous partez de zéro.
 
-Rejoignez notre Masterclass Digital Addict Sellers et découvrez comment créer votre premier produit digital et le vendre efficacement.  
+Voici ce que vous allez apprendre :
+- Créer un site professionnel directement depuis votre téléphone ;
+- Mettre en place une stratégie de contenu qui attire vos clients ;
+- Lancer vos premières ventes rapidement et sans capital.
 
-- Créez un site professionnel depuis votre téléphone  
-- Publiez du contenu stratégique pour attirer vos clients  
-- Lancez vos ventes rapidement, sans stock ni capital  
+Offre limitée : seulement 20 places disponibles.
 
-Offre spéciale : seulement 20 places disponibles. Réservez la vôtre maintenant !  
-
-CTA : [Je réserve ma place]
+CTA : [Je réserve ma place maintenant]
 ]
 
 Style Script vidéo :
 
-[ 
-[Intro]  
-Salut ! Vous êtes bloqué à cause d’un manque de ressources ou d’expérience ? Rassurez-vous, vous n’êtes pas seul.  
+[
+[Intro]
+Comment percer sur YouTube ?  
+C’est la question que tout le monde se pose. Beaucoup essaient de copier des YouTubeurs populaires… mais la vérité, c’est que personne n’explique comment percer **personnellement**, avec ses propres forces.
 
-[Storytelling]  
-Il y a quelques années, j’avais un téléphone et une seule question : comment gagner ma vie en ligne ? Pas de PC, pas de formation, juste la motivation.  
+[Storytelling]
+Il y a quelques années, j’avais juste un téléphone et une seule envie : réussir en ligne. Pas de PC, pas de budget, pas de formation. Rien… sauf la détermination.
 
-[Solution]  
-Aujourd’hui, j’ai créé plus de 100 sites et généré des milliers d’euros. Et vous pouvez faire pareil !  
+[Message central]
+Et malgré ça, j’ai réussi à lancer ma chaîne, à créer du contenu régulier et à comprendre ce qui fonctionne vraiment : l’authenticité, la stratégie et la constance.  
+Vous n’avez pas besoin d’être connu. Vous avez juste besoin d’une méthode.
 
-[Bénéfices]  
-Dans ce programme, vous apprendrez à :  
-- Créer un site pro depuis votre téléphone  
-- Attirer vos premiers clients  
-- Vendre vos compétences en ligne  
+[Solution]
+Aujourd’hui, j’ai créé plus de 100 sites, géré plusieurs chaînes YouTube et généré des milliers d’euros grâce au digital. Et vous pouvez suivre la même trajectoire.
 
-[CTA]  
-Cliquez sur le lien et commencez votre transformation dès aujourd’hui. Ne restez pas spectateur, devenez acteur de votre succès digital !
+[Bénéfices]
+Dans ce programme, vous apprendrez à :
+- Créer un site professionnel depuis votre téléphone ;
+- Attirer vos premiers clients avec des contenus impactants ;
+- Transformer vos compétences en revenus.
+
+[CTA]
+Cliquez sur le lien et démarrez votre transformation aujourd’hui. Ne restez pas spectateur : devenez acteur de votre succès digital.
 ]
-
 `;
 
   const handleGenerate = async () => {

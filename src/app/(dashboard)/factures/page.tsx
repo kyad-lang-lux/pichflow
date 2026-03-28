@@ -262,7 +262,7 @@ export default function FacturesPage() {
                             placeholder="Prix unitaire" 
                             min="0"
                             step="0.01"
-                            value={p.prixUnitaire}
+                            // value={p.prixUnitaire}
                             onChange={(e) => updatePrestation(index, 'prixUnitaire', Math.max(0, parseFloat(e.target.value)))} 
                             required 
                          />
@@ -270,7 +270,7 @@ export default function FacturesPage() {
                             type="number" 
                             placeholder="Qté" 
                             min="1"
-                            value={p.quantite}
+                            // value={p.quantite}
                             onChange={(e) => updatePrestation(index, 'quantite', Math.max(1, parseInt(e.target.value)))} 
                             required 
                          />
@@ -319,7 +319,7 @@ export default function FacturesPage() {
           <div className="col-actions">Actions</div>
         </div>
 
-        <div className="div-table-body"> 
+        <div className="div-table-body">  
           {filtered.map((f) => (
             <div className="div-table-row" key={f.id}>
               <div className="col-id font-bold" data-label="ID :">{f.id}</div>

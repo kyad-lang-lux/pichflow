@@ -211,11 +211,11 @@ export default function DevisPage() {
                         setFormData({...formData, prestations: news});
                       }} required />
                       <div className="row-inner" style={{display:'flex', gap:'10px'}}>
-                        <input type="number" placeholder="Prix" value={p.prixUnitaire} onChange={(e) => {
+                        <input type="number" placeholder="Prix unitaire" min="0" onChange={(e) => {
                           const news = [...formData.prestations]; news[index].prixUnitaire = parseFloat(e.target.value);
                           setFormData({...formData, prestations: news});
                         }} required />
-                        <input type="number" placeholder="Qté" value={p.quantite} onChange={(e) => {
+                        <input type="number" placeholder="Qté" min="1" onChange={(e) => {
                           const news = [...formData.prestations]; news[index].quantite = parseInt(e.target.value);
                           setFormData({...formData, prestations: news});
                         }} required />
@@ -258,7 +258,7 @@ export default function DevisPage() {
           <div className="col-actions">Actions</div>
         </div>
 
-        <div className="div-table-body"> 
+        <div className="div-table-body">  
           {filtered.map((d) => (
             <div className="div-table-row" key={d.id}>
               <div className="col-id font-bold" data-label="ID :">{d.id}</div>
