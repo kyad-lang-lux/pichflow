@@ -10,7 +10,7 @@ interface HistoriqueItem {
   contenu: string;
   date: string;
 }
-
+ 
 export default function ContenuIAPage() {
   // 1️⃣ États pour le formulaire
   const [selectedType, setSelectedType] = useState("Article de blog SEO");
@@ -99,20 +99,18 @@ Titre : Comment transformer vos compétences en revenus digitaux en 30 jours
 
 Vous avez une compétence mais vous ne savez pas comment la convertir en revenu ? Aujourd’hui, n’importe qui peut monétiser son expertise grâce au digital — encore faut-il utiliser la bonne méthode.
 
-Dans cet article, découvrez comment créer un produit digital professionnel, lancer votre site sans compétence technique et attirer vos premiers clients grâce à une stratégie simple mais efficace.
+Dans cet article, découvrez comment créer un produit digital professionnel, lancer votre site sans compétence technique et attirer vos premiers clients grâce à une stratégie simple.
 
 Avec notre programme, vous apprendrez à :
 - Créer un produit digital structuré et prêt à vendre ;
-- Construire un site fonctionnel sans matériel coûteux ;
 - Mettre en place une stratégie de contenu qui génère des ventes.
 
 Ne laissez plus votre talent dormir : en 30 jours, vous pouvez passer de simple compétence à revenu concret.
 
-CTA : Rejoignez le programme dès aujourd’hui et commencez votre transformation digitale.
+Rejoignez le programme dès aujourd’hui et commencez votre transformation digitale.
 ]
 
 Style Réseau sociaux :
-
 [
 🚀 Vous avez du talent… mais pas encore de revenus ?
 
@@ -135,15 +133,13 @@ Objet : Transformez vos compétences en revenu dès ce mois-ci
 Bonjour [Prénom],
 
 Vous avez une compétence, mais vous ne savez pas comment la monétiser ?  
-Notre Masterclass Digital Addict Sellers vous montre pas à pas comment créer votre premier produit digital et le vendre efficacement — même si vous partez de zéro.
+Notre Masterclass Digital Addict Sellers vous montre pas à pas comment créer votre premier produit digital et le vendre efficacement.
 
 Voici ce que vous allez apprendre :
 - Créer un site professionnel directement depuis votre téléphone ;
-- Mettre en place une stratégie de contenu qui attire vos clients ;
 - Lancer vos premières ventes rapidement et sans capital.
 
 Offre limitée : seulement 20 places disponibles.
-
 CTA : [Je réserve ma place maintenant]
 ]
 
@@ -152,26 +148,23 @@ Style Script vidéo :
 [
 [Intro]
 Comment percer sur YouTube ?  
-C’est la question que tout le monde se pose. Beaucoup essaient de copier des YouTubeurs populaires… mais la vérité, c’est que personne n’explique comment percer **personnellement**, avec ses propres forces.
-
+ça c'est une question que presque 80 % des gens se posent en se lançant sur Youtube en se basant souvent sur des modèles de youtubeurs connus et d'ailleurs il y a plein de tutos qui expliquent comment percer sur Youtube mais aucun n'explique réellement comment bien percer.
 [Storytelling]
-Il y a quelques années, j’avais juste un téléphone et une seule envie : réussir en ligne. Pas de PC, pas de budget, pas de formation. Rien… sauf la détermination.
 
-[Message central]
-Et malgré ça, j’ai réussi à lancer ma chaîne, à créer du contenu régulier et à comprendre ce qui fonctionne vraiment : l’authenticité, la stratégie et la constance.  
-Vous n’avez pas besoin d’être connu. Vous avez juste besoin d’une méthode.
+Déjà les premières questions à se poser quand on se lance sur Youtube c'est comment je veux percer et dans quelle domaine est-ce que vous souhaitez vous lancer dans le divertissement tout ce qui est train danse tuto général, etc.
+le but c'est de trouver un domaine qui vous plaît et dans lequel vous êtes motivé parce que avant d'être connu sur YouTube il y a un long chemin à parcourir et si vous n'aimez pas ce que vous faites et que vous voulez juste gagner de l'argent et des abonnés vous risquez très fortement d'abandonner un jour ou l'autre.
+Après pour ce qui est de comment vous voulez percer vous avez le choix entre deux catégories les shorts ou les vidéos longues sachant que le choix que vous allez faire pour avoir un impact sur votre future communauté. 
 
-[Solution]
-Aujourd’hui, j’ai créé plus de 100 sites, géré plusieurs chaînes YouTube et généré des milliers d’euros grâce au digital. Et vous pouvez suivre la même trajectoire.
+[Explications ou démonstrations]
+Vous devez avoir un planning de vidéos assez régulier parce que l'algorithme youtube il mettra plus vos vidéos en avant si vous en postez genre une par semaine par exemple alors que si jamais vous en postez par exemple 5 par jour oui ça fait ça fait beaucoup j'ai peut-être un petit peu abusé mais bon du coup si vous en postez cinq par jour elles 
+seront beaucoup moins mises en avant et sinon je fais une petite aparté sur comment marche l'algorithme de YouTube en fait si par exemple vidéo elle a 1000 vues et que sur les 1000 vues vous avez 
+genre 700 likes 400 commentaires et genre allez je sais pas 200 partages alors elle va vraiment être mise en avant.
 
-[Bénéfices]
-Dans ce programme, vous apprendrez à :
-- Créer un site professionnel depuis votre téléphone ;
-- Attirer vos premiers clients avec des contenus impactants ;
-- Transformer vos compétences en revenus.
+[Conclusion]
+Essayez de trouver un planning de vidéo stable qui vous convient que vous pouvez assez bien respecter le secret pour percer sur Youtube c'est de faire ce que l'on aime et si on est fier de ce que l'on produit et qu'on en a pas honte on percera un jour ou l'autre si vous avez des commentaires négatifs sur vos vidéos supprimez-les et ne lâchez jamais gardz un mental d'acier les personnes les plus fortes ne sont pas toujours les personnes qui 
+gagnent mais celles qui n'abandonnent pas quand elles perdent ne lâchez jamais.
 
-[CTA]
-Cliquez sur le lien et démarrez votre transformation aujourd’hui. Ne restez pas spectateur : devenez acteur de votre succès digital.
+
 ]
 `;
 
@@ -180,13 +173,13 @@ Cliquez sur le lien et démarrez votre transformation aujourd’hui. Ne restez p
     setIsGenerating(true);
     setGeneratedResult("");
 
-    const systemInstructions = `
+    const systemInstruction = `
 Tu es un expert en marketing digital. Rédige un(e) ${selectedType} avec un ton ${tone}.
 IMPORTANT : Ne fournis que le texte brut. Pas de Markdown. Respecte les accents.
 UTILISE LES STYLES SUIVANTS COMME RÉFÉRENCE : ${referenceStyleText}`;
 
     try {
-      const text = await generateAIContent(`Sujet : ${prompt}`, systemInstructions);
+      const text = await generateAIContent(`Sujet : ${prompt}`, systemInstruction);
       const cleaned = cleanFormat(text);
       setGeneratedResult(cleaned);
 
@@ -309,7 +302,7 @@ UTILISE LES STYLES SUIVANTS COMME RÉFÉRENCE : ${referenceStyleText}`;
                   background: "#fff", padding: "15px", borderRadius: "12px", border: "1px solid #eee", 
                   cursor: "pointer", position: "relative", transition: "0.2s hover"
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.borderColor = "#000"}
+                // onMouseEnter={(e) => e.currentTarget.style.borderColor = "#000"}
                 onMouseLeave={(e) => e.currentTarget.style.borderColor = "#eee"}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>

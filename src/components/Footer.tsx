@@ -19,7 +19,7 @@ export const Footer = () => {
           </div>
           <p>
             La plateforme tout-en-un pour les freelances, particuliers et PME. 
-            Marketing IA, Copywriting, Factures et comptabilité automatisée.
+            Factures, Devis, Marketing IA, Copywriting et comptabilité automatisée.
           </p>
         </div>
 
@@ -39,7 +39,8 @@ export const Footer = () => {
       <div className="footer-bottom">
         <p>Fait  avec amour ❤️ par l'équipe de Pichflow</p>
         <div className="social-icons">
-          <Link href="#"><i className="fa-brands fa-twitter"></i></Link>
+          <Link href="https://www.youtube.com/@pichflow"><i className="fa-brands fa-youtube"></i></Link>
+          <Link href="https://www.tiktok.com/@pichflow"><i className="fa-brands fa-tiktok"></i></Link>
           <Link href="#"><i className="fa-brands fa-linkedin"></i></Link>
         </div>
       </div>

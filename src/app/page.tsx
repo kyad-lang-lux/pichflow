@@ -47,8 +47,7 @@ export default function Home() {
         {/* Sous-titre animé */}
         <p className="reveal delay-2">
           Une seule solution pour développer votre activité.
-Pichflow automatise le marketing, le copywriting et la facturation 
- dans un interface simple .
+Pichflow vous aide à faire des devis, des factures et à faire du marketing et du copywriting dans un interface simple .
         </p>
 
         {/* Boutons animés */}
@@ -86,7 +85,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
           </div>
 
           <div className="social-text">
-            <span className="count">+2,300 utilisateurs</span>
+            <span className="count">+300 utilisateurs</span>
             <div className="stars">
               <i className="fa-solid fa-star"></i>
               <i className="fa-solid fa-star"></i>
@@ -122,10 +121,28 @@ Pichflow automatise le marketing, le copywriting et la facturation
           </h2>
           <p>
             PichFlow combine les outils essentiels pour les freelances, particuliers et PME :
-            marketing, copywriting et gestion financière propulsés par l'IA.
+            marketing, copywriting et gestion financière (devis et factures).
           </p>
         </div>
         <div className="features-grid">
+          <div className="feature-card active-border">
+            <div className="icon-box blue-alt">
+              <i className="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            <h3>Facturation</h3>
+            <p>
+              Créez des factures rapidement avec téléchargement illimité sur pichflow.
+            </p>
+          </div>
+          <div className="feature-card active-border">
+            <div className="icon-box blue-alt">
+              <i className="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            <h3>Devis Rapides</h3>
+            <p>
+              Créez des devis de manière facile et rapide avec téléchargement illimité sur pichflow.
+            </p>
+          </div>
           <div className="feature-card">
             <div className="icon-box blue">
               <i className="fa-solid fa-handshake"></i>
@@ -145,17 +162,6 @@ Pichflow automatise le marketing, le copywriting et la facturation
             <p>
               Créez des pages de vente, landing pages et textes publicitaires
               avec les méthodes AIDA, PAS et plus.
-            </p>
-          </div>
-
-          <div className="feature-card active-border">
-            <div className="icon-box blue-alt">
-              <i className="fa-solid fa-file-invoice-dollar"></i>
-            </div>
-            <h3>Facturation Automatisée</h3>
-            <p>
-              Créez devis et factures rapidement avec suivi des paiements et
-              rappels automatiques.
             </p>
           </div>
 
@@ -304,6 +310,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
       <div className="magic-icon m-copy"><i className="fa-solid fa-lightbulb"></i></div>
       <div className="magic-icon m-invoice"><i className="fa-solid fa-file-invoice-dollar"></i></div>
       <div className="magic-icon m-report"><i className="fa-solid fa-chart-bar"></i></div>
+      <div className="magic-icon m-report"><i className="fas fa-receipt"></i></div>
     </div>
 
     {/* L'enveloppe centrale (inspirée de ton image) */}
@@ -313,18 +320,12 @@ Pichflow automatise le marketing, le copywriting et la facturation
           <i className="fa-solid fa-wand-magic-sparkles"></i>
         </div>
         <span>PichFlow Central</span>
-        <div className="photo-count">4 services actifs</div>
+        <div className="photo-count">5 services actifs</div>
       </div>
     </div>
   </div> 
 
-  {/* Bouton d'action en bas */}
-  {/* <div className="magic-action">
-    <a href="/inscription" className="btn-prima btn-black-border">
-  Commencer maintenant 
-  <i className="fa-solid fa-arrow-right-long icon-go"></i>
-</a>
-  </div> <br /> */}
+  
 </section>
 
 
@@ -503,7 +504,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
         <div className="cta-content">
           <h2>Prêt à propulser votre activité ?</h2>
           <p>
-            Rejoignez plus de 2,300 professionnels qui automatisent leur
+            Rejoignez plus de 300 professionnels qui automatisent leur
             quotidien avec PitchFlow.
           </p>
           <div className="hero-btns">
@@ -534,10 +535,10 @@ Pichflow automatise le marketing, le copywriting et la facturation
           <div className="pricing-card">
             <h3>Essai Gratuit</h3>
             <div className="price">
-              0€<span>/7 jours</span>
+              0€
             </div>
             <p className="price-desc">
-              Testez la puissance de PichFlow sans engagement
+              Testez la puissance de PichFlow sans engagement avec 10 crédits gratuits à l'inscription
             </p>
             <ul className="price-features">
               <li>
@@ -557,7 +558,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
                 rapports
               </li>
             </ul>
-            <button className="btn-outline-pricing">Essai gratuit</button>
+            <button className="btn-outline-pricing">Essai gratuit : 10 crédits</button>
           </div>
 
           <div className="pricing-card featured">
@@ -594,7 +595,7 @@ Pichflow automatise le marketing, le copywriting et la facturation
             <h3>Pack Business</h3>
             <div className="price">
               8€<span>/200 crédits</span>
-            </div>
+            </div> 
             <p className="price-desc">Economique et approprié</p>
             <ul className="price-features">
               <li>

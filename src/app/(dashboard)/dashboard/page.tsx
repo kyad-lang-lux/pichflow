@@ -3,6 +3,20 @@ import Link from "next/link";
 
 export default function DashboardPage() {
   const tools = [
+    {  
+      title: "Devis Rapide",
+      desc: "Créez des devis de manière facile et rapide avec téléchargement illimité sur pichflow.",
+      icon: "fas fa-receipt",
+      className: "icon-facture",
+      link: "/factures" 
+    },
+    {  
+      title: "Facturation Rapide",
+      desc: " Créez des factures rapidement avec téléchargement illimité sur pichflow.",
+      icon: "fa-file-invoice-dollar",
+      className: "icon-facture",
+      link: "/factures" 
+    },
     {
       title: "Contenu Marketing IA",
       desc: "Générez des articles de blog SEO, posts réseaux sociaux et emails marketing en quelques clics.",
@@ -17,20 +31,7 @@ export default function DashboardPage() {
       className: "icon-copy",
       link: "/copywriting"
     },
-    {  
-      title: "Devis Rapide",
-      desc: "Créez des factures rapidement avec téléchargement illimité sur pichflow .",
-      icon: "fas fa-receipt",
-      className: "icon-facture",
-      link: "/factures" 
-    },
-    {  
-      title: "Facturation Rapide",
-      desc: "Créez des devis de manière facile et rapideme avec téléchargement illimité sur pichflow .",
-      icon: "fa-file-invoice-dollar",
-      className: "icon-facture",
-      link: "/factures" 
-    },
+    
     {
       title: "Rapports ",
       desc: "Catégorisation automatique des revenus et dépenses avec alertes financières intelligentes.",
