@@ -148,7 +148,7 @@ export default function SettingsPage() {
             <div className="action-item logout-item">
               <div>
                 <h4>Déconnexion</h4>
-                <p>Souhaitez-vous quitter votre session actuelle ?</p>
+                <p>Souhaitez-vous quitter votre session actuelle ?</p> 
               </div>
               <button 
                 type="button"
