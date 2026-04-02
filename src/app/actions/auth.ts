@@ -55,7 +55,7 @@ export async function signUpAction(userData: any) {
      */
     await db.execute({
       sql: "INSERT INTO users (id, email, password_hash, credits, name) VALUES (?, ?, ?, ?, ?)",
-      args: [userId, email, hashedPassword, 250, name],
+      args: [userId, email, hashedPassword, 15, name],
     });
 
     /**

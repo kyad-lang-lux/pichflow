@@ -97,7 +97,7 @@ export default function Inscription() {
         <div className="auth-form-side">
           <div className="auth-content">
             <h1>Créez votre compte</h1>
-            <p className="subtitle">Commencez avec vos 250 crédits offerts</p>
+            <p className="subtitle">Commencez avec vos 15 crédits gratuits offerts</p>
 
             {/* Affichage des erreurs de la base de données */}
             {errorMsg && (
