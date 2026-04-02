@@ -1,0 +1,2 @@
+Maintenant ce qu'il faut faire, ce sera de réabiliser certais fichier et après il faut se connecter à la base de données
+et maintenant il faut aller créer les différente tables pour organiser les données.
