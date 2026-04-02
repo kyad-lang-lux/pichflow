@@ -44,46 +44,47 @@ export default function MarketingRoute() {
   ];
 
   // --- LOADERS ET UTILITAIRES ---
-  const RippleLoader = ({ size = 50 }) => (
-    <div
-      className="loader-react"
-      style={{
-        width: size,
-        height: (size * 28) / 50,
-        margin: "0 auto",
-        position: "relative",
-        "--g": "no-repeat radial-gradient(farthest-side,#000 94%,#0000)",
-        background: `var(--g) 50% 0, var(--g) 100% 0`,
-        backgroundSize: `${(size * 12) / 50}px ${(size * 12) / 50}px`,
-        animation: "l23-0 1.5s linear infinite",
-        display: "block"
-      }}
-    >
-      <style>{`
-        .loader-react::before {
-          content: "";
-          position: absolute;
-          height: 12px;
-          aspect-ratio: 1;
-          border-radius: 50%;
-          background: #000;
-          left: 0;
-          top: 0;
-          animation: l23-1 1.5s linear infinite, l23-2 0.5s cubic-bezier(0,200,.8,200) infinite;
-        }
-        @keyframes l23-0 {
-          0%,31%  {background-position: 50% 0, 100% 0}
-          33%     {background-position: 50% 100%, 100% 0}
-          43%,64% {background-position: 50% 0, 100% 0}
-          66%     {background-position: 50% 0, 100% 100%}
-          79%     {background-position: 50% 0, 100% 0}
-          100%    {transform: translateX(calc(-100%/3))}
-        }
-        @keyframes l23-1 { 100% { left: calc(100% + 7px); } }
-        @keyframes l23-2 { 100% { top: -0.1px; } }
-      `}</style>
-    </div>
-  );
+ const RippleLoader = ({ size = 50 }) => (
+  <div
+    className="loader-react"
+    style={{
+      width: size,
+      height: (size * 28) / 50,
+      margin: "0 auto",
+      position: "relative",
+      // TypeScript rouspète ici, donc on cast l'objet entier à la fin
+      "--g": "no-repeat radial-gradient(farthest-side,#000 94%,#0000)",
+      background: `var(--g) 50% 0, var(--g) 100% 0`,
+      backgroundSize: `${(size * 12) / 50}px ${(size * 12) / 50}px`,
+      animation: "l23-0 1.5s linear infinite",
+      display: "block"
+    } as React.CSSProperties} // <--- AJOUTE CECI ICI
+  >
+    <style>{`
+      .loader-react::before {
+        content: "";
+        position: absolute;
+        height: 12px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: #000;
+        left: 0;
+        top: 0;
+        animation: l23-1 1.5s linear infinite, l23-2 0.5s cubic-bezier(0,200,.8,200) infinite;
+      }
+      @keyframes l23-0 {
+        0%,31%  {background-position: 50% 0, 100% 0}
+        33%     {background-position: 50% 100%, 100% 0}
+        43%,64% {background-position: 50% 0, 100% 0}
+        66%     {background-position: 50% 0, 100% 100%}
+        79%     {background-position: 50% 0, 100% 0}
+        100%    {transform: translateX(calc(-100%/3))}
+      }
+      @keyframes l23-1 { 100% { left: calc(100% + 7px); } }
+      @keyframes l23-2 { 100% { top: -0.1px; } }
+    `}</style>
+  </div>
+);
 
   const SolidBlackLoader = ({ size = "20px" }) => (
     <div
