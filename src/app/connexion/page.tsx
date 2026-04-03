@@ -4,19 +4,41 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
-// --- IMPORT DE L'ACTION DE CONNEXION ---
-import { loginAction } from '@/app/actions/auth';
+// --- IMPORT DES ACTIONS DE CONNEXION ---
+import { loginAction, googleLoginAction } from '@/app/actions/auth';
 
-function GoogleLoginButton({ onLoading }: { onLoading: (loading: boolean) => void }) {
+/**
+ * Composant du bouton Google mis à jour pour communiquer avec le serveur
+ */
+function GoogleLoginButton({ 
+  onLoading, 
+  onError 
+}: { 
+  onLoading: (loading: boolean) => void, 
+  onError: (msg: string) => void 
+}) {
   const router = useRouter();
 
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      console.log('Token récupéré:', tokenResponse);
-      router.push('/dashboard');
+    onSuccess: async (tokenResponse) => {
+      onLoading(true);
+      try {
+        // On envoie l'access_token au serveur pour vérification en base Turso
+        const result = await googleLoginAction(tokenResponse.access_token);
+        
+        if (result?.success) {
+          router.push('/dashboard');
+        } else {
+          onError(result?.error || "Connexion Google refusée.");
+          onLoading(false);
+        }
+      } catch (err) {
+        onError("Erreur de communication avec le serveur.");
+        onLoading(false);
+      }
     },
     onError: () => {
-      console.log('Erreur de connexion Google');
+      onError("Échec de l'authentification Google.");
       onLoading(false);
     },
   });
@@ -25,10 +47,7 @@ function GoogleLoginButton({ onLoading }: { onLoading: (loading: boolean) => voi
     <button 
       type="button" 
       className="btn-google" 
-      onClick={() => {
-        onLoading(true);
-        login();
-      }}
+      onClick={() => login()}
     >
       <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google" />
       <span>Continuer avec Google</span>
@@ -40,7 +59,7 @@ export default function Connexion() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState(''); // Pour gérer les erreurs d'identifiants
+  const [errorMsg, setErrorMsg] = useState(''); 
   const [formData, setFormData] = useState({ email: '', password: '' });
 
   const passwordRequirements = useMemo(() => {
@@ -56,7 +75,9 @@ export default function Connexion() {
 
   const isPasswordValid = passwordRequirements.every(req => req.met);
 
-  // --- LOGIQUE DE CONNEXION RÉELLE ---
+  /**
+   * Logique de connexion classique (Email/Password)
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
@@ -68,14 +89,12 @@ export default function Connexion() {
     setIsLoading(true);
 
     try {
-      // On appelle le backend pour vérifier l'email et le mot de passe
       const result = await loginAction(formData);
 
       if (result?.error) {
         setErrorMsg(result.error);
         setIsLoading(false);
       } else {
-        // Redirection vers le dashboard si tout est ok
         router.push('/dashboard');
       }
     } catch (err) {
@@ -92,7 +111,7 @@ export default function Connexion() {
             <h1>Bon retour parmi nous 👋</h1>
             <p className="subtitle">Connectez-vous pour accéder à votre dashboard</p>
 
-            {/* Affichage des erreurs (ex: Identifiants incorrects) */}
+            {/* Affichage des erreurs dynamiques */}
             {errorMsg && (
               <div style={{ color: '#EF4444', backgroundColor: '#FEE2E2', padding: '10px', borderRadius: '8px', marginBottom: '15px', fontSize: '0.875rem' }}>
                 <i className="fa-solid fa-circle-exclamation" style={{ marginRight: '8px' }}></i>
@@ -102,11 +121,11 @@ export default function Connexion() {
 
             {isGoogleLoading ? (
               <button className="btn-google" disabled>
-                <i className="fa-solid fa-spinner fa-spin"></i>
-                <span>Connexion...</span>
+                <i className="fa-solid fa-spinner fa-spin" style={{ marginRight: '8px' }}></i>
+                <span>Connexion en cours...</span>
               </button>
             ) : (
-              <GoogleLoginButton onLoading={setIsGoogleLoading} />
+              <GoogleLoginButton onLoading={setIsGoogleLoading} onError={setErrorMsg} />
             )}
 
             <div className="auth-separator">
@@ -166,7 +185,7 @@ export default function Connexion() {
                 type="submit" 
                 className="btn-auth-submit" 
                 disabled={isLoading || isGoogleLoading || !isPasswordValid}
-                style={{ opacity: !isPasswordValid ? 0.6 : 1 }}
+                style={{ opacity: (!isPasswordValid || isLoading) ? 0.6 : 1 }}
               >
                 {isLoading ? (
                   <>

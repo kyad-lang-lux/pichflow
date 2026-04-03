@@ -114,7 +114,58 @@ export async function loginAction(credentials: any) {
     return { error: "Une erreur est survenue lors de la connexion." };
   }
 }
+/**
+ * ACTION : CONNEXION VIA GOOGLE
+ */
+export async function googleLoginAction(googleAccessToken: string) {
+  try {
+    // 1. Récupérer les infos de l'utilisateur auprès de Google
+    const googleRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+      headers: { Authorization: `Bearer ${googleAccessToken}` },
+    });
+    
+    const googleData = await googleRes.json();
+    
+    if (!googleData.email) {
+      return { error: "Impossible de récupérer l'email Google." };
+    }
 
+    const email = googleData.email;
+    const name = googleData.name || "Utilisateur Google";
+
+    // 2. Vérifier si l'utilisateur existe dans ta base Turso
+    const result = await db.execute({
+      sql: "SELECT id FROM users WHERE email = ?",
+      args: [email],
+    });
+
+    let userId;
+
+    if (result.rows.length === 0) {
+      // Optionnel : Si l'utilisateur n'existe pas, on le crée (Inscription auto)
+      userId = uuidv4();
+      await db.execute({
+        sql: "INSERT INTO users (id, email, password_hash, credits, name) VALUES (?, ?, ?, ?, ?)",
+        args: [userId, email, "google-auth-no-password", 15, name],
+      });
+      // Initialiser ses infos émetteur
+      await db.execute({
+          sql: "INSERT INTO sender_info (id, user_id, nom_service) VALUES (?, ?, ?)",
+          args: [uuidv4(), userId, name]
+      });
+    } else {
+      userId = result.rows[0].id as string;
+    }
+
+    // 3. Créer la session Pichflow
+    await createSession(userId);
+
+    return { success: true };
+  } catch (e) {
+    console.error("Erreur Google Login:", e);
+    return { error: "Erreur lors de la communication avec Google." };
+  }
+}
 /**
  * Récupérer les crédits de l'utilisateur actuel
  */
