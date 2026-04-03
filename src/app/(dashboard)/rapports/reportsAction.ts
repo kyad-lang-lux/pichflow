@@ -18,7 +18,7 @@ export async function getReportData() {
     const userId = await getAuthUserId();
     if (!userId) return null;
 
-    // 1. CALCUL DU CHIFFRE D'AFFAIRES (Jointure entre factures et lignes_prestations)
+    // 1. CALCUL DU CHIFFRE D'AFFAIRES
     const revRes = await db.execute({
       sql: `
         SELECT 
@@ -30,8 +30,13 @@ export async function getReportData() {
       args: [userId],
     });
 
-    // 2. ÉVOLUTION MENSUELLE DES REVENUS (Pour le graphique)
-    // Note: On utilise SUBSTR car tes dates sont stockées en format texte fr-FR (JJ/MM/AAAA)
+    // 1b. RÉCUPÉRATION DE LA DEVISE (Prend la devise de la facture la plus récente)
+    const currencyRes = await db.execute({
+      sql: "SELECT devise FROM factures WHERE user_id = ? ORDER BY id DESC LIMIT 1",
+      args: [userId],
+    });
+
+    // 2. ÉVOLUTION MENSUELLE
     const monthlyRes = await db.execute({
       sql: `
         SELECT 
@@ -45,13 +50,11 @@ export async function getReportData() {
       args: [userId],
     });
 
-    // 3. COMPTAGE MARKETING
     const countMarketing = await db.execute({
       sql: "SELECT COUNT(*) as count FROM marketing_history WHERE user_id = ?",
       args: [userId],
     });
 
-    // 4. COMPTAGE COPYWRITING
     const countCopy = await db.execute({
       sql: "SELECT COUNT(*) as count FROM copywriting_history WHERE user_id = ?",
       args: [userId],
@@ -59,6 +62,7 @@ export async function getReportData() {
 
     return {
       totalRevenue: Number(revRes.rows[0]?.total || 0),
+      devise: currencyRes.rows[0]?.devise || "€", // On récupère la vraie devise ici
       monthlyRevenue: monthlyRes.rows,
       marketingCount: Number(countMarketing.rows[0]?.count || 0),
       copywritingCount: Number(countCopy.rows[0]?.count || 0),

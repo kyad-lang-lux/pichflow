@@ -210,8 +210,8 @@ export default function DevisPage() {
                    <div style={{width:'100%'}}>
                      <label style={{fontSize:'11px', color:'#666', marginBottom:'4px', display:'block'}}>DEVISE</label>
                      <select style={{width:'100%'}} value={formData.devise} onChange={(e)=>setFormData({...formData, devise: e.target.value})}>
-                       <option value="€">EUR (€)</option>
                        <option value="FCFA">FCFA</option>
+                       <option value="€">EUR (€)</option>
                        <option value="$">USD ($)</option>
                      </select>
                    </div>

@@ -33,7 +33,6 @@ export default function RapportsPage() {
     { name: 'Copywriting', value: realData?.copywritingCount || 0, color: '#10d409' },
   ];
 
-  // Affichage du loader personnalisé pendant le chargement
   if (loading) {
     return (
       <div className="reports-loader-container">
@@ -46,6 +45,7 @@ export default function RapportsPage() {
   }
 
   const totalIA = (realData?.marketingCount || 0) + (realData?.copywritingCount || 0);
+  const currentCurrency = realData?.devise || "€"; // Stockage de la devise
 
   return (
     <div className="reports-container">
@@ -54,13 +54,13 @@ export default function RapportsPage() {
         <button className="btn-export" onClick={() => window.print()} style={{ backgroundColor: '#1e3a8a', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '8px', cursor: 'pointer' }}>
           <i className="fa-solid fa-file-pdf"></i> Export PDF
         </button>
-      </div>
+      </div> 
 
       <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '30px' }}>
          <div className="stat-card" style={{ background: 'white', padding: '20px', borderRadius: '12px', borderLeft: '5px solid #10B981', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
             <span className="stat-label" style={{ color: '#64748b', fontSize: '14px' }}>Chiffre d'Affaires Total</span>
             <span className="stat-value" style={{ color: '#0f172a', display: 'block', fontSize: '28px', fontWeight: 'bold', marginTop: '5px' }}>
-                {Number(realData?.totalRevenue || 0).toLocaleString()} €
+                {Number(realData?.totalRevenue || 0).toLocaleString()} {currentCurrency}
             </span>
          </div>
          
@@ -72,44 +72,42 @@ export default function RapportsPage() {
          </div>
       </div>
 
-    <div className="charts-main-grid">
-  {/* Graphique de revenus */}
-  <div className="chart-card area-chart-section">
-    <h4 style={{ marginBottom: '20px' }}>Évolution des revenus</h4>
-    <ResponsiveContainer width="100%" height={300}>
-      <AreaChart data={dataArea}>
-        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
-        <XAxis dataKey="name" axisLine={false} tickLine={false} />
-        <YAxis axisLine={false} tickLine={false} />
-        <Tooltip />
-        <Area type="monotone" dataKey="rev" stroke="#2563EB" fill="#2563EB" fillOpacity={0.1} strokeWidth={3} name="Revenus (€)" />
-      </AreaChart>
-    </ResponsiveContainer>
-  </div>
+      <div className="charts-main-grid">
+        <div className="chart-card area-chart-section">
+          <h4 style={{ marginBottom: '20px' }}>Évolution des revenus</h4>
+          <ResponsiveContainer width="100%" height={300}>
+            <AreaChart data={dataArea}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} />
+              <YAxis axisLine={false} tickLine={false} />
+              <Tooltip formatter={(value) => [`${value} ${currentCurrency}`, 'Revenus']} />
+              <Area type="monotone" dataKey="rev" stroke="#2563EB" fill="#2563EB" fillOpacity={0.1} strokeWidth={3} name={`Revenus (${currentCurrency})`} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
 
-  {/* Graphique de production IA */}
-  <div className="chart-card donut-chart-section">
-    <h4 style={{ marginBottom: '20px' }}>Production IA</h4>
-    <ResponsiveContainer width="100%" height={200}>
-      <PieChart>
-        <Pie data={dataPie} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
-          {dataPie.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.color} />
-          ))}
-        </Pie>
-        <Tooltip />
-      </PieChart>
-    </ResponsiveContainer>
-    <div className="legend-custom" style={{ marginTop: '20px' }}>
-        {dataPie.map((item, i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '8px' }}>
-            <span><i className="fa-solid fa-circle" style={{ color: item.color, fontSize: '8px', marginRight: '8px' }}></i> {item.name}</span>
-            <strong>{item.value}</strong>
+        <div className="chart-card donut-chart-section">
+          <h4 style={{ marginBottom: '20px' }}>Production IA</h4>
+          <ResponsiveContainer width="100%" height={200}>
+            <PieChart>
+              <Pie data={dataPie} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
+                {dataPie.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+          <div className="legend-custom" style={{ marginTop: '20px' }}>
+              {dataPie.map((item, i) => (
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '8px' }}>
+                  <span><i className="fa-solid fa-circle" style={{ color: item.color, fontSize: '8px', marginRight: '8px' }}></i> {item.name}</span>
+                  <strong>{item.value}</strong>
+                </div>
+              ))}
           </div>
-        ))}
-    </div>
-  </div>
-</div>
+        </div>
+      </div>
       <br /><br /><br />
     </div>
   );

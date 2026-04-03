@@ -576,7 +576,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
     <div className="pricing-card featured">
       <div className="popular-badge">
         <i className="fa-solid fa-bolt"></i> Plus Populaire
-      </div>
+      </div> 
       <h3>Pack Essentiel</h3>
       <div className="price">
         {formatPrice(1.6)}<span>/50 crédits</span>
@@ -594,7 +594,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
     <div className="pricing-card">
       <h3>Pack Business</h3>
       <div className="price">
-        {formatPrice(3)}<span>/100 crédits</span>
+        {formatPrice(2.9)}<span>/100 crédits</span>
       </div> 
       <p className="price-desc">Economique et approprié</p>
       <ul className="price-features">

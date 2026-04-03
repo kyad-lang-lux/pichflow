@@ -25,7 +25,7 @@ export async function createFactureAction(formData: any) {
       args: [userId],
     });
     const currentCredits = Number(userRes.rows[0]?.credits || 0);
-    if (currentCredits < 5) return { success: false, error: "Crédits insuffisants (4 requis)" };
+    if (currentCredits < 5) return { success: false, error: "Crédits insuffisants (5 requis)" };
 
     // 2. Infos émetteur
     const senderRes = await db.execute({

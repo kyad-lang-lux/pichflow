@@ -50,7 +50,7 @@ export async function createDevisAction(formData: any) {
 
     const currentCredits = Number(userRes.rows[0]?.credits || 0);
     if (currentCredits < 5) {
-      return { success: false, error: "Crédits insuffisants (4 crédits requis)" };
+      return { success: false, error: "Crédits insuffisants (5 crédits requis)" };
     }
 
     // 2. Récupération des infos émetteur

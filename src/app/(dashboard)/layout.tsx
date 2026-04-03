@@ -17,7 +17,7 @@ export default function DashboardLayout({
   const profileRef = useRef<HTMLDivElement>(null);
 
   // On initialise les crédits avec un état "chargement"
-  const [credits, setCredits] = useState<number | string>("...");
+  const [credits, setCredits] = useState<number | string>("..."); 
 
   useEffect(() => {
     // 1. Récupération des vrais crédits depuis Turso
