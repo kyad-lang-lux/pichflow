@@ -43,7 +43,7 @@ export default function DashboardPage() {
       desc: "Créez des devis de manière facile et rapide avec téléchargement illimité sur pichflow.",
       icon: "fa-receipt",
       className: "icon-facture",
-      link: "/factures",
+      link: "/devis",
     },
     {
       title: "Facturation Rapide",

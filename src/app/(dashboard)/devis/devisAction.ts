@@ -49,7 +49,7 @@ export async function createDevisAction(formData: any) {
     });
 
     const currentCredits = Number(userRes.rows[0]?.credits || 0);
-    if (currentCredits < 4) {
+    if (currentCredits < 5) {
       return { success: false, error: "Crédits insuffisants (4 crédits requis)" };
     }
 
@@ -66,7 +66,7 @@ export async function createDevisAction(formData: any) {
     const queries: any[] = [
       // Déduction des crédits
       {
-        sql: "UPDATE users SET credits = credits - 4 WHERE id = ?",
+        sql: "UPDATE users SET credits = credits - 5 WHERE id = ?",
         args: [userId]
       },
       // Insertion du devis

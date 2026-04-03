@@ -25,7 +25,7 @@ export async function createFactureAction(formData: any) {
       args: [userId],
     });
     const currentCredits = Number(userRes.rows[0]?.credits || 0);
-    if (currentCredits < 4) return { success: false, error: "Crédits insuffisants (4 requis)" };
+    if (currentCredits < 5) return { success: false, error: "Crédits insuffisants (4 requis)" };
 
     // 2. Infos émetteur
     const senderRes = await db.execute({
@@ -41,7 +41,7 @@ export async function createFactureAction(formData: any) {
     const numeroFacture = `F-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
 
     const queries: any[] = [
-      { sql: "UPDATE users SET credits = credits - 4 WHERE id = ?", args: [userId] },
+      { sql: "UPDATE users SET credits = credits - 5 WHERE id = ?", args: [userId] },
       {
         sql: `INSERT INTO factures (
           id, user_id, numero_facture, sender_nom, sender_adresse, sender_contact, 

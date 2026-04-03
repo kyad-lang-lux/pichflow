@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 
 import Link from "next/link";
+
 export default function Home() {
   useEffect(() => {
     const observerOptions = {
@@ -34,10 +35,66 @@ export default function Home() {
   { name: "Sarah M.", text: "Le support est réactif et les outils de comptabilité sont d'une clarté exemplaire.", color: "blue" }
 ];
 
-// On double la liste pour l'effet infini
 const duplicatedTestimonials = [...testimonials, ...testimonials];
 
+// Types pour éviter les erreurs TypeScript (soulignements rouges)
+interface CurrencyConfig {
+  symbol: string;
+  rate: number;
+  label: string;
+  symbolAfter?: boolean; // Pour savoir si on met le symbole après le chiffre
+}
 
+const pricingConfig: Record<string, CurrencyConfig> = {
+  'EUR': { symbol: '€', rate: 1, label: 'EUR', symbolAfter: true },
+  'XOF': { symbol: ' FCFA', rate: 655.957, label: 'XOF', symbolAfter: true },
+  'XAF': { symbol: ' FCFA', rate: 655.957, label: 'XAF', symbolAfter: true },
+  'USD': { symbol: '$', rate: 1.08, label: 'USD', symbolAfter: false },
+  'GBP': { symbol: '£', rate: 0.86, label: 'GBP', symbolAfter: false },
+  'CAD': { symbol: 'CA$', rate: 1.48, label: 'CAD', symbolAfter: false },
+  'MAD': { symbol: ' DH', rate: 10.95, label: 'MAD', symbolAfter: true }, // Maroc
+  'GNF': { symbol: ' FG', rate: 9300, label: 'GNF', symbolAfter: true },   // Guinée
+};
+
+
+// On double la liste pour l'effet infini
+
+const [currency, setCurrency] = useState<CurrencyConfig>(pricingConfig['EUR']);
+
+useEffect(() => {
+  async function detectLocation() {
+    try {
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      const suggested = data.currency;
+      
+      if (pricingConfig[suggested]) {
+        setCurrency(pricingConfig[suggested]);
+      } else if (data.continent_code === 'AF') {
+        // Par défaut pour l'Afrique si la devise spécifique n'est pas listée
+        setCurrency(pricingConfig['XOF']);
+      }
+    } catch (error) {
+      console.error("Erreur localisation:", error);
+    }
+  }
+  detectLocation();
+}, []);
+
+const formatPrice = (euroAmount: number): string => {
+  if (euroAmount === 0) return currency.symbolAfter ? `0${currency.symbol}` : `${currency.symbol}0`;
+
+  // Calcul du prix converti
+  const convertedPrice = Math.round(euroAmount * currency.rate);
+  
+  // Formatage propre avec séparateur de milliers
+  const formattedNumber = convertedPrice.toLocaleString('fr-FR');
+
+  // Placement du symbole selon la configuration
+  return currency.symbolAfter 
+    ? `${formattedNumber}${currency.symbol}` 
+    : `${currency.symbol}${formattedNumber}`;
+};
   
   return (
     <main>
@@ -489,184 +546,114 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
 
 
 
-      <section id="pricing" className="pricing reveal">
-        <div className="pricing-header">
-          <h2>
-            Des tarifs <span>simples et flexibles</span>
-          </h2>
-          <p>
-            Essayez gratuitement pendant 7 jours, puis rechargez vos crédits
-            selon vos besoins.
-          </p>
-        </div>
+    <section id="pricing" className="pricing reveal">
+  <div className="pricing-header">
+    <h2>
+      Des tarifs <span>simples et flexibles</span>
+    </h2>
+    <p>
+      Essayez gratuitement pendant 7 jours, puis rechargez vos crédits
+      selon vos besoins.
+    </p>
+  </div>
 
-        <div className="pricing-grid">
-          <div className="pricing-card">
-            <h3>Essai Gratuit</h3>
-            <div className="price">
-              0€
-            </div>
-            <p className="price-desc">
-              Testez la puissance de PichFlow sans engagement avec 10 crédits gratuits à l'inscription
-            </p>
-            <ul className="price-features">
-              <li>
-                <i className="fa-solid fa-circle-check"></i> 10 crédits inclus
-                pour tester
-              </li>
-              <li>
-                <i className="fa-solid fa-circle-check"></i> Accès complet aux
-                outils IA
-              </li>
-              <li>
-                <i className="fa-solid fa-circle-check"></i>Makerting &
-                Copywriting{" "}
-              </li>
-              <li>
-                <i className="fa-solid fa-circle-check"></i> Facturation &
-                rapports
-              </li>
-            </ul>
-            <button className="btn-outline-pricing">Essai gratuit : 10 crédits</button>
-          </div>
+  <div className="pricing-grid">
+    <div className="pricing-card">
+      <h3>Essai Gratuit</h3>
+      <div className="price">{formatPrice(0)}</div>
+      <p className="price-desc">
+        Testez la puissance de PichFlow sans engagement avec 15 crédits gratuits à l'inscription
+      </p>
+      <ul className="price-features">
+        <li><i className="fa-solid fa-circle-check"></i> 15 crédits inclus pour tester</li>
+        <li><i className="fa-solid fa-circle-check"></i> Accès complet aux outils IA</li>
+        <li><i className="fa-solid fa-circle-check"></i> Marketing & Copywriting</li>
+        <li><i className="fa-solid fa-circle-check"></i> Facturation & rapports</li>
+      </ul>
+      <button className="btn-outline-pricing">Essai gratuit : 15 crédits</button>
+    </div>
 
-          <div className="pricing-card featured">
-            <div className="popular-badge">
-              <i className="fa-solid fa-bolt"></i> Plus Populaire
-            </div>
-            <h3>Pack Essentiel</h3>
-            <div className="price">
-              3€<span>/100 crédits</span>
-            </div>
-            <p className="price-desc">Idéal pour vos besoins </p>
-            <ul className="price-features">
-              <li>
-                <i className="fa-solid fa-circle-check"></i>{" "}
-                <strong>100 crédits</strong> automatique
-              </li>
-              <li>
-                <i className="fa-solid fa-circle-check"></i> Génération de
-                contenu haute qualité
-              </li>
-              <li>
-                <i className="fa-solid fa-circle-check"></i> Accès illimité aux
-                differents outils
-              </li>
-              <li>
-                <i className="fa-solid fa-circle-check"></i> Export PDF
-                disponible
-              </li>
-            </ul>
-            <button className="btn-primary-pricing">+ 100 crédits</button>
-          </div>
+    <div className="pricing-card featured">
+      <div className="popular-badge">
+        <i className="fa-solid fa-bolt"></i> Plus Populaire
+      </div>
+      <h3>Pack Essentiel</h3>
+      <div className="price">
+        {formatPrice(1.6)}<span>/50 crédits</span>
+      </div>
+      <p className="price-desc">Idéal pour vos besoins </p>
+      <ul className="price-features">
+        <li><i className="fa-solid fa-circle-check"></i> <strong>50 crédits</strong> automatique</li>
+        <li><i className="fa-solid fa-circle-check"></i> Génération de contenu haute qualité</li>
+        <li><i className="fa-solid fa-circle-check"></i> Accès illimité aux différents outils</li>
+        <li><i className="fa-solid fa-circle-check"></i> Export PDF disponible</li>
+      </ul>
+      <button className="btn-primary-pricing">+ 50 crédits</button>
+    </div>
 
-          <div className="pricing-card">
-            <h3>Pack Business</h3>
-            <div className="price">
-              5€<span>/200 crédits</span>
-            </div> 
-            <p className="price-desc">Economique et approprié</p>
-            <ul className="price-features">
-              <li>
-                <i className="fa-solid fa-circle-check"></i>{" "}
-                <strong>200 crédits</strong> automatique
-              </li>
-              <li>
-                <i className="fa-solid fa-circle-check"></i> Économisez 20% sur
-                le prix
-              </li>
-              <li>
-                <i className="fa-solid fa-circle-check"></i> Génération de
-                contenu haute qualité
-              </li>
-              <li>
-                <i className="fa-solid fa-circle-check"></i> Export PDF
-                disponible
-              </li>
-            </ul>
-            <button className="btn-blue-pricing">+ 200 crédits</button>
-          </div>
-        </div>
+    <div className="pricing-card">
+      <h3>Pack Business</h3>
+      <div className="price">
+        {formatPrice(3)}<span>/100 crédits</span>
+      </div> 
+      <p className="price-desc">Economique et approprié</p>
+      <ul className="price-features">
+        <li><i className="fa-solid fa-circle-check"></i> <strong>100 crédits</strong> automatique</li>
+        <li><i className="fa-solid fa-circle-check"></i> Économisez 20% sur le prix</li>
+        <li><i className="fa-solid fa-circle-check"></i> Génération de contenu haute qualité</li>
+        <li><i className="fa-solid fa-circle-check"></i> Export PDF disponible</li>
+      </ul>
+      <button className="btn-blue-pricing">+ 100 crédits</button>
+    </div>
+  </div>
 
-        <div className="pricing-trust reveal delay-2">
-          <p>Recharges sécurisées via nos partenaires</p>
-          <div className="trust-badges">
-            {/* <div className="trust-card">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg"
-                alt="Stripe"
-                style={{ height: "25px" }}
-              />
-            </div> */}
-            {/* <div className="trust-card">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
-                alt="PayPal"
-                style={{ height: "25px" }}
-              />
-            </div> */}
-            
-            <div className="trust-card">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/9/98/Visa_Inc._logo_%282005%E2%80%932014%29.svg"
-                alt="Visa"
-                style={{ height: "26px", marginRight: "10px" }}
-              />
-            </div>
-            <div className="trust-card">
-                <img
-                src="/img/mastercard.jpg"
-                alt="Mastercard"
-                style={{ height: "30px" }}
-              />
-            </div>
-            <div className="trust-card">
-                <img
-                src="/img/Orange.png"
-                alt="Orange"
-                style={{ height: "30px" }}
-              />
-            </div>
-            <div className="trust-card">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/2/29/MTN-Logo.png"
-                alt="MTN"
-                style={{ height: "26px" }}
-              />
-            </div>
-            <div className="trust-card">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Moov_Money_Flooz.png"
-                alt="Moov"
-                style={{ height: "26px" }}
-              />
-            </div>
-            <div className="trust-card">
-              <img
-                src="/img/free-money.png"
-                alt="Free-money"
-                style={{ height: "30px" }}
-              />
-            </div>
-            <div className="trust-card">
-              <img
-                src="/img/wave.png"
-                alt="Wave"
-                style={{ height: "30px" }}
-              />
-            </div>
-            <div className="trust-card">
-              <img
-                src="/img/mixx.svg"
-                alt="Mixx"
-                style={{ height: "30px" }}
-              /> 
-            </div>
-           
-          </div>
-        </div>
-       
-      </section>
+  <div className="pricing-trust reveal delay-2">
+    <p>Recharges sécurisées via nos partenaires</p>
+    <div className="trust-badges">
+      <div className="trust-card">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/9/98/Visa_Inc._logo_%282005%E2%80%932014%29.svg"
+          alt="Visa"
+          style={{ height: "26px", marginRight: "10px" }}
+        />
+      </div>
+      <div className="trust-card">
+        <img src="/img/mastercard.jpg" alt="Mastercard" style={{ height: "30px" }} />
+      </div>
+      <div className="trust-card">
+        <img src="/img/Orange.png" alt="Orange" style={{ height: "30px" }} />
+      </div>
+      <div className="trust-card">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/2/29/MTN-Logo.png"
+          alt="MTN"
+          style={{ height: "26px" }}
+        />
+      </div>
+      <div className="trust-card">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Moov_Money_Flooz.png"
+          alt="Moov"
+          style={{ height: "26px" }}
+        />
+      </div>
+      <div className="trust-card">
+        <img src="/img/celtiis.jpg" alt="Celtiis" style={{ height: "30px" }} />
+      </div>
+      <div className="trust-card">
+        <img src="/img/free-money.png" alt="Free-money" style={{ height: "30px" }} />
+      </div>
+      <div className="trust-card">
+        <img src="/img/wave.png" alt="Wave" style={{ height: "30px" }} />
+      </div>
+      <div className="trust-card">
+        <img src="/img/mixx.svg" alt="Mixx" style={{ height: "30px" }} /> 
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <button
         className="chatbot-button"
         aria-label="Ouvrir le chat"

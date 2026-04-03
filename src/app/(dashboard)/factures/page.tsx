@@ -71,7 +71,7 @@ export default function FacturesPage() {
 
   const addPrestationLine = () => {
     setFormData({ ...formData, prestations: [...formData.prestations, { description: '', prixUnitaire: 0, quantite: 1 }] });
-  };
+  }; 
 
   const removePrestationLine = (index: number) => {
     const newPrestations = formData.prestations.filter((_, i) => i !== index);
@@ -233,8 +233,8 @@ export default function FacturesPage() {
                     <div key={index} className="prestation-row" style={{position: 'relative'}}>
                       <input type="text" placeholder="Description" value={p.description} onChange={(e) => updatePrestation(index, 'description', e.target.value)} required />
                       <div className="row-inner" style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                         <input type="number" placeholder="Prix unitaire" min="0" step="0.01" value={p.prixUnitaire} onChange={(e) => updatePrestation(index, 'prixUnitaire', Math.max(0, parseFloat(e.target.value)))} required />
-                         <input type="number" placeholder="Qté" min="1" value={p.quantite} onChange={(e) => updatePrestation(index, 'quantite', Math.max(1, parseInt(e.target.value)))} required />
+                         <input type="number" placeholder="Prix unitaire" min="0" step="1"  onChange={(e) => updatePrestation(index, 'prixUnitaire', Math.max(0, parseFloat(e.target.value)))} required />
+                         <input type="number" placeholder="Qté" min="1"  onChange={(e) => updatePrestation(index, 'quantite', Math.max(1, parseInt(e.target.value)))} required />
                          {index !== 0 && (
                            <button type="button" onClick={() => removePrestationLine(index)} style={{background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px'}}>
                              <i className="fa-solid fa-trash-can"></i>

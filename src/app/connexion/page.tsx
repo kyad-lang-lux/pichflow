@@ -71,7 +71,7 @@ export default function Connexion() {
       { label: "Un chiffre (0-9)", met: /[0-9]/.test(p) },
       { label: "Un symbole (!@#$%...)", met: /[^A-Za-z0-9]/.test(p) },
     ];
-  }, [formData.password]);
+  }, [formData.password]); 
 
   const isPasswordValid = passwordRequirements.every(req => req.met);
 
@@ -103,12 +103,15 @@ export default function Connexion() {
     }
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
+
   return (
     <GoogleOAuthProvider clientId="917194298260-1sp5ltg1h2lprjmne64elqgqltsdogor.apps.googleusercontent.com">
       <div className="auth-container">
         <div className="auth-form-side">
           <div className="auth-content">
-            <h1>Bon retour parmi nous 👋</h1>
+            <h1>Bon retour parmi nous👋</h1>
             <p className="subtitle">Connectez-vous pour accéder à votre dashboard</p>
 
             {/* Affichage des erreurs dynamiques */}
@@ -152,16 +155,35 @@ export default function Connexion() {
                   <label>Mot de passe</label>
                   <Link href="#" className="forgot-pass">Mot de passe oublié ?</Link>
                 </div>
-                <div className="input-wrapper">
-                  <i className="fa-solid fa-lock"></i>
-                  <input 
-                    type="password" 
-                    placeholder="........" 
-                    required 
-                    value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  />
-                </div>
+             <div className="input-wrapper" style={{ position: 'relative' }}>
+  <i className="fa-solid fa-lock"></i>
+  <input 
+    type={showPassword ? "text" : "password"} // Alterne entre texte et masqué
+    placeholder="........" 
+    required 
+    value={formData.password}
+    onChange={(e) => setFormData({...formData, password: e.target.value})}
+    style={{ paddingRight: '40px' }} // Laisse de la place pour l'icône
+  />
+  {/* Le bouton de l'œil */}
+  <button
+    type="button"
+    onClick={() => setShowPassword(!showPassword)}
+    style={{
+      position: 'absolute',
+      right: '40px',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      color: '#9CA3AF',
+      padding: '0'
+    }}
+  >
+    <i className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+  </button>
+</div>
 
                 {formData.password.length > 0 && (
                   <div className="password-checklist" style={{ marginTop: '10px', fontSize: '0.75rem' }}>

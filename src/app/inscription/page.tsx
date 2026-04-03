@@ -91,11 +91,13 @@ export default function Inscription() {
     }
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <GoogleOAuthProvider clientId="917194298260-1sp5ltg1h2lprjmne64elqgqltsdogor.apps.googleusercontent.com">
-      <div className="auth-container">
+      <div className="auth-container"> 
         <div className="auth-form-side">
-          <div className="auth-content">
+          <div className="auth-content"> 
             <h1>Créez votre compte</h1>
             <p className="subtitle">Commencez avec vos 15 crédits gratuits offerts</p>
 
@@ -116,7 +118,7 @@ export default function Inscription() {
               <GoogleSignupButton onDataFetched={handleGoogleData} onLoading={setIsGoogleLoading} />
             )}
 
-            <div className="auth-separator"><span>OU COMPLÉTEZ VOS INFOS</span></div>
+            <div className="auth-separator"><span>OU TAPEZ VOS INFOS</span></div>
 
             <form className="auth-form" onSubmit={handleSubmit}>
               <div className="input-group">
@@ -139,11 +141,37 @@ export default function Inscription() {
 
               <div className="input-group">
                 <label>Mot de passe</label>
-                <div className="input-wrapper">
-                  <i className="fa-solid fa-lock"></i>
-                  <input type="password" placeholder="Mot de passe fort" required value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})} />
-                </div>
+                <div className="input-wrapper" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+  <i className="fa-solid fa-lock"></i>
+  <input 
+    type={showPassword ? "text" : "password"} 
+    placeholder="Mot de passe fort" 
+    required 
+    value={formData.password}
+    onChange={(e) => setFormData({...formData, password: e.target.value})}
+    style={{ width: '100%', paddingRight: '40px' }} // On laisse de la place pour l'œil à droite
+  />
+  
+  {/* Icône cliquable pour afficher/masquer */}
+  <button
+    type="button"
+    onClick={() => setShowPassword(!showPassword)}
+    style={{
+      position: 'absolute',
+      right: '40px',
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      color: '#9CA3AF',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '0'
+    }}
+  >
+    <i className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+  </button>  <br /> 
+</div>
                 {formData.password.length > 0 && (
                   <div className="password-checklist" style={{ marginTop: '12px' }}>
                     {passwordRequirements.map((req, i) => (
