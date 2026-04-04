@@ -317,6 +317,49 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
         </div>
       </section>
 
+
+<section className="integration-orbit-section">
+  <div className="orbit-container">
+    {/* Image centrale */}
+    <div className="center-image">
+      <img src="/img/img3.jpg" alt="User" />
+    </div>
+
+    {/* Cercle d'icônes */}
+    <div className="orbit-icons">
+      <div className="icon-wrapper facebook">
+        <i className="fa-brands fa-facebook"></i>
+      </div>
+      <div className="icon-wrapper linkedin">
+        <i className="fa-brands fa-linkedin"></i>
+      </div>
+      <div className="icon-wrapper instagram">
+        <i className="fa-brands fa-instagram"></i>
+      </div>
+      <div className="icon-wrapper email">
+        <i className="fa-solid fa-envelope"></i>
+      </div>
+      <div className="icon-wrapper youtube">
+        <i className="fa-brands fa-youtube"></i>
+      </div>
+      <div className="icon-wrapper tiktok">
+        <i className="fa-brands fa-tiktok"></i>
+      </div>
+      <div className="icon-wrapper discord">
+        <i className="fa-brands fa-discord"></i>
+      </div>
+      <div className="icon-wrapper reddit">
+        <i className="fa-brands fa-reddit"></i>
+      </div>
+    </div>
+
+    {/* Cercles décoratifs en arrière-plan */}
+    <div className="orbit-ring ring-1"></div>
+    <div className="orbit-ring ring-2"></div>
+  </div>
+</section>
+
+
       <section className="how-it-works reveal">
         <div className="features-header">
           <h2>
@@ -388,7 +431,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
         <div className="envelope-logo">
           <i className="fa-solid fa-wand-magic-sparkles"></i>
         </div>
-        <span>PichFlow Central</span>
+        <span>PichFlow Centralise</span>
         <div className="photo-count">5 services actifs</div>
       </div>
     </div>
@@ -422,7 +465,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             <div className="circle-bg"></div>
             <img
               // src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop"
-              src="/img/img1.jpg"
+              src="/img/img2.jpg"
               alt="Entrepreneur"
               className="person-img"
             />
@@ -431,7 +474,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
                 <i className="fa-solid fa-wand-magic-sparkles"></i>
               </div>
               <div className="badge-content">
-                <span>PitchFlow AI</span>
+                <span>PitchFlow </span>
                 <small>Marketing Engine</small>
               </div>
             </div>
@@ -445,7 +488,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
                 <i className="fa-solid fa-check"></i>
               </div>
               <div className="badge-content">
-                <span className="amount">500 €</span>
+                <span className="amount">Facture</span>
                 <small>Payée</small>
               </div>
             </div>
@@ -591,7 +634,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
       <button className="btn-primary-pricing">+ 50 crédits</button>
     </div>
 
-    <div className="pricing-card">
+    <div className="pricing-card"> 
       <h3>Pack Business</h3>
       <div className="price">
         {formatPrice(2.9)}<span>/100 crédits</span>
