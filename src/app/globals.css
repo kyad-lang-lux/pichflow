@@ -3110,19 +3110,75 @@ color: red;}
 
 
 
-.integration-orbit-section {
-  padding: 50px 10px;
+
+
+
+/* --- Conteneur Principal --- */
+.integration-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 60px 5%;
+  background-color: #f8faff;
+  gap: 40px;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* --- Section Texte (Gauche) --- */
+.integration-left {
+  flex: 1;
+  max-width: 500px;
+}
+
+.integration-left h2 {
+  font-size: 2rem;
+  color: #111;
+  margin-bottom: 25px;
+  line-height: 1.2;
+}
+
+.integration-left h2 span {
+  color: #2532eb; /* Ou ta couleur principale */
+  font-style: italic;
+  font-family: 'Playfair Display', serif;
+}
+
+.network-list {
+  list-style: none;
+  padding: 0;
+}
+
+.network-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.network-list i {
+  color: #10B981; /* Vert succès */
+  background: rgba(16, 185, 129, 0.1);
+  padding: 8px;
+  border-radius: 50%;
+  font-size: 0.9rem;
+}
+
+/* --- Section Visuelle (Droite) --- */
+.integration-right-visual {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f8faff; /* Couleur douce pour faire ressortir le bleu */
-  overflow: hidden;
 }
 
 .orbit-container {
   position: relative;
-  width: 500px;
-  height: 500px;
+  width: 450px;
+  height: 450px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -3131,11 +3187,11 @@ color: red;}
 .center-image {
   position: relative;
   z-index: 10;
-  width: 300px;
-  height: 300px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   overflow: hidden;
-  border: 4px solid #fff;
+  border: 5px solid #fff;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -3145,41 +3201,57 @@ color: red;}
   object-fit: cover;
 }
 
-/* Positionnement circulaire des icônes */
-.orbit-icons {
+/* --- ANIMATION DE ROTATION --- */
+.orbit-icons-rotating {
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 5;
+  z-index: 15;
+  animation: rotate-orbit 40s linear infinite;
+}
+
+@keyframes rotate-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .icon-wrapper {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   background: #fff;
   border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-  font-size: 24px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   top: 50%;
   left: 50%;
-  margin: -25px; /* Centrage exact sur le point */
+  margin: -24px; /* Centrage automatique */
 }
 
-/* Distribution des 8 icônes à 45 degrés d'intervalle */
-.facebook  { transform: rotate(0deg)   translate(200px) rotate(0deg); }
-.linkedin  { transform: rotate(45deg)  translate(200px) rotate(-45deg); }
-.instagram { transform: rotate(90deg)  translate(200px) rotate(-90deg); }
-.email     { transform: rotate(135deg) translate(200px) rotate(-135deg); }
-.youtube   { transform: rotate(180deg) translate(200px) rotate(-180deg); }
-.tiktok    { transform: rotate(225deg) translate(200px) rotate(-225deg); }
-.discord   { transform: rotate(270deg) translate(200px) rotate(-270deg); }
-.reddit    { transform: rotate(315deg) translate(200px) rotate(-315deg); }
+/* Contre-rotation pour garder les icônes droites */
+.icon-wrapper i {
+  font-size: 22px;
+  animation: counter-rotate 40s linear infinite;
+}
 
-/* Couleurs spécifiques aux icônes */
+@keyframes counter-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* Placement sur le cercle (Rayon de 190px) */
+.facebook  { transform: rotate(0deg)   translate(190px); }
+.linkedin  { transform: rotate(45deg)  translate(190px); }
+.instagram { transform: rotate(90deg)  translate(190px); }
+.email     { transform: rotate(135deg) translate(190px); }
+.youtube   { transform: rotate(180deg) translate(190px); }
+.tiktok    { transform: rotate(225deg) translate(190px); }
+.discord   { transform: rotate(270deg) translate(190px); }
+.reddit    { transform: rotate(315deg) translate(190px); }
+
+/* Couleurs des icônes */
 .facebook i { color: #1877F2; }
 .linkedin i { color: #0077B5; }
 .instagram i { color: #E4405F; }
@@ -3188,17 +3260,35 @@ color: red;}
 .discord i { color: #5865F2; }
 .reddit i { color: #FF4500; }
 
-/* Cercles décoratifs */
+/* Anneaux décoratifs */
 .orbit-ring {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(100, 150, 255, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.ring-1 { width: 300px; height: 300px; }
+.ring-2 { width: 420px; height: 420px; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+  .integration-wrapper {
+    flex-direction: column;
+    text-align: center;
+    padding: 50px 20px;
+  }
+  .network-list {
+    display: inline-block;
+    text-align: left;
+  }
 }
 
-.ring-1 { width: 300px; height: 300px; }
-.ring-2 { width: 450px; height: 450px; background: radial-gradient(circle, rgba(100,180,255,0.15) 0%, transparent 70%); }
-
-/* Responsive */
 @media (max-width: 600px) {
-  .orbit-container { transform: scale(0.7); }
+  .orbit-container {
+    transform: scale(0.7); /* Réduit l'orbite pour les petits écrans */
+    height: 350px;
+    width: 350px;
+  }
+  .integration-left h2 {
+    font-size: 1.8rem;
+  }
 }

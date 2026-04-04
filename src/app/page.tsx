@@ -318,47 +318,44 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
       </section>
 
 
-<section className="integration-orbit-section">
-  <div className="orbit-container">
-    {/* Image centrale */}
-    <div className="center-image">
-      <img src="/img/img3.jpg" alt="User" />
-    </div>
+<section className="integration-wrapper">
+  {/* SECTION GAUCHE : TEXTE */}
+  <div className="integration-left">
+    <h2>Contenu adapté aux <span>différents réseaux</span></h2>
+    <ul className="network-list">
+      <li><i className="fa-solid fa-check"></i> Facebook, Instagram</li>
+      <li><i className="fa-solid fa-check"></i> Email, LinkedIn</li>
+      <li><i className="fa-solid fa-check"></i> YouTube, TikTok</li>
+      <li><i className="fa-solid fa-check"></i> Discord, Reddit</li>
+    </ul>
+  </div>
 
-    {/* Cercle d'icônes */}
-    <div className="orbit-icons">
-      <div className="icon-wrapper facebook">
-        <i className="fa-brands fa-facebook"></i>
+  {/* SECTION DROITE : L'ORBITE */}
+  <div className="integration-right-visual">
+    <div className="orbit-container">
+      {/* Image centrale */}
+      <div className="center-image">
+        <img src="/img/img3.jpg" alt="User" />
       </div>
-      <div className="icon-wrapper linkedin">
-        <i className="fa-brands fa-linkedin"></i>
-      </div>
-      <div className="icon-wrapper instagram">
-        <i className="fa-brands fa-instagram"></i>
-      </div>
-      <div className="icon-wrapper email">
-        <i className="fa-solid fa-envelope"></i>
-      </div>
-      <div className="icon-wrapper youtube">
-        <i className="fa-brands fa-youtube"></i>
-      </div>
-      <div className="icon-wrapper tiktok">
-        <i className="fa-brands fa-tiktok"></i>
-      </div>
-      <div className="icon-wrapper discord">
-        <i className="fa-brands fa-discord"></i>
-      </div>
-      <div className="icon-wrapper reddit">
-        <i className="fa-brands fa-reddit"></i>
-      </div>
-    </div>
 
-    {/* Cercles décoratifs en arrière-plan */}
-    <div className="orbit-ring ring-1"></div>
-    <div className="orbit-ring ring-2"></div>
+      {/* Icônes orbitantes */}
+      <div className="orbit-icons-rotating">
+        <div className="icon-wrapper facebook"><i className="fa-brands fa-facebook"></i></div>
+        <div className="icon-wrapper linkedin"><i className="fa-brands fa-linkedin"></i></div>
+        <div className="icon-wrapper instagram"><i className="fa-brands fa-instagram"></i></div>
+        <div className="icon-wrapper email"><i className="fa-solid fa-envelope"></i></div>
+        <div className="icon-wrapper youtube"><i className="fa-brands fa-youtube"></i></div>
+        <div className="icon-wrapper tiktok"><i className="fa-brands fa-tiktok"></i></div>
+        <div className="icon-wrapper discord"><i className="fa-brands fa-discord"></i></div>
+        <div className="icon-wrapper reddit"><i className="fa-brands fa-reddit"></i></div>
+      </div>
+
+      {/* Cercles décoratifs */}
+      <div className="orbit-ring ring-1"></div>
+      <div className="orbit-ring ring-2"></div>
+    </div>
   </div>
 </section>
-
 
       <section className="how-it-works reveal">
         <div className="features-header">
