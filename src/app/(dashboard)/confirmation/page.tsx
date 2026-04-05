@@ -26,8 +26,9 @@ export default function ConfirmationPage() {
   return (
     <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f9fafb', padding: '20px' }}>
       <div style={{ maxWidth: '400px', width: '100%', background: '#fff', padding: '40px', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>Vérifiez votre email</h1>
-        <p style={{ color: '#666', marginBottom: '30px' }}>Nous avons envoyé un code à 6 chiffres. Collez-le ci-dessous pour activer votre compte PichFlow.</p>
+        <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>IIPICHFLOW</h1>
+        <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>Vérifiez votre compte</h1>
+        <p style={{ color: '#666', marginBottom: '30px' }}>Nous avons envoyé un code à 6 chiffres dans votre boîte mail. Collez-le ci-dessous pour activer votre compte PichFlow.</p>
         
         <form onSubmit={handleVerify}>
           <input 
