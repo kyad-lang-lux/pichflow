@@ -1,5 +1,4 @@
 "use client";
-
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -17,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     pathname?.startsWith("/contenu-ia") ||
     pathname?.startsWith("/buy-credits") ||
     pathname?.startsWith("/change-password") ||
+    pathname?.startsWith("/confirmation") ||
     pathname?.startsWith("/devis") ||
     pathname?.startsWith("/copywriting");
 
