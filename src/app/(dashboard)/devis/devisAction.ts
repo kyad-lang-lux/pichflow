@@ -98,7 +98,7 @@ export async function createDevisAction(formData: any) {
     return { success: true };
   } catch (error) {
     console.error("Erreur createDevisAction:", error);
-    return { success: false, error: "Erreur serveur lors de la création" };
+    return { success: false, error: "Crédits insuffisant ou Erreur serveur lors de la création" };
   }
 }
 

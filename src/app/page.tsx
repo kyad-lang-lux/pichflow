@@ -200,7 +200,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             </div>
             <h3>Facturation</h3>
             <p>
-              Créez des factures rapidement avec téléchargement illimité sur pichflow.
+              Créez des factures rapidement avec téléchargements illimités sur pichflow.
             </p>
           </div>
           <div className="feature-card active-border">
@@ -209,7 +209,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             </div>
             <h3>Devis Rapides</h3>
             <p>
-              Créez des devis de manière facile et rapide avec téléchargement illimité sur pichflow.
+              Créez des devis de manière facile et rapide avec téléchargements illimités sur pichflow.
             </p>
           </div>
           <div className="feature-card">
@@ -229,7 +229,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             </div>
             <h3>Copywriting</h3>
             <p>
-              Créez des pages de vente, landing pages et textes publicitaires
+              Créez des textes publicitaires
               avec les méthodes AIDA, PAS et plus.
             </p>
           </div>
@@ -321,10 +321,10 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
 <section className="integration-wrapper">
   {/* SECTION GAUCHE : TEXTE */}
   <div className="integration-left">
-    <h2>Contenu adapté aux <span>différents réseaux</span></h2>
+    <h2>Contenu adapté aux <span>différentes utilisations</span></h2>
     <ul className="network-list">
       <li><i className="fa-solid fa-check"></i> Facebook, Instagram</li>
-      <li><i className="fa-solid fa-check"></i> Email, LinkedIn</li>
+      <li><i className="fa-solid fa-check"></i> Email Marketing, LinkedIn</li>
       <li><i className="fa-solid fa-check"></i> YouTube, TikTok</li>
       <li><i className="fa-solid fa-check"></i> Discord, Reddit</li>
     </ul>
@@ -486,7 +486,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
               </div>
               <div className="badge-content">
                 <span className="amount">Facture</span>
-                <small>Payée</small>
+                <small>Créee</small>
               </div>
             </div>
             <div className="dot dot-1"></div>

@@ -32,7 +32,7 @@ export async function generateMarketingAction({
   systemInstruction, 
   type 
 }: GenerateParams): Promise<GenerateResponse> {
-  const apiKey = process.env.GOOGLE_AI_API_KEY;
+  const apiKey = process.env.GOOGLE_AI_AP_KEY;
   const jwtSecret = process.env.JWT_SECRET;
 
   if (!apiKey) return { success: false, error: "Clé API manquante." };

@@ -87,72 +87,103 @@ export default function DevisPage() {
     document.body.appendChild(container);
 
     container.innerHTML = `
-      <div style="padding: 50px; font-family: 'Open Sans', sans-serif; color: #000; border-left: 15px solid #c7dff0; min-height: 1130px; position: relative; background: #fff;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
-          <div>
-            <h2 style="font-family: 'Antonio', sans-serif; font-size: 26px; font-weight: bold; margin: 0; color: #000;">${sender.nomService.toUpperCase()}</h2>
-            <p style="font-size: 12px; margin-top: 5px; color: #444; line-height: 1.4;">${sender.adresse}<br>${sender.contact}</p>
-          </div>
-          <div style="text-align: right;">
-            <h2 style="font-family: 'Antonio', sans-serif; font-size: 45px; font-weight: 900; color: #000; margin: 0; line-height: 1;">DEVIS</h2>
-            <p style="font-weight: bold; margin-top: 10px;">N°: ${item.id}</p>
-          </div>
-        </div>
-
-        <div style="display: flex; justify-content: space-between; margin-bottom: 40px; gap: 20px;">
-          <div style="flex: 1; border: 1.5px solid #000; padding: 15px; border-radius: 4px;">
-            <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: #666;">Informations :</p>
-            <p style="font-size: 13px; margin: 0;"><strong>DATE :</strong> ${item.date}</p>
-            <p style="font-size: 13px; margin: 5px 0 0 0;"><strong>VALIDE JUSQU'AU :</strong> ${item.echeance}</p>
-          </div>
-          <div style="flex: 1; border: 1.5px solid #000; padding: 15px; border-radius: 4px; background: #fdf2f822;">
-            <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: #666;">Client :</p>
-            <p style="font-size: 16px; font-weight: 800; margin: 0;">${item.client.toUpperCase()}</p>
-            <p style="font-size: 12px; margin-top: 5px; color: #444;">${item.clientContact}<br>${item.clientAdresse}</p>
-          </div>
-        </div>
-
-        <table style="width: 100%; border-collapse: collapse; border: 1.2px solid #313030;">
-          <thead>
-            <tr style="background: #c7dff0; color: #000;">
-              <th style="text-align: left; padding: 12px; font-size: 11px; border: 1px solid #313030;">DESCRIPTION</th>
-              <th style="text-align: right; padding: 12px; font-size: 11px; border: 1px solid #313030;">PRIX UNITAIRE</th>
-              <th style="text-align: right; padding: 12px; font-size: 11px; border: 1px solid #313030;">QTÉ</th>
-              <th style="text-align: right; padding: 12px; font-size: 11px; border: 1px solid #313030;">TOTAL</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${item.prestations.map(p => `
-              <tr>
-                <td style="padding: 12px; font-weight: bold; border: 1px solid #313030; font-size: 13px;">${p.description}</td>
-                <td style="padding: 12px; text-align: right; border: 1px solid #313030; font-size: 13px;">${p.prixUnitaire.toLocaleString()} ${item.devise}</td>
-                <td style="padding: 12px; text-align: right; border: 1px solid #313030; font-size: 13px;">${p.quantite}</td>
-                <td style="padding: 12px; text-align: right; font-weight: 800; border: 1px solid #313030; font-size: 13px;">${(p.prixUnitaire * p.quantite).toLocaleString()} ${item.devise}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-
-        <div style="margin-left: auto; width: 280px; margin-top: 30px; border: 1.5px solid #313030;">
-          <div style="display: flex; justify-content: space-between; padding: 15px 12px; background: #313030; color: #fff;">
-            <span style=" font-family: 'Antonio', sans-serif;font-size: 14px; font-weight: bold;">TOTAL ESTIMÉ :</span>
-            <span style="font-size: 16px; font-weight: 900;">${totalHT.toLocaleString()} ${item.devise}</span>
-          </div>
-        </div>
-
-        <div style="position: absolute; bottom: 60px; left: 50px; width: calc(100% - 100px);">
-          <div style="text-align: left; margin-bottom: 10px;">
-            <p style="font-size: 11px; color: #000; margin: 0; line-height: 1.2;">
-              <strong>Information Importante :</strong> Ce devis est une estimation. Veuillez le retourner signé si possible pour validation finale de la commande.
-            </p>
-          </div>
-          <div style="text-align: center; border-top: 1.5px solid #000; padding-top: 20px;">
-            <p style="font-style: italic; font-size: 13px; color: #000; font-weight: 600; margin: 0;">Nous restons à votre entière disposition.</p>
-            <p style="font-size: 10px; color: #666; margin-top: 10px; margin-bottom: 0;">Généré via PichFlow - pichflow.com</p>
-          </div>
-        </div>
+  <div style="padding: 50px; font-family: 'Open Sans', sans-serif; color: #000; border-left: 15px solid #c7dff0; min-height: 1130px; position: relative; background: #eef3f7;">
+    
+    <!-- HEADER -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
+      <div>
+        <h2 style="font-family: 'Antonio', sans-serif; font-size: 26px; font-weight: bold; margin: 0; color: #000;">
+          ${sender.nomService.toUpperCase()}
+        </h2>
+        <p style="font-size: 12px; margin-top: 5px; color: #444; line-height: 1.4;">
+          ${sender.adresse}<br>${sender.contact}
+        </p>
       </div>
-    `;
+      <div style="text-align: right;">
+        <h2 style="font-family: 'Antonio', sans-serif; font-size: 45px; font-weight: 900; color: #000; margin: 0; line-height: 1;">DEVIS</h2>
+        <p style="font-weight: bold; margin-top: 10px;">N°: ${item.id}</p>
+      </div>
+    </div>
+
+    <!-- SECTION INFORMATIONS + CLIENT -->
+    <div style="display: flex; justify-content: space-between; margin-bottom: 40px; gap: 20px;">
+      <div style="flex: 1; border: 1.5px solid #e9edf0; padding: 15px; border-radius: 2px;">
+        <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: #666;">
+          Informations
+        </p>
+        <p style="font-size: 13px; margin: 0;"><strong>DATE :</strong> ${item.date}</p>
+        <p style="font-size: 13px; margin: 5px 0 0 0;"><strong>VALIDE JUSQU'AU :</strong> ${item.echeance}</p>
+      </div>
+
+      <div style="flex: 1; border: 1.5px solid #e9edf0; text-align: right; padding: 15px; border-radius: 2px; background: #fdf2f822;">
+        <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: #666;">
+          Client
+        </p>
+        <p style="font-size: 16px; font-weight: 800; margin: 0;">${item.client.toUpperCase()}</p>
+        <p style="font-size: 12px; margin-top: 5px; color: #444;">${item.clientContact}<br>${item.clientAdresse}</p>
+      </div>
+    </div>
+
+    <!-- TABLEAU -->
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="background: #a5d1f0; color: #000;">
+          <th style="font-family: 'Antonio', sans-serif; text-align: left; padding: 12px; font-size: 12px; color: #333232; text-transform: uppercase; letter-spacing: 0.5px;">Description</th>
+          <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px; color: #333232; border-left: 1px solid #d8d8d8; text-transform: uppercase; width: 120px;">Prix Unitaire</th>
+          <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px; color: #333232; border-left: 1px solid #d8d8d8; text-transform: uppercase; width: 60px;">Qté</th>
+          <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px; color: #333232; border-left: 1px solid #d8d8d8; text-transform: uppercase; width: 120px;">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${item.prestations.map((p, index) => {
+          const isLastRow = index === item.prestations.length - 1;
+          const rowBorder = isLastRow ? '' : 'border-bottom: 1px solid #eceaea;';
+          const verticalDivider = 'border-left: 1px solid #eceaea;';
+
+          return `
+            <tr style="${rowBorder}">
+              <td style="padding: 15px 12px; border: none; vertical-align: top;">
+                <div style="font-weight: 800; font-size: 13px; color: #000;">${p.description}</div>
+              </td>
+              <td style="padding: 15px 12px; text-align: right; ${verticalDivider} font-size: 13px; vertical-align: top;">
+                ${p.prixUnitaire.toLocaleString()} ${item.devise}
+              </td>
+              <td style="padding: 15px 12px; text-align: right; ${verticalDivider} font-size: 13px; vertical-align: top;">
+                ${p.quantite}
+              </td>
+              <td style="padding: 15px 12px; text-align: right; font-weight: 700; ${verticalDivider} font-size: 13px; color: #000; vertical-align: top;">
+                ${(p.prixUnitaire * p.quantite).toLocaleString()} ${item.devise}
+              </td>
+            </tr>
+          `;
+        }).join('')}
+      </tbody>
+    </table>
+
+    <div style="width: 100%; border-top: 1.5px solid #313030; margin-top: 0;"></div>
+
+    <!-- TOTAL -->
+    <div style="margin-left: auto; width: 280px; margin-top: 20px; border: 1.5px solid #313030;">
+      <div style="display: flex; justify-content: space-between; padding: 15px 12px; background: #313030; color: #fff;">
+        <span style="font-family: 'Antonio', sans-serif; font-size: 14px; font-weight: bold; text-transform: uppercase;">Total estimé :</span>
+        <span style="font-size: 16px; font-weight: 900;">${totalHT.toLocaleString()} ${item.devise}</span>
+      </div>
+    </div>
+
+    <!-- PIED DE PAGE -->
+    <div style="position: absolute; bottom: 40px; left: 50px; width: calc(100% - 100px);">
+      <div style="font-size: 11px; color: #555; line-height: 1.6; margin-bottom: 25px; max-width: 80%;">
+        <p style="margin: 0 0 5px 0;"><strong>Information importante :</strong> Ce devis est une estimation. Veuillez le retourner signé si possible pour validation finale de la commande.</p>
+      </div>
+
+      <div style="text-align: center; border-top: 1px solid #e0e0e0; padding-top: 20px;">
+        <p style="font-style: italic; font-size: 13px; color: #000; font-weight: 600; margin: 0;">Nous restons à votre entière disposition.</p>
+        <p style="font-size: 10px; color: #888; margin-top: 10px; letter-spacing: 0.5px;">Fait grâce à PichFlow - pichflow.com</p>
+      </div>
+    </div>
+
+  </div>
+`;
 
     try {
       const canvas = await (window as any).html2canvas(container, { scale: 2, useCORS: true });
