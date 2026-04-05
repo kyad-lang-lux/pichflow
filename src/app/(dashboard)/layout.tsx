@@ -17,23 +17,39 @@ export default function DashboardLayout({
   const profileRef = useRef<HTMLDivElement>(null);
   const [credits, setCredits] = useState<number | string>("..."); 
 
-  // Variable de contrôle pour savoir si on cache le menu
   const isConfirmationPage = pathname === "/confirmation";
 
   useEffect(() => {
     const verifyUserStatus = async () => {
-      if (isConfirmationPage) return;
+      // On récupère le statut complet (authenticated, unauthenticated, ou deleted)
+      const authStatus = await checkEmailVerification();
 
-      const isVerified = await checkEmailVerification();
-      if (!isVerified) {
-        router.push("/confirmation");
+      // 1. CAS CRITIQUE : L'utilisateur a été supprimé de la base de données
+      if (authStatus.status === "deleted") {
+        await logoutAction(); // On nettoie le cookie côté serveur
+        window.location.href = "/login"; // Redirection forcée pour nettoyer l'état client
+        return;
+      }
+
+      // 2. CAS : Pas de session (non connecté)
+      if (authStatus.status === "unauthenticated") {
+        router.push("/login");
+        return;
+      }
+
+      // 3. CAS : Connecté mais email non vérifié
+      if (authStatus.status === "authenticated" && !authStatus.isVerified) {
+        if (!isConfirmationPage) {
+          router.push("/confirmation");
+        }
+        return;
       }
     };
 
     verifyUserStatus();
 
     const fetchCredits = async () => {
-      if (isConfirmationPage) return; // Pas besoin de charger les crédits ici
+      if (isConfirmationPage) return;
       try {
         const val = await getUserCredits();
         setCredits(val);
@@ -53,13 +69,12 @@ export default function DashboardLayout({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [pathname, router, isConfirmationPage]);
 
-  // Si on est sur la page de confirmation, on retourne un layout vide (juste le contenu)
+  // Rendu de la page de confirmation (sans sidebar/topbar)
   if (isConfirmationPage) {
     return <>{children}</>;
   }
 
-  // --- Le reste du code ci-dessous ne s'affichera QUE si on n'est pas en confirmation ---
-
+  // --- Configuration du Menu ---
   const allMenuItems = [
     { name: "Acceuil", path: "/dashboard", icon: "fa-house" },
     { name: "Clients", path: "/clients", icon: "fa-user-group" },

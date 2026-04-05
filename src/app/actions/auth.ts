@@ -67,7 +67,6 @@ async function createSession(userId: string) {
  */
 export async function signUpAction(userData: any) {
   const { email, password, name } = userData;
-  // Génération d'un code à 6 chiffres
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
   try {
@@ -83,7 +82,6 @@ export async function signUpAction(userData: any) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const userId = uuidv4();
 
-    // Insertion avec is_verified = 0 et le code OTP
     await db.execute({
       sql: "INSERT INTO users (id, email, password_hash, credits, name, is_verified, otp_code) VALUES (?, ?, ?, ?, ?, 0, ?)",
       args: [userId, email, hashedPassword, 15, name, otp],
@@ -94,10 +92,7 @@ export async function signUpAction(userData: any) {
       args: [uuidv4(), userId, name]
     });
 
-    // Envoi de l'email
     await sendOTPEmail(email, otp);
-
-    // On connecte l'utilisateur (mais il sera bloqué par le layout tant qu'il n'aura pas validé)
     await createSession(userId);
 
     return { success: true };
@@ -108,7 +103,7 @@ export async function signUpAction(userData: any) {
 }
 
 /**
- * ACTION : VÉRIFIER LE CODE OTP SAISI PAR L'UTILISATEUR
+ * ACTION : VÉRIFIER LE CODE OTP
  */
 export async function verifyOTPAction(submittedOtp: string) {
   try {
@@ -124,8 +119,9 @@ export async function verifyOTPAction(submittedOtp: string) {
       args: [userId]
     });
 
+    if (res.rows.length === 0) return { error: "Compte introuvable." };
+
     if (res.rows[0]?.otp_code === submittedOtp) {
-      // On valide l'utilisateur et on vide le code OTP
       await db.execute({
         sql: "UPDATE users SET is_verified = 1, otp_code = NULL WHERE id = ?",
         args: [userId]
@@ -141,13 +137,14 @@ export async function verifyOTPAction(submittedOtp: string) {
 }
 
 /**
- * ACTION : VÉRIFIER SI L'UTILISATEUR EST DÉJÀ VALIDÉ (Pour le Layout)
+ * ACTION : VÉRIFIER LE STATUT (Pour le Layout)
+ * Gère le cas où l'utilisateur est supprimé de la DB mais possède encore un cookie
  */
 export async function checkEmailVerification() {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("pichflow_token")?.value;
-    if (!token) return false;
+    if (!token) return { status: "unauthenticated" };
 
     const { payload } = await jwtVerify(token, JWT_SECRET);
     const userId = payload.userId as string;
@@ -157,10 +154,17 @@ export async function checkEmailVerification() {
       args: [userId],
     });
 
-    // On s'assure que is_verified vaut bien 1
-    return result.rows[0]?.is_verified === 1;
+    // Cas où le compte a été supprimé manuellement dans Turso
+    if (result.rows.length === 0) {
+      return { status: "deleted" };
+    }
+
+    return { 
+      status: "authenticated", 
+      isVerified: result.rows[0]?.is_verified === 1 
+    };
   } catch (error) {
-    return false;
+    return { status: "error" };
   }
 }
 
@@ -200,7 +204,7 @@ export async function loginAction(credentials: any) {
 }
 
 /**
- * ACTION : CONNEXION VIA GOOGLE
+ * ACTION : CONNEXION VIA GOOGLE (Stricte)
  */
 export async function googleLoginAction(googleAccessToken: string) {
   try {
@@ -215,30 +219,20 @@ export async function googleLoginAction(googleAccessToken: string) {
     }
 
     const email = googleData.email;
-    const name = googleData.name || "Utilisateur Google";
 
     const result = await db.execute({
       sql: "SELECT id FROM users WHERE email = ?",
       args: [email],
     });
 
-    let userId;
-
+    // Si pas de compte en base, on refuse la connexion Google
     if (result.rows.length === 0) {
-      userId = uuidv4();
-      // Pour Google, on peut considérer l'email comme déjà vérifié (is_verified = 1)
-      await db.execute({
-        sql: "INSERT INTO users (id, email, password_hash, credits, name, is_verified) VALUES (?, ?, ?, ?, ?, 1)",
-        args: [userId, email, "google-auth-no-password", 15, name],
-      });
-      await db.execute({
-          sql: "INSERT INTO sender_info (id, user_id, nom_service) VALUES (?, ?, ?)",
-          args: [uuidv4(), userId, name]
-      });
-    } else {
-      userId = result.rows[0].id as string;
+      return { 
+        error: "Aucun compte trouvé avec cet email. Veuillez d'abord vous inscrire." 
+      };
     }
 
+    const userId = result.rows[0].id as string;
     await createSession(userId);
 
     return { success: true };
@@ -249,7 +243,7 @@ export async function googleLoginAction(googleAccessToken: string) {
 }
 
 /**
- * Récupérer les crédits de l'utilisateur actuel
+ * Récupérer les crédits (Sécurisé contre les comptes supprimés)
  */
 export async function getUserCredits() {
   try {
@@ -264,6 +258,8 @@ export async function getUserCredits() {
       sql: "SELECT credits FROM users WHERE id = ?",
       args: [userId],
     });
+
+    if (result.rows.length === 0) return 0;
 
     return Number(result.rows[0]?.credits) || 0;
   } catch (error) {
