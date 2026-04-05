@@ -14,12 +14,24 @@ async function getAuthUserId() {
   } catch (error) { return null; }
 }
 
+// --- AJOUT : Récupérer les clients pour la sélection ---
+export async function getClientsAction() {
+  try {
+    const userId = await getAuthUserId();
+    if (!userId) return [];
+    const res = await db.execute({
+      sql: "SELECT nom, contact, adresse FROM clients WHERE user_id = ? ORDER BY nom ASC",
+      args: [userId]
+    });
+    return res.rows;
+  } catch (e) { return []; }
+}
+
 export async function createFactureAction(formData: any) {
   try {
     const userId = await getAuthUserId();
     if (!userId) return { success: false, error: "Non connecté" };
 
-    // 1. Vérification des crédits
     const userRes = await db.execute({
       sql: "SELECT credits FROM users WHERE id = ?",
       args: [userId],
@@ -27,7 +39,6 @@ export async function createFactureAction(formData: any) {
     const currentCredits = Number(userRes.rows[0]?.credits || 0);
     if (currentCredits < 5) return { success: false, error: "Crédits insuffisants (5 requis)" };
 
-    // 2. Infos émetteur
     const senderRes = await db.execute({
       sql: "SELECT nom_service, adresse, contact FROM sender_info WHERE user_id = ?",
       args: [userId],
@@ -99,7 +110,7 @@ export async function getFacturesAction() {
           description: String(l.description),
           prixUnitaire: Number(l.prix_unitaire),
           quantite: Number(l.quantite)
-        })),
+         })),
         devise: String(f.devise),
         date: String(f.date_emission),
         echeance: String(f.date_echeance)

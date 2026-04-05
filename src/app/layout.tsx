@@ -12,6 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     pathname?.startsWith("/dashboard") ||
     pathname?.startsWith("/parametres") ||
     pathname?.startsWith("/factures") ||
+    pathname?.startsWith("/clients") ||
     pathname?.startsWith("/rapports") ||
     pathname?.startsWith("/contenu-ia") ||
     pathname?.startsWith("/buy-credits") ||

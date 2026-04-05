@@ -39,6 +39,13 @@ export default function DashboardPage() {
 
   const tools = [
     {
+      title: "Clients",
+      desc: "Ajoutez des clients pour vous permettre de ne pas répéter les informations au cour de la création de facture.",
+      icon: "fa-user-group",
+      className: "icon-facture",
+      link: "/clients",
+    },
+    {
       title: "Devis Rapide",
       desc: "Créez des devis de manière facile et rapide avec téléchargement illimité sur pichflow.",
       icon: "fa-receipt",

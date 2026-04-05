@@ -1,11 +1,17 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { createFactureAction, getFacturesAction, deleteFactureAction } from './factureAction';
+import { createFactureAction, getFacturesAction, deleteFactureAction, getClientsAction } from './factureAction';
 
 interface Prestation {
   description: string;
   prixUnitaire: number;
   quantite: number;
+}
+
+interface ClientSuggestion {
+  nom: string;
+  contact: string;
+  adresse: string;
 }
 
 interface Facture {
@@ -25,6 +31,7 @@ interface Facture {
 
 export default function FacturesPage() {
   const [factures, setFactures] = useState<Facture[]>([]);
+  const [savedClients, setSavedClients] = useState<ClientSuggestion[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,15 +44,17 @@ export default function FacturesPage() {
     prestations: [{ description: '', prixUnitaire: 0, quantite: 1 }] as Prestation[]
   });
 
-  // Chargement initial
   const loadData = async () => {
-    const data = await getFacturesAction();
-    setFactures(data as Facture[]);
+    const [factData, clientData] = await Promise.all([
+        getFacturesAction(),
+        getClientsAction()
+    ]);
+    setFactures(factData as Facture[]);
+    setSavedClients(clientData as any);
   };
 
   useEffect(() => { loadData(); }, []);
 
-  // --- LOGIQUE AUTOMATIQUE D'ÉCHÉANCE (J+30) ---
   useEffect(() => {
     if (isModalOpen) {
       const today = new Date();
@@ -68,6 +77,22 @@ export default function FacturesPage() {
       }
     });
   }, []);
+
+  // --- FONCTION DE SÉLECTION DU CLIENT ---
+  const handleSelectSavedClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedNom = e.target.value;
+    if (!selectedNom) return;
+    
+    const clientFound = savedClients.find(c => c.nom === selectedNom);
+    if (clientFound) {
+        setFormData({
+            ...formData,
+            client: clientFound.nom,
+            clientContact: clientFound.contact,
+            clientAdresse: clientFound.adresse
+        });
+    }
+  };
 
   const addPrestationLine = () => {
     setFormData({ ...formData, prestations: [...formData.prestations, { description: '', prixUnitaire: 0, quantite: 1 }] });
@@ -133,9 +158,7 @@ export default function FacturesPage() {
             ${item.prestations.map((p, index) => {
               const isLastRow = index === item.prestations.length - 1;
               const rowBorderStyle = isLastRow ? '' : 'border-bottom: 1px solid #eceaea;';
-              // Style pour les bordures verticales intérieures (border-left sur les colonnes 2, 3 et 4)
               const verticalDivider = 'border-left: 1px solid #eceaea;';
-              
               return `
                 <tr style="${rowBorderStyle}">
                   <td style="padding: 15px 12px; border: none; vertical-align: top;">
@@ -221,6 +244,21 @@ export default function FacturesPage() {
             <h3>Nouvelle Facture</h3>
             <form onSubmit={handleSave} className="modern-form">
               <div className="form-section">
+                {/* --- SÉLECTEUR DE CLIENT ENREGISTRÉ --- */}
+                <div style={{marginBottom: '10px'}}>
+                    <label style={{fontSize: '11px', color: '#666', marginBottom: '4px', display: 'block'}}>CHOISIR UN CLIENT EXISTANT (OPTIONNEL)</label>
+                    <select 
+                        style={{width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ddd'}}
+                        onChange={handleSelectSavedClient}
+                        defaultValue=""
+                    >
+                        <option value="" disabled>-- Sélectionner un client --</option>
+                        {savedClients.map((c, i) => (
+                            <option key={i} value={c.nom}>{c.nom}</option>
+                        ))}
+                    </select>
+                </div>
+
                 <input type="text" placeholder="Nom du Client" required value={formData.client} onChange={(e)=>setFormData({...formData, client: e.target.value})} className="main-input" />
                 <div className="row">
                   <input style={{width: '100%'}} type="text" placeholder="Contact (Tél/Email)" required value={formData.clientContact} onChange={(e)=>setFormData({...formData, clientContact: e.target.value})} /> 
@@ -313,8 +351,8 @@ export default function FacturesPage() {
           )) : (
             <div style={{padding:'20px', textAlign:'center', color:'#888'}}>Aucune facture trouvée.</div>
           )} 
-        </div>
-      </div>
+        </div> <br /> <br /> <br />
+      </div> 
     </div>
   );
 }

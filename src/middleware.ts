@@ -11,6 +11,7 @@ export async function middleware(request: NextRequest) {
   const protectedRoutes = [
     '/parametres', 
     '/devis', 
+    '/clients', 
     '/factures', 
     '/copywriting', 
     '/contenu-ia', 

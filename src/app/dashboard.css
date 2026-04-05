@@ -64,7 +64,7 @@ body {
 }
 .menu-item {
   display: flex; align-items: center; gap: 10px; padding: 12px 16px;
-  color: #94A3B8; text-decoration: none; border-radius: 12px;
+  color: #94A3B8; text-decoration: none; border-radius: 50px;
   font-size: 1.1rem; margin-bottom: 4px; transition: all 0.2s ease;
   font-weight: 700;
 }
@@ -509,7 +509,7 @@ padding: 0; }
   .mobile-tab-bar { 
     display: flex; justify-content: space-around; align-items: center;
     position: fixed; bottom: 0px; left: 50%; transform: translateX(-50%); 
-    width: 97%; max-width: 450px; background-color: transparent;
+    width: 99%; max-width: 450px; background-color: transparent;
     /* backdrop-filter: blur(100px); */
     height: auto; border-radius: 5px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); z-index: 1000;
     padding-top: 15px;
@@ -522,12 +522,12 @@ padding: 0; }
   } 
   .tab-item { font-family: "Roboto", sans-serif; background: #fff; padding: 0px; margin-bottom: 0; display: flex; flex-direction: column; align-items: center; color: #000; text-decoration: none; font-size: 1.5rem; gap: 0px; flex: 1; position: relative; font-weight: 700;  }
   .tab-item.active { font-family: "Roboto", sans-serif; color: #000; font-weight: bold; padding: 0; border-radius: 50px;  bottom: 5px; gap: 0px; font-weight: 900; }
-  .tab-item.active span { font-size: .75rem; }
-  .tab-item.active i{ border-radius: 50px; color: #fff; background: #000; padding: 5px; padding-left: 20px; padding-right: 20px;  border: 1.5px solid #babacc;}
+  .tab-item.active span { font-size: .7rem; }
+  .tab-item.active i{ border-radius: 50px; color: #fff; background: #000; padding: 4px; padding-left: 16px; padding-right: 16px;  border: 1.5px solid #babacc;}
   .tab-item.active::before {display: none; content: ' '; position: absolute; bottom: -8px;  width: 60%; height: 6px; background: #2563EB; border-radius:  5px 5px ; box-shadow: 0 0 15px #dcdcdd, 0 0 12px #e3e3e6, 0 0 12px #2563eb inset;}
  .mobile-tab-bar span {
   /* display: none; */ 
-  font-size: .7rem;
+  font-size: .65rem;
   
  } 
     
@@ -1911,4 +1911,108 @@ font-weight: bold;
 
 @keyframes l17 {  
   100%{transform: rotate(1turn)}
+}
+
+
+
+/* --- COMPLÉMENT CSS POUR LA PAGE CLIENTS --- */
+
+/* --- PAGE CLIENTS STYLE --- */
+
+.client-modal-size {
+  max-width: 500px !important;
+}
+
+.card-style {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+}
+
+.form-group-custom {
+  margin-bottom: 15px;
+}
+
+.form-group-custom label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group-custom input, 
+.form-group-custom textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border 0.2s;
+}
+
+.form-group-custom input:focus, 
+.form-group-custom textarea:focus {
+  border-color: var(--primary-blue);
+  outline: none;
+}
+
+.main-input-client {
+  font-size: 16px !important;
+  font-weight: 700;
+  color: var(--sidebar-dark);
+}
+
+.form-group-custom textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* --- RESPONSIVITÉ TABLEAU --- */
+
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .div-table-row {
+    flex-direction: column;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: white;
+  }
+
+  .div-table-row > div {
+    width: 100%;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+  }
+
+  .div-table-row > div::before {
+    content: attr(data-label);
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: left;
+  }
+
+  .col-actions {
+    justify-content: flex-end;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 10px;
+    margin-bottom: 0 !important;
+  }
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
