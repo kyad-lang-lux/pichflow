@@ -1,13 +1,17 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { saveSenderInfoAction, getSenderInfo } from './senderAction'; // Importe tes actions
+import { saveSenderInfoAction, getSenderInfo } from './senderAction';
 
 export default function FactureInfoPage() {
-  const [info, setInfo] = useState({ nomService: '', adresse: '', contact: '' });
+  const [info, setInfo] = useState({ 
+    nomService: '', 
+    adresse: '', 
+    contact: '', 
+    tvaRate: 0 // Nouvel état
+  });
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // --- CHARGEMENT DEPUIS LA DB ---
   useEffect(() => {
     const loadData = async () => {
       const data = await getSenderInfo();
@@ -15,7 +19,8 @@ export default function FactureInfoPage() {
         setInfo({
           nomService: (data.nomService as string) || '',
           adresse: (data.adresse as string) || '',
-          contact: (data.contact as string) || ''
+          contact: (data.contact as string) || '',
+          tvaRate: Number(data.tvaRate) || 0 // Récupération
         });
       }
       setLoading(false);
@@ -30,7 +35,8 @@ export default function FactureInfoPage() {
     const res = await saveSenderInfoAction({
       nom_service: info.nomService,
       adresse: info.adresse,
-      contact: info.contact
+      contact: info.contact,
+      tva_rate: info.tvaRate // Envoi au serveur
     });
 
     if (res.success) {
@@ -48,7 +54,8 @@ export default function FactureInfoPage() {
     <div className="fi-wrapper">
       <div className="fi-header">
         <h1>Facturation</h1>
-        <p>Infos de l'émetteur pour vos documents PDF.</p>
+        <p>Veuillez remplir les infos d'emetteurs qui seront sur vos factures:
+          Infos de l'émetteur et configuration fiscale. </p>
       </div>
 
       <div className="fi-main-layout">
@@ -75,7 +82,7 @@ export default function FactureInfoPage() {
                   value={info.adresse} 
                   onChange={(e)=>setInfo({...info, adresse: e.target.value})} 
                   required 
-                  placeholder="Ex: Cotonou, Bénin"
+                  placeholder="Ex: 12 Rue des Fleurs, 75008 Paris, France"
                 />
               </div>
               <div className="fi-field">
@@ -88,6 +95,20 @@ export default function FactureInfoPage() {
                   placeholder="Ex: contact@pichflow.com"
                 />
               </div>
+
+              {/* --- NOUVEAU CHAMP TVA --- */}
+              <div className="fi-field">
+                <label>Taux de TVA par défaut (%)</label>
+                <input 
+                  type="number" 
+                  step="0.01"
+                  value={info.tvaRate} 
+                  onChange={(e)=>setInfo({...info, tvaRate: parseFloat(e.target.value) || 0})} 
+                  required 
+                  placeholder="Ex: 18 ou 20"
+                />
+              </div>
+
               <button 
                 type="submit" 
                 disabled={loading}
@@ -111,6 +132,9 @@ export default function FactureInfoPage() {
               <div style={{ color: '#555', fontSize: '14px' }}>
                 <p><strong>📍</strong> {info.adresse || "Adresse..."}</p>
                 <p><strong>📞</strong> {info.contact || "Contact..."}</p>
+                <p style={{ marginTop: '10px', color: '#000', fontWeight: 'bold' }}>
+                   Taxe : {info.tvaRate}% (Appliquée sur les documents)
+                </p>
               </div>
             </div> 
           </section>

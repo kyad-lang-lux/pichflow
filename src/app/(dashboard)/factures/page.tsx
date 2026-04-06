@@ -23,6 +23,7 @@ interface Facture {
   senderNom?: string;
   senderAdresse?: string;
   senderContact?: string;
+  tvaRate: number; // Ajouté pour la gestion de la TVA
   prestations: Prestation[];
   devise: string;
   date: string;
@@ -40,14 +41,14 @@ export default function FacturesPage() {
     clientContact: '',
     clientAdresse: '',
     echeance: '',
-    devise: '€',
+    devise: 'FCFA',
     prestations: [{ description: '', prixUnitaire: 0, quantite: 1 }] as Prestation[]
   });
 
   const loadData = async () => {
     const [factData, clientData] = await Promise.all([
-        getFacturesAction(),
-        getClientsAction()
+      getFacturesAction(),
+      getClientsAction()
     ]);
     setFactures(factData as Facture[]);
     setSavedClients(clientData as any);
@@ -78,25 +79,23 @@ export default function FacturesPage() {
     });
   }, []);
 
-  // --- FONCTION DE SÉLECTION DU CLIENT ---
   const handleSelectSavedClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedNom = e.target.value;
     if (!selectedNom) return;
-    
     const clientFound = savedClients.find(c => c.nom === selectedNom);
     if (clientFound) {
-        setFormData({
-            ...formData,
-            client: clientFound.nom,
-            clientContact: clientFound.contact,
-            clientAdresse: clientFound.adresse
-        });
+      setFormData({
+        ...formData,
+        client: clientFound.nom,
+        clientContact: clientFound.contact,
+        clientAdresse: clientFound.adresse
+      });
     }
   };
 
   const addPrestationLine = () => {
     setFormData({ ...formData, prestations: [...formData.prestations, { description: '', prixUnitaire: 0, quantite: 1 }] });
-  }; 
+  };
 
   const removePrestationLine = (index: number) => {
     const newPrestations = formData.prestations.filter((_, i) => i !== index);
@@ -109,17 +108,20 @@ export default function FacturesPage() {
     setFormData({ ...formData, prestations: newPrestations });
   };
 
-  const calculateTotal = (prestations: Prestation[]) => {
+  const calculateTotalHT = (prestations: Prestation[]) => {
     return prestations.reduce((acc, curr) => acc + (curr.prixUnitaire * curr.quantite), 0);
   };
 
   const downloadPDF = async (item: Facture) => {
-    const totalHT = calculateTotal(item.prestations); 
+    const totalHT = calculateTotalHT(item.prestations);
+    const montantTVA = totalHT * (item.tvaRate / 100);
+    const totalTTC = totalHT + montantTVA;
+
     const container = document.createElement('div');
     container.style.cssText = 'position:fixed; left:-9999px; width:800px; background:white;';
     document.body.appendChild(container);
 
-   container.innerHTML = `
+    container.innerHTML = `
       <div style="padding: 50px; font-family: 'Open Sans', sans-serif; color: #000; border-left: 15px solid #c1daec; min-height: 1130px; position: relative; background: #eef3f7;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
           <div>
@@ -138,7 +140,7 @@ export default function FacturesPage() {
             <p style="font-size: 13px; margin: 0;"><strong>DATE :</strong> ${item.date}</p>
             <p style="font-size: 13px; margin: 5px 0 0 0;"><strong>ÉCHÉANCE :</strong> ${item.echeance}</p>
           </div>
-          <div  style="flex: 1; border: 1.5px solid #e9edf0; text-align: right; padding: 15px; border-radius: 2px; background: #fdf2f822;">
+          <div style="flex: 1; border: 1.5px solid #e9edf0; text-align: right; padding: 15px; border-radius: 2px; background: #fdf2f822;">
             <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: #666; ">Destinataire</p>
             <p style="font-size: 16px; font-weight: 800; margin: 0;">${item.client.toUpperCase()}</p>
             <p style="font-size: 12px; margin-top: 5px; color: #444;">${item.clientContact}<br>${item.clientAdresse}</p>
@@ -148,19 +150,17 @@ export default function FacturesPage() {
         <table style="width: 100%; border-collapse: collapse;">
           <thead>
             <tr style="background: #a5d1f0; color: #000;">
-              <th style="font-family: 'Antonio', sans-serif; text-align: left; padding: 12px; font-size: 12px;  color: #333232; text-transform: uppercase; letter-spacing: 0.5px;">Libellé / Description</th>
-              <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px;  color: #333232; border-left: 1px solid #d8d8d8; text-transform: uppercase; letter-spacing: 0.5px; width: 120px;">Prix Unitaire</th>
-              <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px;  color: #333232; border-left: 1px solid #d8d8d8; text-transform: uppercase; letter-spacing: 0.5px; width: 60px;">Qté</th>
-              <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px;  color: #333232; border-left: 1px solid #d8d8d8; text-transform: uppercase; letter-spacing: 0.5px; width: 120px;">Total</th>
+              <th style="font-family: 'Antonio', sans-serif; text-align: left; padding: 12px; font-size: 12px; color: #333232; text-transform: uppercase; letter-spacing: 0.5px;">Libellé / Description</th>
+              <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px; color: #333232; border-left: 1px solid #d8d8d8; text-transform: uppercase; letter-spacing: 0.5px; width: 120px;">Prix Unitaire</th>
+              <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px; color: #333232; border-left: 1px solid #d8d8d8; text-transform: uppercase; letter-spacing: 0.5px; width: 60px;">Qté</th>
+              <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px; color: #333232; border-left: 1px solid #d8d8d8; text-transform: uppercase; letter-spacing: 0.5px; width: 120px;">Total</th>
             </tr>
           </thead>
           <tbody>
             ${item.prestations.map((p, index) => {
-              const isLastRow = index === item.prestations.length - 1;
-              const rowBorderStyle = isLastRow ? '' : 'border-bottom: 1px solid #eceaea;';
               const verticalDivider = 'border-left: 1px solid #eceaea;';
               return `
-                <tr style="${rowBorderStyle}">
+                <tr style="border-bottom: 1px solid #eceaea;">
                   <td style="padding: 15px 12px; border: none; vertical-align: top;">
                     <div style="font-weight: 800; font-size: 13px; color: #000;">${p.description}</div>
                   </td>
@@ -173,12 +173,18 @@ export default function FacturesPage() {
           </tbody>
         </table>
 
-        <div style="width: 100%; border-top: 1.5px solid #313030; margin-top: 0;"></div>
-
-        <div style="margin-left: auto; width: 280px; margin-top: 20px; border: 1.5px solid #313030;">
+        <div style="margin-left: auto; width: 300px; margin-top: 30px; border: 1.5px solid #313030; background: #fff;">
+          <div style="display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eceaea;">
+            <span style="font-size: 13px; color: #666;">Total HT :</span>
+            <span style="font-size: 13px; font-weight: 700;">${totalHT.toLocaleString()} ${item.devise}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eceaea;">
+            <span style="font-size: 13px; color: #666;">TVA (${item.tvaRate}%) :</span>
+            <span style="font-size: 13px; font-weight: 700;">${montantTVA.toLocaleString()} ${item.devise}</span>
+          </div>
           <div style="display: flex; justify-content: space-between; padding: 15px 12px; background: #313030; color: #fff;">
-            <span style=" font-family: 'Antonio', sans-serif;font-size: 14px; font-weight: bold; text-transform: uppercase;">Total Net :</span>
-            <span style="font-size: 16px; font-weight: 900;">${totalHT.toLocaleString()} ${item.devise}</span>
+            <span style="font-family: 'Antonio', sans-serif; font-size: 14px; font-weight: bold; text-transform: uppercase;">Total TTC :</span>
+            <span style="font-size: 18px; font-weight: 900;">${totalTTC.toLocaleString()} ${item.devise}</span>
           </div>
         </div>
 
@@ -187,7 +193,6 @@ export default function FacturesPage() {
             <p style="margin: 0 0 5px 0;">La facture devra être payée dans les 30 jours à compter de la réalisation de la prestation ou de la réception de la marchandise.</p>
             <p style="margin: 0;">Membre d'une association agréée, le règlement par espèce, par chèque et par carte bancaire est accepté.</p>
           </div>
-
           <div style="text-align: center; border-top: 1px solid #e0e0e0; padding-top: 20px;">
              <p style="font-style: italic; font-size: 13px; color: #000; font-weight: 600; margin: 0;">Merci pour votre confiance !</p>
              <p style="font-size: 10px; color: #888; margin-top: 10px; letter-spacing: 0.5px;">Fait grâce à PichFlow - pichflow.com</p>
@@ -208,14 +213,12 @@ export default function FacturesPage() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
     const res = await createFactureAction(formData);
-    
     if (res.success) {
       await loadData();
       setIsModalOpen(false);
       setFormData({
-        client:'', clientContact:'', clientAdresse:'', echeance:'', devise:'€',
+        client:'', clientContact:'', clientAdresse:'', echeance:'', devise:'FCFA',
         prestations:[{description:'', prixUnitaire:0, quantite:1}]
       });
     } else {
@@ -244,7 +247,6 @@ export default function FacturesPage() {
             <h3>Nouvelle Facture</h3>
             <form onSubmit={handleSave} className="modern-form">
               <div className="form-section">
-                {/* --- SÉLECTEUR DE CLIENT ENREGISTRÉ --- */}
                 <div style={{marginBottom: '10px'}}>
                     <label style={{fontSize: '11px', color: '#666', marginBottom: '4px', display: 'block'}}>CHOISIR UN CLIENT EXISTANT (OPTIONNEL)</label>
                     <select 
@@ -278,7 +280,7 @@ export default function FacturesPage() {
                     </select>
                   </div>
                 </div>
-              </div>
+              </div>  
 
               <div className="prestations-list">
                 <label>Prestations</label>
@@ -287,8 +289,8 @@ export default function FacturesPage() {
                     <div key={index} className="prestation-row" style={{position: 'relative'}}>
                       <input type="text" placeholder="Description" value={p.description} onChange={(e) => updatePrestation(index, 'description', e.target.value)} required />
                       <div className="row-inner" style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                         <input type="number" placeholder="Prix unitaire" min="0" step="1"  onChange={(e) => updatePrestation(index, 'prixUnitaire', Math.max(0, parseFloat(e.target.value)))} required />
-                         <input type="number" placeholder="Qté" min="1"  onChange={(e) => updatePrestation(index, 'quantite', Math.max(1, parseInt(e.target.value)))} required />
+                         <input type="number" placeholder="Prix unitaire" min="0" step="1" onChange={(e) => updatePrestation(index, 'prixUnitaire', Math.max(0, parseFloat(e.target.value)))} required />
+                         <input type="number" placeholder="Qté" min="1" onChange={(e) => updatePrestation(index, 'quantite', Math.max(1, parseInt(e.target.value)))} required />
                          {index !== 0 && (
                            <button type="button" onClick={() => removePrestationLine(index)} style={{background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px'}}>
                              <i className="fa-solid fa-trash-can"></i>

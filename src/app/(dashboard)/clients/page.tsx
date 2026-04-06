@@ -92,7 +92,7 @@ export default function ClientsPage() {
                   <label>NOM DU CLIENT / ENTREPRISE</label>
                   <input 
                     type="text" 
-                    placeholder="ex: Centre Sèwèdo" 
+                    placeholder="ex: John DOE" 
                     required 
                     value={formData.nom} 
                     onChange={(e)=>setFormData({...formData, nom: e.target.value})} 
@@ -104,7 +104,7 @@ export default function ClientsPage() {
                   <label>CONTACT (TÉL OU EMAIL)</label>
                   <input 
                     type="text" 
-                    placeholder="ex: +229 90000000" 
+                    placeholder="ex: +33 6 12 34 56 78" 
                     required 
                     value={formData.contact} 
                     onChange={(e)=>setFormData({...formData, contact: e.target.value})} 
@@ -114,7 +114,7 @@ export default function ClientsPage() {
                 <div className="form-group-custom">
                   <label>ADRESSE COMPLÈTE</label>
                   <textarea 
-                    placeholder="Abomey-Calavi, Quartier..." 
+                    placeholder="12 Rue des Fleurs, 75008 Paris, France" 
                     required 
                     value={formData.adresse} 
                     onChange={(e)=>setFormData({...formData, adresse: e.target.value})} 

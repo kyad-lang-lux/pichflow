@@ -17,6 +17,7 @@ interface Devis {
   senderNom?: string;
   senderAdresse?: string;
   senderContact?: string;
+  tvaRate?: number;
   prestations: Prestation[];
   devise: string;
   date: string;
@@ -80,6 +81,10 @@ export default function DevisPage() {
 
   const downloadPDF = async (item: Devis) => {
     const totalHT = calculateTotal(item.prestations); 
+    const tvaRate = item.tvaRate || 0;
+    const montantTVA = (totalHT * tvaRate) / 100;
+    const totalTTC = totalHT + montantTVA;
+
     const container = document.createElement('div');
     container.style.cssText = 'position:fixed; left:-9999px; width:800px; background:white;';
     document.body.appendChild(container);
@@ -129,12 +134,22 @@ export default function DevisPage() {
           </tbody>
         </table>
         <div style="width: 100%; border-top: 1.5px solid #313030; margin-top: 0;"></div>
-        <div style="margin-left: auto; width: 280px; margin-top: 20px; border: 1.5px solid #313030;">
+        
+        <div style="margin-left: auto; width: 280px; margin-top: 20px; border: 1.5px solid #313030; background: #fff;">
+          <div style="display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eee;">
+            <span style="font-size: 12px; font-weight: bold; color: #666;">TOTAL HT:</span>
+            <span style="font-size: 13px;">${totalHT.toLocaleString()} ${item.devise}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eee;">
+            <span style="font-size: 12px; font-weight: bold; color: #666;">TVA (${tvaRate}%):</span>
+            <span style="font-size: 13px;">${montantTVA.toLocaleString()} ${item.devise}</span>
+          </div>
           <div style="display: flex; justify-content: space-between; padding: 15px 12px; background: #313030; color: #fff;">
-            <span style="font-family: 'Antonio', sans-serif; font-size: 14px; font-weight: bold; text-transform: uppercase;">Total Estimé :</span>
-            <span style="font-size: 16px; font-weight: 900;">${totalHT.toLocaleString()} ${item.devise}</span>
+            <span style="font-family: 'Antonio', sans-serif; font-size: 14px; font-weight: bold; text-transform: uppercase;">Total Estimé (TTC):</span>
+            <span style="font-size: 16px; font-weight: 900;">${totalTTC.toLocaleString()} ${item.devise}</span>
           </div>
         </div>
+
         <div style="position: absolute; bottom: 40px; left: 50px; width: calc(100% - 100px); text-align: center;">
           <p style="font-style: italic; font-size: 13px; font-weight: 600;">Estimation valable 30 jours. Merci pour votre confiance !</p>
           <p style="font-size: 10px; color: #888; margin-top: 10px;">Généré par PichFlow - pichflow.com</p>
@@ -181,11 +196,11 @@ export default function DevisPage() {
             <form onSubmit={handleSave} className="modern-form">
               <div className="form-section">
                 <div style={{ marginBottom: '10px' }}>
-                  <label style={{ fontSize: '11px', color: '#666', marginBottom: '4px', display: 'block' }}>CHOISIR UN CLIENT ENREGISTRÉ</label>
+                  <label style={{ fontSize: '11px', color: '#666', marginBottom: '4px', display: 'block', borderRadius:"20px" }}>CHOISIR UN CLIENT ENREGISTRÉ</label>
                   <select style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ddd' }} onChange={handleSelectSavedClient} defaultValue="">
                     <option value="" disabled>-- Sélectionner un client --</option>
                     {savedClients.map((c, i) => (<option key={i} value={c.nom}>{c.nom}</option>))}
-                  </select>
+                  </select> 
                 </div>
                 <input type="text" placeholder="Nom du Client" required value={formData.client} onChange={(e) => setFormData({ ...formData, client: e.target.value })} className="main-input" />
                 <div className="row">
@@ -217,11 +232,11 @@ export default function DevisPage() {
                         setFormData({ ...formData, prestations: news });
                       }} required />
                       <div className="row-inner" style={{ display: 'flex', gap: '10px' }}>
-                        <input type="number" placeholder="Prix" min="0" onChange={(e) => {
+                        <input type="number" placeholder="Prix" min="0"  onChange={(e) => {
                           const news = [...formData.prestations]; news[index].prixUnitaire = parseFloat(e.target.value);
                           setFormData({ ...formData, prestations: news });
                         }} required />
-                        <input type="number" placeholder="Qté" min="1" onChange={(e) => {
+                        <input type="number" placeholder="Qté" min="1"  onChange={(e) => {
                           const news = [...formData.prestations]; news[index].quantite = parseInt(e.target.value);
                           setFormData({ ...formData, prestations: news });
                         }} required />
@@ -282,7 +297,7 @@ export default function DevisPage() {
             </div>
           )) : <div style={{ padding: '20px', textAlign: 'center', color: '#888' }}>Aucun devis.</div>}
         </div>
-      </div> <br /> <br /> <br />
-    </div> 
+      </div> <br /> <br />
+    </div>  
   );
 }

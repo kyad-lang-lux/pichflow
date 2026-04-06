@@ -1,20 +1,29 @@
 "use server";
+
 import { db } from "@/lib/db";
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
 import { revalidatePath } from "next/cache";
 
+/**
+ * Récupère l'ID de l'utilisateur via le JWT
+ */
 async function getAuthUserId() {
   const cookieStore = await cookies();
   const token = cookieStore.get("pichflow_token")?.value;
   if (!token) return null;
   try {
-    const { payload } = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret);
     return payload.userId as string;
-  } catch (error) { return null; }
+  } catch (error) {
+    return null;
+  }
 }
 
-// --- AJOUT : Récupérer les clients pour la sélection ---
+/**
+ * Récupère les clients pour le formulaire
+ */
 export async function getClientsAction() {
   try {
     const userId = await getAuthUserId();
@@ -24,14 +33,20 @@ export async function getClientsAction() {
       args: [userId]
     });
     return res.rows;
-  } catch (e) { return []; }
+  } catch (e) {
+    return [];
+  }
 }
 
+/**
+ * CRÉATION : Applique la TVA de sender_info à la facture
+ */
 export async function createFactureAction(formData: any) {
   try {
     const userId = await getAuthUserId();
     if (!userId) return { success: false, error: "Non connecté" };
 
+    // 1. Vérification des crédits
     const userRes = await db.execute({
       sql: "SELECT credits FROM users WHERE id = ?",
       args: [userId],
@@ -39,33 +54,46 @@ export async function createFactureAction(formData: any) {
     const currentCredits = Number(userRes.rows[0]?.credits || 0);
     if (currentCredits < 5) return { success: false, error: "Crédits insuffisants (5 requis)" };
 
+    // 2. RÉCUPÉRATION DU TAUX DE TVA (Depuis sender_info)
     const senderRes = await db.execute({
-      sql: "SELECT nom_service, adresse, contact FROM sender_info WHERE user_id = ?",
+      sql: "SELECT nom_service, adresse, contact, tva_rate FROM sender_info WHERE user_id = ?",
       args: [userId],
     });
+    
     const sender = senderRes.rows[0];
-    const senderNom = sender?.nom_service || "PichFlow Service";
-    const senderAdresse = sender?.adresse || "";
-    const senderContact = sender?.contact || "";
+    const tvaAAppliquer = Number(sender?.tva_rate || 0); // Voici la valeur qui s'appliquera
 
     const factureUuid = "fact_" + Date.now().toString();
     const numeroFacture = `F-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
 
     const queries: any[] = [
+      // Déduction crédits
       { sql: "UPDATE users SET credits = credits - 5 WHERE id = ?", args: [userId] },
+      // Insertion facture avec le tva_rate récupéré
       {
         sql: `INSERT INTO factures (
           id, user_id, numero_facture, sender_nom, sender_adresse, sender_contact, 
-          client_nom, client_contact, client_adresse, devise, date_emission, date_echeance
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          client_nom, client_contact, client_adresse, devise, date_emission, date_echeance, tva_rate
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         args: [
-          factureUuid, userId, numeroFacture, senderNom, senderAdresse, senderContact,
-          formData.client, formData.clientContact, formData.clientAdresse,
-          formData.devise, new Date().toLocaleDateString('fr-FR'), formData.echeance
+          factureUuid, 
+          userId, 
+          numeroFacture, 
+          sender?.nom_service || "PichFlow Service", 
+          sender?.adresse || "", 
+          sender?.contact || "",
+          formData.client, 
+          formData.clientContact, 
+          formData.clientAdresse,
+          formData.devise, 
+          new Date().toLocaleDateString('fr-FR'), 
+          formData.echeance,
+          tvaAAppliquer // On fige le taux ici
         ]
       }
     ];
 
+    // 3. Lignes de prestations
     formData.prestations.forEach((p: any) => {
       queries.push({
         sql: `INSERT INTO lignes_prestations (id, parent_id, parent_type, description, prix_unitaire, quantite) VALUES (?, ?, ?, ?, ?, ?)`,
@@ -76,11 +104,16 @@ export async function createFactureAction(formData: any) {
     await db.batch(queries, "write");
     revalidatePath("/factures");
     return { success: true };
+
   } catch (error) {
+    console.error("Erreur creation facture:", error);
     return { success: false, error: "Erreur serveur" };
   }
 }
 
+/**
+ * LISTE : Renvoie les factures avec leur TVA enregistrée
+ */
 export async function getFacturesAction() {
   try {
     const userId = await getAuthUserId();
@@ -103,22 +136,28 @@ export async function getFacturesAction() {
         client: String(f.client_nom),
         clientContact: String(f.client_contact),
         clientAdresse: String(f.client_adresse),
-        senderNom: f.sender_nom ? String(f.sender_nom) : "PichFlow Service",
-        senderAdresse: f.sender_adresse ? String(f.sender_adresse) : "",
-        senderContact: f.sender_contact ? String(f.sender_contact) : "",
+        senderNom: String(f.sender_nom || "PichFlow Service"),
+        senderAdresse: String(f.sender_adresse || ""),
+        senderContact: String(f.sender_contact || ""),
+        tvaRate: Number(f.tva_rate || 0), // On renvoie le taux pour le calcul PDF
         prestations: lines.rows.map((l: any) => ({
           description: String(l.description),
           prixUnitaire: Number(l.prix_unitaire),
           quantite: Number(l.quantite)
-         })),
+        })),
         devise: String(f.devise),
         date: String(f.date_emission),
         echeance: String(f.date_echeance)
       };
     }));
-  } catch (e) { return []; }
+  } catch (e) {
+    return [];
+  }
 }
 
+/**
+ * SUPPRESSION
+ */
 export async function deleteFactureAction(dbId: string) {
   try {
     await db.batch([
@@ -127,5 +166,7 @@ export async function deleteFactureAction(dbId: string) {
     ], "write");
     revalidatePath("/factures");
     return { success: true };
-  } catch (e) { return { success: false }; }
+  } catch (e) {
+    return { success: false };
+  }
 }

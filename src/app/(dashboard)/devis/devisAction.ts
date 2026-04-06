@@ -14,7 +14,6 @@ async function getAuthUserId() {
   } catch (error) { return null; }
 }
 
-// --- RÉCUPÉRER LES CLIENTS (Comme pour les factures) ---
 export async function getClientsAction() {
   try {
     const userId = await getAuthUserId();
@@ -39,14 +38,16 @@ export async function createDevisAction(formData: any) {
     const currentCredits = Number(userRes.rows[0]?.credits || 0);
     if (currentCredits < 5) return { success: false, error: "Crédits insuffisants (5 requis)" };
 
+    // RÉCUPÉRATION DE LA TVA DEPUIS SENDER_INFO
     const senderRes = await db.execute({
-      sql: "SELECT nom_service, adresse, contact FROM sender_info WHERE user_id = ?",
+      sql: "SELECT nom_service, adresse, contact, tva_rate FROM sender_info WHERE user_id = ?",
       args: [userId],
     });
     const sender = senderRes.rows[0];
     const senderNom = sender?.nom_service || "PichFlow Service";
     const senderAdresse = sender?.adresse || "";
     const senderContact = sender?.contact || "";
+    const tvaRate = Number(sender?.tva_rate || 0); // Application de la TVA comme pour les factures
 
     const devisUuid = "dev_" + Date.now().toString();
     const numeroDevis = `D-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -56,12 +57,12 @@ export async function createDevisAction(formData: any) {
       {
         sql: `INSERT INTO devis (
           id, user_id, numero_devis, sender_nom, sender_adresse, sender_contact, 
-          client_nom, client_contact, client_adresse, devise, date_emission, date_echeance
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          client_nom, client_contact, client_adresse, devise, date_emission, date_echeance, tva_rate
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         args: [
           devisUuid, userId, numeroDevis, senderNom, senderAdresse, senderContact,
           formData.client, formData.clientContact, formData.clientAdresse,
-          formData.devise, new Date().toLocaleDateString('fr-FR'), formData.echeance
+          formData.devise, new Date().toLocaleDateString('fr-FR'), formData.echeance, tvaRate
         ]
       }
     ];
@@ -106,6 +107,7 @@ export async function getDevisAction() {
         senderNom: d.sender_nom ? String(d.sender_nom) : "PichFlow Service",
         senderAdresse: d.sender_adresse ? String(d.sender_adresse) : "",
         senderContact: d.sender_contact ? String(d.sender_contact) : "",
+        tvaRate: Number(d.tva_rate || 0),
         prestations: lines.rows.map((l: any) => ({
           description: String(l.description),
           prixUnitaire: Number(l.prix_unitaire),

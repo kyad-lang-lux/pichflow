@@ -16,7 +16,7 @@ export default function ConfirmationPage() {
 
     const res = await verifyOTPAction(otp);
     if (res.success) {
-      router.push('/dashboard'); // Direction le dashboard enfin !
+      router.push('/dashboard/factureinfo'); // Direction le dashboard enfin !
     } else {
       setError(res.error || "Code invalide");
       setLoading(false);
