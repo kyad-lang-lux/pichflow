@@ -5,11 +5,36 @@ import Link from 'next/link';
 export default function SupportPage() {
   const [activeTab, setActiveTab] = useState<number | null>(null);
 
-  const faqs = [
-    { q: "Comment fonctionne l'essai gratuit ?", a: "Vous bénéficiez de 7 jours d'accès total à l'IA marketing et aux outils financiers. Aucune carte bancaire n'est demandée." },
-    { q: "Puis-je exporter mes factures en PDF ?", a: "Absolument. Toutes vos factures et rapports de comptabilité sont téléchargeables au format PDF professionnel en un clic." },
-    { q: "Est-ce adapté pour une petite entreprise ?", a: "Oui, PichFlow est conçu spécifiquement pour simplifier la vie des freelances, créateurs et PME qui veulent tout gérer au même endroit." }
-  ];
+ const faqs = [
+  { 
+    q: "Comment créer un compte sur PichFlow ?", 
+    a: "L'inscription est rapide : cliquez sur le bouton 'S'inscrire', renseignez votre nom et email, puis validez votre compte avec le code OTP reçu par mail pour accéder instantanément à votre tableau de bord." 
+  },
+  { 
+    q: "Comment générer un devis professionnel ?", 
+    a: "Rendez-vous dans l'onglet 'Documents', choisissez 'Nouveau Devis', remplissez les informations de votre client et vos prestations. Vous pouvez ensuite l'envoyer directement ou le télécharger." 
+  },
+  { 
+    q: "Comment créer une facture normalisée ?", 
+    a: "Une fois votre prestation terminée, vous pouvez transformer un devis en facture en un clic ou en créer une nouvelle. Le système génère automatiquement une facture conforme à vos obligations fiscales." 
+  },
+  { 
+    q: "Comment utiliser l'IA pour mon contenu marketing ?", 
+    a: "Accédez à l'outil de génération de contenu, décrivez votre produit ou service, et notre IA vous proposera des publications optimisées pour vos réseaux sociaux en quelques secondes." 
+  },
+  { 
+    q: "L'IA peut-elle m'aider pour le copywriting ?", 
+    a: "Absolument. PichFlow inclut des modèles de copywriting basés sur les meilleures structures de vente pour rédiger vos emails marketing, fiches produits et pages de vente percutantes." 
+  },
+  { 
+    q: "Comment fonctionne le système de crédits ?", 
+    a: "Chaque génération de contenu par l'IA consomme des crédits. Vous recevez des crédits gratuits à l'inscription, et vous pouvez recharger votre compte selon vos besoins (Essential ou Business)." 
+  },
+  { 
+    q: "Puis-je gérer mes finances si je suis freelance ?", 
+    a: "Oui, PichFlow est conçu spécifiquement pour les freelances et PME. Il centralise votre facturation, votre gestion de clients et votre marketing au même endroit pour vous faire gagner du temps." 
+  }
+];
 
   return (
     <div className="sup-wrapper">

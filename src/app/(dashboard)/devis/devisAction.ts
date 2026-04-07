@@ -38,16 +38,13 @@ export async function createDevisAction(formData: any) {
     const currentCredits = Number(userRes.rows[0]?.credits || 0);
     if (currentCredits < 5) return { success: false, error: "Crédits insuffisants (5 requis)" };
 
-    // RÉCUPÉRATION DE LA TVA DEPUIS SENDER_INFO
+    // RÉCUPÉRATION DES INFOS SENDER (Inclus ifu_siret et autre_num)
     const senderRes = await db.execute({
-      sql: "SELECT nom_service, adresse, contact, tva_rate FROM sender_info WHERE user_id = ?",
+      sql: "SELECT nom_service, adresse, contact, tva_rate, ifu_siret, autre_num FROM sender_info WHERE user_id = ?",
       args: [userId],
     });
     const sender = senderRes.rows[0];
-    const senderNom = sender?.nom_service || "PichFlow Service";
-    const senderAdresse = sender?.adresse || "";
-    const senderContact = sender?.contact || "";
-    const tvaRate = Number(sender?.tva_rate || 0); // Application de la TVA comme pour les factures
+    const tvaRate = Number(sender?.tva_rate || 0);
 
     const devisUuid = "dev_" + Date.now().toString();
     const numeroDevis = `D-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -60,7 +57,10 @@ export async function createDevisAction(formData: any) {
           client_nom, client_contact, client_adresse, devise, date_emission, date_echeance, tva_rate
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         args: [
-          devisUuid, userId, numeroDevis, senderNom, senderAdresse, senderContact,
+          devisUuid, userId, numeroDevis, 
+          sender?.nom_service || "PichFlow Service", 
+          sender?.adresse || "", 
+          sender?.contact || "",
           formData.client, formData.clientContact, formData.clientAdresse,
           formData.devise, new Date().toLocaleDateString('fr-FR'), formData.echeance, tvaRate
         ]
@@ -87,6 +87,14 @@ export async function getDevisAction() {
     const userId = await getAuthUserId();
     if (!userId) return [];
 
+    // On récupère aussi ifu_siret et autre_num si jamais tu décides de les ajouter à la table devis plus tard
+    // Pour l'instant, on s'assure de récupérer les infos actuelles du profil pour le PDF
+    const senderRes = await db.execute({
+      sql: "SELECT ifu_siret, autre_num FROM sender_info WHERE user_id = ?",
+      args: [userId]
+    });
+    const profile = senderRes.rows[0];
+
     const res = await db.execute({
       sql: "SELECT * FROM devis WHERE user_id = ? ORDER BY id DESC",
       args: [userId]
@@ -107,6 +115,8 @@ export async function getDevisAction() {
         senderNom: d.sender_nom ? String(d.sender_nom) : "PichFlow Service",
         senderAdresse: d.sender_adresse ? String(d.sender_adresse) : "",
         senderContact: d.sender_contact ? String(d.sender_contact) : "",
+        senderIfu: profile?.ifu_siret || "",
+        senderAutre: profile?.autre_num || "",
         tvaRate: Number(d.tva_rate || 0),
         prestations: lines.rows.map((l: any) => ({
           description: String(l.description),

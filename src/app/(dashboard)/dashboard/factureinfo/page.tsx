@@ -7,7 +7,9 @@ export default function FactureInfoPage() {
     nomService: '', 
     adresse: '', 
     contact: '', 
-    tvaRate: 0 // Nouvel état
+    tvaRate: 0,
+    ifuSiret: '', // Nouveau
+    autreNum: ''  // Nouveau
   });
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -20,7 +22,9 @@ export default function FactureInfoPage() {
           nomService: (data.nomService as string) || '',
           adresse: (data.adresse as string) || '',
           contact: (data.contact as string) || '',
-          tvaRate: Number(data.tvaRate) || 0 // Récupération
+          tvaRate: Number(data.tvaRate) || 0,
+          ifuSiret: (data.ifuSiret as string) || '', // Récupération
+          autreNum: (data.autreNum as string) || ''   // Récupération
         });
       }
       setLoading(false);
@@ -36,7 +40,9 @@ export default function FactureInfoPage() {
       nom_service: info.nomService,
       adresse: info.adresse,
       contact: info.contact,
-      tva_rate: info.tvaRate // Envoi au serveur
+      tva_rate: info.tvaRate,
+      ifu_siret: info.ifuSiret, // Envoi
+      autre_num: info.autreNum   // Envoi
     });
 
     if (res.success) {
@@ -54,8 +60,7 @@ export default function FactureInfoPage() {
     <div className="fi-wrapper">
       <div className="fi-header">
         <h1>Facturation</h1>
-        <p>Veuillez remplir les infos d'emetteurs qui seront sur vos factures:
-          Infos de l'émetteur et configuration fiscale. </p>
+        <p>Infos de l'émetteur et configuration fiscale.</p>
       </div>
 
       <div className="fi-main-layout">
@@ -67,36 +72,40 @@ export default function FactureInfoPage() {
             <form onSubmit={handleSave} className="fi-form">
               <div className="fi-field">
                 <label>Nom du Service</label>
-                <input 
-                  type="text" 
-                  value={info.nomService} 
-                  onChange={(e)=>setInfo({...info, nomService: e.target.value})} 
-                  required 
-                  placeholder="Ex: Pichflow Agency"
-                />
+                <input type="text" value={info.nomService} onChange={(e)=>setInfo({...info, nomService: e.target.value})} required />
               </div>
+              
               <div className="fi-field">
                 <label>Adresse</label>
-                <input 
-                  type="text" 
-                  value={info.adresse} 
-                  onChange={(e)=>setInfo({...info, adresse: e.target.value})} 
-                  required 
-                  placeholder="Ex: 12 Rue des Fleurs, 75008 Paris, France"
-                />
+                <input type="text" value={info.adresse} onChange={(e)=>setInfo({...info, adresse: e.target.value})} required />
               </div>
+
               <div className="fi-field">
                 <label>Contact (Email/Tél)</label>
+                <input type="text" value={info.contact} onChange={(e)=>setInfo({...info, contact: e.target.value})} required />
+              </div>
+
+              {/* NOUVEAUX CHAMPS IDENTIFIANTS */}
+              <div className="fi-field">
+                <label>Numéro IFU ou SIRET + TVA</label>
                 <input 
                   type="text" 
-                  value={info.contact} 
-                  onChange={(e)=>setInfo({...info, contact: e.target.value})} 
-                  required 
-                  placeholder="Ex: contact@pichflow.com"
+                  value={info.ifuSiret} 
+                  onChange={(e)=>setInfo({...info, ifuSiret: e.target.value})} 
+                  placeholder="Ex: 320241..."
                 />
               </div>
 
-              {/* --- NOUVEAU CHAMP TVA --- */}
+              <div className="fi-field">
+                <label>Autre numéro (RCCM, Registre, etc.)</label>
+                <input 
+                  type="text" 
+                  value={info.autreNum} 
+                  onChange={(e)=>setInfo({...info, autreNum: e.target.value})} 
+                  placeholder="Ex: RB/COT/..."
+                />
+              </div>
+
               <div className="fi-field">
                 <label>Taux de TVA par défaut (%)</label>
                 <input 
@@ -105,16 +114,11 @@ export default function FactureInfoPage() {
                   value={info.tvaRate} 
                   onChange={(e)=>setInfo({...info, tvaRate: parseFloat(e.target.value) || 0})} 
                   required 
-                  placeholder="Ex: 18 ou 20"
                 />
               </div>
 
-              <button 
-                type="submit" 
-                disabled={loading}
-                className={`fi-btn-save ${saved ? 'success' : ''}`}
-              >
-                {loading ? "..." : (saved ? "Enregistré !" : "Sauvegarder")}
+              <button type="submit" disabled={loading} className={`fi-btn-save ${saved ? 'success' : ''}`}>
+                {loading ? "..." :  (saved ? "Enregistré !" :  "Sauvegarder")} <i className="fa-solid fa-floppy-disk"></i>
               </button>
             </form>
           </section>
@@ -132,15 +136,17 @@ export default function FactureInfoPage() {
               <div style={{ color: '#555', fontSize: '14px' }}>
                 <p><strong>📍</strong> {info.adresse || "Adresse..."}</p>
                 <p><strong>📞</strong> {info.contact || "Contact..."}</p>
+                {/* APERÇU DES NOUVEAUX CHAMPS */}
+                {info.ifuSiret && <p><strong>ID:</strong> {info.ifuSiret}</p>}
+                {info.autreNum && <p><strong>Reg:</strong> {info.autreNum}</p>}
                 <p style={{ marginTop: '10px', color: '#000', fontWeight: 'bold' }}>
-                   Taxe : {info.tvaRate}% (Appliquée sur les documents)
+                   Taxe : {info.tvaRate}%
                 </p>
               </div>
             </div> 
-          </section>
+          </section> <br /> <br />
         </div> 
       </div>
-      <br /> <br /> <br />
     </div>
   );
 }

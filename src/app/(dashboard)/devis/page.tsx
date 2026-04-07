@@ -17,6 +17,8 @@ interface Devis {
   senderNom?: string;
   senderAdresse?: string;
   senderContact?: string;
+  senderIfu?: string;
+  senderAutre?: string;
   tvaRate?: number;
   prestations: Prestation[];
   devise: string;
@@ -94,7 +96,12 @@ export default function DevisPage() {
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
           <div>
             <h2 style="font-family: 'Antonio', sans-serif; font-size: 26px; font-weight: bold; margin: 0; color: #000;">${(item.senderNom || "PichFlow Service").toUpperCase()}</h2>
-            <p style="font-size: 12px; margin-top: 5px; color: #444; line-height: 1.4;">${item.senderAdresse}<br>${item.senderContact}</p>
+<p style="font-size: 12px; margin-top: 5px; color: #444; line-height: 1.4;">
+    ${item.senderAdresse}<br>
+    ${item.senderContact}
+    ${item.senderIfu ? `<br>  ${item.senderIfu}` : ''}
+    ${item.senderAutre ? `<br>${item.senderAutre}` : ''}
+</p>
           </div>
           <div style="text-align: right;">
             <h2 style="font-family: 'Antonio', sans-serif; font-size: 45px; font-weight: 900; color: #000; margin: 0; line-height: 1;">DEVIS</h2>
@@ -196,12 +203,12 @@ export default function DevisPage() {
             <form onSubmit={handleSave} className="modern-form">
               <div className="form-section">
                 <div style={{ marginBottom: '10px' }}>
-                  <label style={{ fontSize: '11px', color: '#666', marginBottom: '4px', display: 'block', borderRadius:"20px" }}>CHOISIR UN CLIENT ENREGISTRÉ</label>
+                  <label style={{ fontSize: '11px', color: '#666', marginBottom: '4px', display: 'block' }}>CHOISIR UN CLIENT ENREGISTRÉ</label>
                   <select style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ddd' }} onChange={handleSelectSavedClient} defaultValue="">
                     <option value="" disabled>-- Sélectionner un client --</option>
                     {savedClients.map((c, i) => (<option key={i} value={c.nom}>{c.nom}</option>))}
                   </select> 
-                </div>
+                </div> 
                 <input type="text" placeholder="Nom du Client" required value={formData.client} onChange={(e) => setFormData({ ...formData, client: e.target.value })} className="main-input" />
                 <div className="row">
                   <input style={{ width: '100%' }} type="text" placeholder="Contact" required value={formData.clientContact} onChange={(e) => setFormData({ ...formData, clientContact: e.target.value })} />

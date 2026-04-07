@@ -317,6 +317,106 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
         </div>
       </section>
 
+<section className="fiscal-banner">
+  <div className="fiscal-container">
+    
+    {/* Partie Image */}
+    <div className="fiscal-image-box">
+      <img 
+        src="/img/fiscal-img.jpg" 
+        alt="Conformité fiscale" 
+      />
+    </div>
+
+    {/* Partie Texte */}
+    <div className="fiscal-content">
+      <div className="fiscal-icon">
+       
+      </div>
+
+      <h2 className="fiscal-title">
+        Conformez-vous à vos <span>obligations fiscales.</span> 
+      </h2>
+
+      <p className="fiscal-text">
+        Fournissez à vos clients la certitude de l'authenticité de chacune de leurs factures et transactions avec vous.
+      </p>
+
+      <a href="/inscription" className="fiscal-link">
+        Commencer maintenant <span>→</span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<section className="showcase-section reveal">
+        <div className="showcase-container">
+          <div className="showcase-text">
+            <h2>
+              Améliorer votre <span>écosystème business</span> 
+            </h2>
+            <p>
+              De la rédaction de vos pubs à l'encaissement de vos
+              factures, PitchFlow est adapté aux :
+            </p>
+            <ul className="showcase-list">
+              <li>
+  <i className="fa-solid fa-check"></i> Entrepreneurs
+</li>
+<li>
+  <i className="fa-solid fa-check"></i>Entreprises / PME / TPE
+</li>
+<li>
+  <i className="fa-solid fa-check"></i> Freelances (graphistes, développeurs, monteurs)
+</li>
+<li>
+  <i className="fa-solid fa-check"></i> Artisans (électriciens, plombiers, décorateurs)
+</li>
+<li>
+  <i className="fa-solid fa-check"></i> Agences (marketing, communication, digital)
+</li>
+
+            </ul>
+          </div>
+          <div className="showcase-visual">
+            <div className="circle-bg"></div>
+            <img
+              // src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop"
+              src="/img/img2.jpg"
+              alt="Entrepreneur"
+              className="person-img"
+            />
+            <div className="floating-badge badge-top-left">
+              <div className="badge-logo">
+                <i className="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <div className="badge-content">
+                <span>PitchFlow </span>
+                <small>Marketing Engine</small>
+              </div>
+            </div>
+            <div className="floating-badge badge-mid-right">
+              <div className="badge-logo-globe">
+                <i className="fa-solid fa-globe"></i>
+              </div>
+            </div>
+            <div className="floating-badge badge-bottom-left">
+              <div className="badge-icon-check">
+                <i className="fa-solid fa-check"></i>
+              </div> 
+              <div className="badge-content">
+                <span className="amount">Facture</span>
+                <small>Créee</small>
+              </div>
+            </div>
+            <div className="dot dot-1"></div>
+            <div className="dot dot-2"></div>
+          </div>
+        </div>
+      </section>
+
 
 <section className="integration-wrapper">
   {/* SECTION GAUCHE : TEXTE */}
@@ -357,7 +457,10 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
   </div>
 </section>
 
-      <section className="how-it-works reveal">
+
+
+
+      {/* <section className="how-it-works reveal">
         <div className="features-header">
           <h2>
             Démarrer en <span>3 étapes simples</span>
@@ -402,9 +505,10 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             </p>
           </div>
         </div>
-      </section> 
+      </section>  */}
 
-      <section className="magic-box-section reveal" id="magic-box">
+
+      {/* <section className="magic-box-section reveal" id="magic-box">
   <div className="features-header">
     <h2>Une plateforme <span>tout-en-un</span></h2>
     <p>Vos services marketing et financiers centralisés dans un seul outil intelligent.</p>
@@ -422,7 +526,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
       <div className="magic-icon m-report"><i className="fas fa-receipt"></i></div>
     </div>
 
-    {/* L'enveloppe centrale (inspirée de ton image) */}
+    
     <div className="magic-envelope">
       <div className="envelope-front">
         <div className="envelope-logo">
@@ -435,65 +539,10 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
   </div> 
 
   
-</section>
+</section> */}
 
 
-      <section className="showcase-section reveal">
-        <div className="showcase-container">
-          <div className="showcase-text">
-            <h2>
-              Améliorer votre <span>écosystème business</span> 
-            </h2>
-            <p>
-              De la rédaction de vos publicités à l'encaissement de vos
-              factures, PitchFlow centralise vos outils pour vous laisser vous
-              concentrer sur l'essentiel.
-            </p>
-            <ul className="showcase-list">
-              <li>
-                <i className="fa-solid fa-check"></i> Interface ultra-fluide
-              </li>
-              <li>
-                <i className="fa-solid fa-check"></i> Support disponible 24h/24
-              </li>
-            </ul>
-          </div>
-          <div className="showcase-visual">
-            <div className="circle-bg"></div>
-            <img
-              // src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop"
-              src="/img/img2.jpg"
-              alt="Entrepreneur"
-              className="person-img"
-            />
-            <div className="floating-badge badge-top-left">
-              <div className="badge-logo">
-                <i className="fa-solid fa-wand-magic-sparkles"></i>
-              </div>
-              <div className="badge-content">
-                <span>PitchFlow </span>
-                <small>Marketing Engine</small>
-              </div>
-            </div>
-            <div className="floating-badge badge-mid-right">
-              <div className="badge-logo-globe">
-                <i className="fa-solid fa-globe"></i>
-              </div>
-            </div>
-            <div className="floating-badge badge-bottom-left">
-              <div className="badge-icon-check">
-                <i className="fa-solid fa-check"></i>
-              </div>
-              <div className="badge-content">
-                <span className="amount">Facture</span>
-                <small>Créee</small>
-              </div>
-            </div>
-            <div className="dot dot-1"></div>
-            <div className="dot dot-2"></div>
-          </div>
-        </div>
-      </section>
+      
 
 <section className="testimonials reveal" id="testimonials">
       <div className="features-header">
@@ -544,7 +593,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
         },
         {
           q: "Est-ce gratuit ?", 
-          a: "Avec PichFlow, à l'inscription vous disposez de 10 crédits gratuits pour la génération de factures, de devis, de contenu marketing ou copywriting toutes les fonctionnalités essentielles incluses." 
+          a: "Avec PichFlow, à l'inscription vous disposez de 15 crédits gratuits pour la génération de factures, de devis, de contenu marketing ou copywriting toutes les fonctionnalités essentielles incluses." 
         },
         { 
           q: "Puis-je l'utiliser sur mobile ?", 

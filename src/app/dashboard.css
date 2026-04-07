@@ -519,6 +519,7 @@ padding: 0; }
     transition: 1s ease;
     background-color: #fff;
     border: 1px solid #ebeaea; 
+    z-index: 100;
   } 
   .tab-item { font-family: "Roboto", sans-serif; background: #fff; padding: 0px; margin-bottom: 0; display: flex; flex-direction: column; align-items: center; color: #000; text-decoration: none; font-size: 1.5rem; gap: 0px; flex: 1; position: relative; font-weight: 700;  }
   .tab-item.active { font-family: "Roboto", sans-serif; color: #000; font-weight: bold; padding: 0; border-radius: 50px;  bottom: 5px; gap: 0px; font-weight: 900; }
@@ -527,18 +528,19 @@ padding: 0; }
   .tab-item.active::before {display: none; content: ' '; position: absolute; bottom: -8px;  width: 60%; height: 6px; background: #2563EB; border-radius:  5px 5px ; box-shadow: 0 0 15px #dcdcdd, 0 0 12px #e3e3e6, 0 0 12px #2563eb inset;}
  .mobile-tab-bar span {
   /* display: none; */ 
-  font-size: .6rem;
+  font-size: .65rem;
   
  } 
     
  .mobile-tab-bar i {
-  font-size: 23px;
+  font-size: 25px;
   /* font-style: italic;  */
  }
  
   /* Table Mobile Card Transformation */
   .factures-container  {
     gap: 0;
+    z-index: 10000;
   }
   .factures-container .div-table-container {
     font-size: 12px; 
@@ -558,7 +560,7 @@ padding: 0; }
 .factures-container .div-table-container .div-table-body .div-table-row {
   padding: 8px;
   gap: 0;
-} 
+}  
   .tools-grid, .stats-grid, .ia-page-container, .charts-main-grid { grid-template-columns: 1fr; }
   .type-grid, .method-grid { grid-template-columns: repeat(2, 1fr); }
   .table-toolbar, .toolbar-actions { flex-direction: column; align-items: stretch; }

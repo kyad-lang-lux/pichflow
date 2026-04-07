@@ -54,14 +54,14 @@ export async function createFactureAction(formData: any) {
     const currentCredits = Number(userRes.rows[0]?.credits || 0);
     if (currentCredits < 5) return { success: false, error: "Crédits insuffisants (5 requis)" };
 
-    // 2. RÉCUPÉRATION DU TAUX DE TVA (Depuis sender_info)
+    // 2. RÉCUPÉRATION DES INFOS SENDER (Inclus ifu_siret et autre_num)
     const senderRes = await db.execute({
-      sql: "SELECT nom_service, adresse, contact, tva_rate FROM sender_info WHERE user_id = ?",
+      sql: "SELECT nom_service, adresse, contact, tva_rate, ifu_siret, autre_num FROM sender_info WHERE user_id = ?",
       args: [userId],
     });
     
     const sender = senderRes.rows[0];
-    const tvaAAppliquer = Number(sender?.tva_rate || 0); // Voici la valeur qui s'appliquera
+    const tvaAAppliquer = Number(sender?.tva_rate || 0);
 
     const factureUuid = "fact_" + Date.now().toString();
     const numeroFacture = `F-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -69,12 +69,13 @@ export async function createFactureAction(formData: any) {
     const queries: any[] = [
       // Déduction crédits
       { sql: "UPDATE users SET credits = credits - 5 WHERE id = ?", args: [userId] },
-      // Insertion facture avec le tva_rate récupéré
+      // Insertion facture avec ifu_siret et autre_num
       {
         sql: `INSERT INTO factures (
           id, user_id, numero_facture, sender_nom, sender_adresse, sender_contact, 
-          client_nom, client_contact, client_adresse, devise, date_emission, date_echeance, tva_rate
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          ifu_siret, autre_num, client_nom, client_contact, client_adresse, 
+          devise, date_emission, date_echeance, tva_rate
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         args: [
           factureUuid, 
           userId, 
@@ -82,13 +83,15 @@ export async function createFactureAction(formData: any) {
           sender?.nom_service || "PichFlow Service", 
           sender?.adresse || "", 
           sender?.contact || "",
+          sender?.ifu_siret || "", 
+          sender?.autre_num || "",
           formData.client, 
           formData.clientContact, 
           formData.clientAdresse,
           formData.devise, 
           new Date().toLocaleDateString('fr-FR'), 
           formData.echeance,
-          tvaAAppliquer // On fige le taux ici
+          tvaAAppliquer
         ]
       }
     ];
@@ -139,7 +142,9 @@ export async function getFacturesAction() {
         senderNom: String(f.sender_nom || "PichFlow Service"),
         senderAdresse: String(f.sender_adresse || ""),
         senderContact: String(f.sender_contact || ""),
-        tvaRate: Number(f.tva_rate || 0), // On renvoie le taux pour le calcul PDF
+        senderIfu: String(f.ifu_siret || ""), // Ajouté pour le PDF
+        senderAutre: String(f.autre_num || ""), // Ajouté pour le PDF
+        tvaRate: Number(f.tva_rate || 0),
         prestations: lines.rows.map((l: any) => ({
           description: String(l.description),
           prixUnitaire: Number(l.prix_unitaire),

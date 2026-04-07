@@ -111,6 +111,9 @@ export default function Connexion() {
       <div className="auth-container">
         <div className="auth-form-side">
           <div className="auth-content">
+            <p className="auth-switch">
+              <Link href="/"><i className="fa-solid fa-arrow-left"></i> Acceuil </Link>
+            </p>
             <h1>Bon retour parmi nous👋</h1>
             <p className="subtitle">Connectez-vous pour accéder à votre dashboard</p>
 

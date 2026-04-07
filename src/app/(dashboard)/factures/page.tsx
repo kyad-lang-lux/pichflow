@@ -23,7 +23,9 @@ interface Facture {
   senderNom?: string;
   senderAdresse?: string;
   senderContact?: string;
-  tvaRate: number; // Ajouté pour la gestion de la TVA
+  senderIfu?: string;      // Ajouté
+  senderAutre?: string;    // Ajouté
+  tvaRate: number; 
   prestations: Prestation[];
   devise: string;
   date: string;
@@ -126,7 +128,12 @@ export default function FacturesPage() {
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
           <div>
             <h2 style="font-family: 'Antonio', sans-serif; font-size: 26px; font-weight: bold; margin: 0; color: #000;">${(item.senderNom || "PichFlow Service").toUpperCase()}</h2>
-            <p style="font-size: 12px; margin-top: 5px; color: #444; line-height: 1.4;">${item.senderAdresse}<br>${item.senderContact}</p>
+            <p style="font-size: 12px; margin-top: 5px; color: #444; line-height: 1.4;">
+    ${item.senderAdresse}<br>
+    ${item.senderContact}
+    ${item.senderIfu ? `<br>${item.senderIfu}` : ''}
+    ${item.senderAutre ? `<br>${item.senderAutre}` : ''}
+</p>
           </div>
           <div style="text-align: right;">
             <h2 style="font-family: 'Antonio', sans-serif; font-size: 45px; font-weight: 900; color: #000; margin: 0; line-height: 1;">FACTURE</h2>
