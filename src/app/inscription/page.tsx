@@ -205,7 +205,7 @@ export default function Inscription() {
             <ul className="info-list">
               <li><i className="fa-solid fa-circle-check"></i> Articles SEO et posts réseaux sociaux</li>
               <li><i className="fa-solid fa-circle-check"></i> Copywriting (AIDA, PAS)</li>
-              <li><i className="fa-solid fa-circle-check"></i> 250 crédits offerts à l'inscription</li>
+              <li><i className="fa-solid fa-circle-check"></i> 15 crédits offerts à l'inscription</li>
             </ul>
           </div>
         </div>

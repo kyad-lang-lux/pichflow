@@ -135,7 +135,7 @@ export default function DevisPage() {
           <tbody>
             ${item.prestations.map((p, i) => `
               <tr style="${i === item.prestations.length - 1 ? '' : 'border-bottom: 1px solid #eceaea;'}">
-                <td style="padding: 15px 12px; vertical-align: top;"><div style="font-weight: 800; font-size: 13px;">${p.description}</div></td>
+                <td style="padding: 15px 12px; vertical-align: top;"><div style="font-weight: 700; font-size: 13px;">${p.description}</div></td>
                 <td style="padding: 15px 12px; text-align: right; border-left: 1px solid #eceaea;">${p.prixUnitaire.toLocaleString()} ${item.devise}</td>
                 <td style="padding: 15px 12px; text-align: right; border-left: 1px solid #eceaea;">${p.quantite}</td>
                 <td style="padding: 15px 12px; text-align: right; font-weight: 700; border-left: 1px solid #eceaea;">${(p.prixUnitaire * p.quantite).toLocaleString()} ${item.devise}</td>

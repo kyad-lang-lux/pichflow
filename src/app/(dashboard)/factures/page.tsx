@@ -121,7 +121,7 @@ export default function FacturesPage() {
     setShowDownloadPopup(true); // <--- AJOUTÉ ICI
     const totalHT = calculateTotalHT(item.prestations);
     const montantTVA = totalHT * (item.tvaRate / 100);
-    const totalTTC = totalHT + montantTVA;
+    const totalTTC = totalHT + montantTVA; 
 
     const container = document.createElement('div');
     container.style.cssText = 'position:fixed; left:-9999px; width:800px; background:white;';
@@ -173,7 +173,7 @@ export default function FacturesPage() {
               return `
                 <tr style="border-bottom: 1px solid #eceaea;">
                   <td style="padding: 15px 12px; border: none; vertical-align: top;">
-                    <div style="font-weight: 800; font-size: 13px; color: #000;">${p.description}</div>
+                    <div style="font-weight: 700; font-size: 13px; color: #000;">${p.description}</div>
                   </td>
                   <td style="padding: 15px 12px; text-align: right; ${verticalDivider} font-size: 13px; vertical-align: top;">${p.prixUnitaire.toLocaleString()} ${item.devise}</td>
                   <td style="padding: 15px 12px; text-align: right; ${verticalDivider} font-size: 13px; vertical-align: top;">${p.quantite}</td>
@@ -201,8 +201,8 @@ export default function FacturesPage() {
 
         <div style="position: absolute; bottom: 40px; left: 50px; width: calc(100% - 100px);">
           <div style="font-size: 11px; color: #555; line-height: 1.6; margin-bottom: 25px; max-width: 80%;">
-            <p style="margin: 0 0 5px 0;">La facture devra être payée dans les 30 jours à compter de la réalisation de la prestation ou de la réception de la marchandise.</p>
-            <p style="margin: 0;">Membre d'une association agréée, le règlement par espèce, par chèque et par carte bancaire est accepté.</p>
+            <p style="margin: 0 0 5px 0;">La facture devra être payée automatiquement ou dans les 30 jours à compter de la réalisation de la prestation ou de la réception de la marchandise.</p>
+            <p style="margin: 0;">Le règlement par espèce, par chèque et par carte bancaire est accepté.</p>
           </div>
           <div style="text-align: center; border-top: 1px solid #e0e0e0; padding-top: 20px;">
              <p style="font-style: italic; font-size: 13px; color: #000; font-weight: 600; margin: 0;">Merci pour votre confiance !</p>

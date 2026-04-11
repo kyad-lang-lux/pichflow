@@ -47,7 +47,7 @@ export async function createDevisAction(formData: any) {
     const tvaRate = Number(sender?.tva_rate || 0);
 
     const devisUuid = "dev_" + Date.now().toString();
-    const numeroDevis = `D-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+    const numeroDevis = `D#${new Date().getFullYear()}${Math.floor(1000 + Math.random() * 9000)}`;
 
     const queries: any[] = [
       { sql: "UPDATE users SET credits = credits - 5 WHERE id = ?", args: [userId] },

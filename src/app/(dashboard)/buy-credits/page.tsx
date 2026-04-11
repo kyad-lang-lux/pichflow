@@ -60,8 +60,8 @@ export default function BuyCreditsPage() {
   };
 
   const packs = [
-    { id: 1, name: "Offre Débutant", credits: 50, price: 1.6, icon: "fa-seedling" },
-    { id: 2, name: "Pack Croissance", credits: 100, price: 2.9, icon: "fa-rocket", popular: true },
+    { id: 1, name: "Offre Débutant", credits: 80, price: 1.525, icon: "fa-seedling" },
+    { id: 2, name: "Pack Croissance", credits: 200, price: 2.438, icon: "fa-rocket", popular: true },
   ];
 
   const handlePayment = () => {

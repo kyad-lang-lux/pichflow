@@ -406,7 +406,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
       </iframe>
     </div>
   </div>
-</section>
+</section> 
 
  
 
@@ -660,7 +660,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
       </div> 
       <h3>Pack Essentiel</h3>
       <div className="price">
-        {formatPrice(1.6)}<span>/50 crédits</span>
+        {formatPrice(1.525)}<span>/80 crédits</span>
       </div>
       <p className="price-desc">Idéal pour vos besoins </p>
       <ul className="price-features">
@@ -669,17 +669,17 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
         <li><i className="fa-solid fa-circle-check"></i> Accès illimité aux différents outils</li>
         <li><i className="fa-solid fa-circle-check"></i> Export PDF disponible</li>
       </ul>
-      <button className="btn-primary-pricing">+ 50 crédits</button>
+      <button className="btn-primary-pricing">+ 80 crédits</button>
     </div>
 
     <div className="pricing-card"> 
       <h3>Pack Business</h3>
       <div className="price">
-        {formatPrice(2.9)}<span>/100 crédits</span>
+        {formatPrice(2.438)}<span>/200 crédits</span>
       </div> 
       <p className="price-desc">Economique et approprié</p>
       <ul className="price-features">
-        <li><i className="fa-solid fa-circle-check"></i> <strong>100 crédits</strong> automatique</li>
+        <li><i className="fa-solid fa-circle-check"></i> <strong>200 crédits</strong> automatique</li>
         <li><i className="fa-solid fa-circle-check"></i> Économisez 20% sur le prix</li>
         <li><i className="fa-solid fa-circle-check"></i> Génération de contenu haute qualité</li>
         <li><i className="fa-solid fa-circle-check"></i> Export PDF disponible</li>
