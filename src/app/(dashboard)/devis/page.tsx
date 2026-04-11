@@ -70,6 +70,8 @@ export default function DevisPage() {
     });
   }, []);
 
+    const [showDownloadPopup, setShowDownloadPopup] = useState(false);
+
   const handleSelectSavedClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const clientFound = savedClients.find(c => c.nom === e.target.value);
     if (clientFound) {
@@ -82,6 +84,7 @@ export default function DevisPage() {
   };
 
   const downloadPDF = async (item: Devis) => {
+    setShowDownloadPopup(true); // <--- Ligne ajoutée ici
     const totalHT = calculateTotal(item.prestations); 
     const tvaRate = item.tvaRate || 0;
     const montantTVA = (totalHT * tvaRate) / 100;
@@ -159,7 +162,6 @@ export default function DevisPage() {
 
         <div style="position: absolute; bottom: 40px; left: 50px; width: calc(100% - 100px); text-align: center;">
           <p style="font-style: italic; font-size: 13px; font-weight: 600;">Estimation valable 30 jours. Merci pour votre confiance !</p>
-          <p style="font-size: 10px; color: #888; margin-top: 10px;">Généré par PichFlow - pichflow.com</p>
         </div>
       </div>
     `;
@@ -171,7 +173,7 @@ export default function DevisPage() {
       pdf.addImage(imgData, 'JPEG', 0, 0, 210, (canvas.height * 210) / canvas.width);
       pdf.save(`Devis_${item.id}.pdf`);
     } finally { document.body.removeChild(container); }
-  };
+};
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -304,7 +306,26 @@ export default function DevisPage() {
             </div>
           )) : <div style={{ padding: '20px', textAlign: 'center', color: '#888' }}>Aucun devis.</div>}
         </div>
-      </div> <br /> <br />
-    </div>  
+      </div> <br /> <br /> <br />
+
+      {/* --- POPUP DE TÉLÉCHARGEMENT AJOUTÉ ICI --- */}
+      {showDownloadPopup && (
+        <div className="download-popup-overlay">
+          <div className="download-popup-content">
+            <button className="download-popup-close" onClick={() => setShowDownloadPopup(false)}>
+              <i className="fa-solid fa-xmark"></i>
+            </button>
+            <div className="download-popup-icon">
+              <i className="fa-solid fa-circle-check"></i>
+            </div>
+            <h4>Téléchargement lancé</h4>
+            <p>Votre devis est en cours de préparation.</p>
+            <button className="download-popup-btn" onClick={() => setShowDownloadPopup(false)}>
+              D'accord
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

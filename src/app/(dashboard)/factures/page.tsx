@@ -81,6 +81,9 @@ export default function FacturesPage() {
     });
   }, []);
 
+
+  const [showDownloadPopup, setShowDownloadPopup] = useState(false);
+
   const handleSelectSavedClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedNom = e.target.value;
     if (!selectedNom) return;
@@ -115,6 +118,7 @@ export default function FacturesPage() {
   };
 
   const downloadPDF = async (item: Facture) => {
+    setShowDownloadPopup(true); // <--- AJOUTÉ ICI
     const totalHT = calculateTotalHT(item.prestations);
     const montantTVA = totalHT * (item.tvaRate / 100);
     const totalTTC = totalHT + montantTVA;
@@ -139,7 +143,7 @@ export default function FacturesPage() {
             <h2 style="font-family: 'Antonio', sans-serif; font-size: 45px; font-weight: 900; color: #000; margin: 0; line-height: 1;">FACTURE</h2>
             <p style="font-weight: bold; margin-top: 10px;">N°: ${item.id}</p>
           </div>
-        </div>
+        </div> 
 
         <div style="display: flex; justify-content: space-between; margin-bottom: 40px; gap: 20px;">
           <div style="flex: 1; border: 1.5px solid #e9edf0; padding: 15px; border-radius: 2px;">
@@ -202,7 +206,6 @@ export default function FacturesPage() {
           </div>
           <div style="text-align: center; border-top: 1px solid #e0e0e0; padding-top: 20px;">
              <p style="font-style: italic; font-size: 13px; color: #000; font-weight: 600; margin: 0;">Merci pour votre confiance !</p>
-             <p style="font-size: 10px; color: #888; margin-top: 10px; letter-spacing: 0.5px;">Fait grâce à PichFlow - pichflow.com</p>
           </div>
         </div>
       </div>
@@ -362,6 +365,25 @@ export default function FacturesPage() {
           )} 
         </div> <br /> <br /> <br />
       </div> 
+
+      {/* --- POPUP DE TÉLÉCHARGEMENT AJOUTÉ ICI --- */}
+      {showDownloadPopup && (
+        <div className="download-popup-overlay">
+          <div className="download-popup-content">
+            <button className="download-popup-close" onClick={() => setShowDownloadPopup(false)}>
+              <i className="fa-solid fa-xmark"></i>
+            </button>
+            <div className="download-popup-icon">
+              <i className="fa-solid fa-circle-check"></i>
+            </div>
+            <h4>Téléchargement lancé</h4>
+            <p>Votre facture est en cours de préparation.</p>
+            <button className="download-popup-btn" onClick={() => setShowDownloadPopup(false)}>
+              D'accord
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

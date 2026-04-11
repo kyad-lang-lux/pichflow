@@ -317,38 +317,6 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
         </div>
       </section>
 
-<section className="fiscal-banner">
-  <div className="fiscal-container">
-    
-    {/* Partie Image */}
-    <div className="fiscal-image-box">
-      <img 
-        src="/img/fiscal-img.jpg" 
-        alt="Conformité fiscale" 
-      />
-    </div>
-
-    {/* Partie Texte */}
-    <div className="fiscal-content">
-      <div className="fiscal-icon">
-       
-      </div>
-
-      <h2 className="fiscal-title">
-        Conformez-vous à vos <span>obligations fiscales.</span> 
-      </h2>
-
-      <p className="fiscal-text">
-        Fournissez à vos clients la certitude de l'authenticité de chacune de leurs factures et transactions avec vous.
-      </p>
-
-      <a href="/inscription" className="fiscal-link">
-        Commencer maintenant <span>→</span>
-      </a>
-    </div>
-
-  </div>
-</section>
 
 
 <section className="showcase-section reveal">
@@ -417,6 +385,30 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
         </div>
       </section>
 
+
+
+<section className="video-section">
+  <div className="container">
+    <div className="video-header">
+      <h2>Un tableau de bord convivial</h2>
+      <p>Comment créer des devis, des factures ou du contenu marketing ou copywriting</p>
+    </div>
+    
+    <div className="video-wrapper">
+      <iframe  
+        width="560" 
+        height="315" 
+        src="https://www.youtube.com/embed/HDDZczlqPvs" 
+        title="Démonstration PichFlow" 
+        frameBorder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowFullScreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+ 
 
 <section className="integration-wrapper">
   {/* SECTION GAUCHE : TEXTE */}

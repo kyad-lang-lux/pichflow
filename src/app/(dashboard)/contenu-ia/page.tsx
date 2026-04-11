@@ -239,22 +239,23 @@ Tu dois uniquement imiter la structure, le ton et l’énergie de tous les style
   };
 
   return ( 
-    <div className="ia-page-container">
+    <div className="ia-page-container" style={{ width: "100%", overflowX: "hidden" }}>
       {selectedHistory && (
         <div className="modal-overlay" onClick={() => setSelectedHistory(null)}>
-          <div className="modal-content custom-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '700px', width: '90%' }}>
+          {/* Largeur adaptative pour la modal */}
+          <div className="modal-content custom-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '700px', width: '95%', margin: '10px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-              <h3>{selectedHistory.type}</h3>
-              <button onClick={() => setSelectedHistory(null)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer' }}>×</button>
+              <h3 style={{ fontSize: '1.1rem' }}>{selectedHistory.type}</h3>
+              <button onClick={() => setSelectedHistory(null)} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>×</button>
             </div>
             <p style={{ fontSize: '12px', color: '#666' }}>Sujet : {selectedHistory.sujet}</p>
             <hr />
-            <div style={{ maxHeight: '400px', overflowY: 'auto', padding: '10px', whiteSpace: 'pre-wrap', lineHeight: '1.6', fontSize: '0.95rem' }}>
+            <div style={{ maxHeight: '60vh', overflowY: 'auto', padding: '10px', whiteSpace: 'pre-wrap', lineHeight: '1.6', fontSize: '0.95rem' }}>
               {selectedHistory.contenu}
             </div>
-            <div className="modal-actions" style={{ marginTop: '20px' }}>
-              <button className="btn-cancel" onClick={() => handleDownload(selectedHistory.contenu, selectedHistory.type)}>Télécharger</button>
-              <button className="btn-submit" onClick={() => { handleCopy(selectedHistory.contenu); setSelectedHistory(null); }}>Copier & Fermer</button>
+            <div className="modal-actions" style={{ marginTop: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <button className="btn-cancel" style={{ flex: 1 }} onClick={() => handleDownload(selectedHistory.contenu, selectedHistory.type)}>Télécharger</button>
+              <button className="btn-submit" style={{ flex: 1 }} onClick={() => { handleCopy(selectedHistory.contenu); setSelectedHistory(null); }}>Copier</button>
             </div>
           </div>
         </div>
@@ -263,29 +264,36 @@ Tu dois uniquement imiter la structure, le ton et l’énergie de tous les style
       {/* SECTION PRINCIPALE : CONFIGURATION (GAUCHE) & RÉSULTAT (DROITE) */}
       <div style={{ 
         display: "grid", 
-        // Correction responsive ici : minmax à 280px pour supporter les petits écrans
-        gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", 
-        gap: "30px",
+        // CHANGEMENT ICI : minmax(0, 1fr) permet de descendre en dessous de 500px sur mobile
+        gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 400px), 1fr))", 
+        gap: "20px",
         alignItems: "start" 
       }}>
         
         {/* CÔTÉ CONFIGURATION */}
-        <div className="ia-config-side" style={{ background: "#fff", padding: "25px", borderRadius: "16px", border: "1px solid #eee" }}>
+        <div className="ia-config-side" style={{ background: "#fff", padding: "clamp(15px, 4vw, 25px)", borderRadius: "16px", border: "1px solid #eee" }}>
           <div className="config-section" style={{ marginBottom: "20px" }}>
             <h4 style={{ marginBottom: "15px" }}>Type de contenu</h4>
-            <div className="type-grid">
+            {/* S'assurer que la grille de types ne casse pas le layout */}
+            <div className="type-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: "10px" }}>
               {contentTypes.map(type => (
-                <button key={type.id} className={`type-card ${selectedType === type.label ? "active" : ""}`} onClick={() => setSelectedType(type.label)}>
+                <button key={type.id} className={`type-card ${selectedType === type.label ? "active" : ""}`} onClick={() => setSelectedType(type.label)} style={{ width: "100%", padding: "10px" }}>
                   <i className={`fa-solid ${type.icon}`}></i> {type.label}
                 </button>
               ))}
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px", marginBottom: "20px" }}>
+          <div style={{ 
+            display: "grid", 
+            // Bascule en 1 colonne sur mobile très étroit
+            gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", 
+            gap: "15px", 
+            marginBottom: "20px" 
+          }}>
             <div className="config-section">
               <h4>Ton du contenu</h4>
-              <select className="ia-select" value={tone} onChange={e => setTone(e.target.value)}>
+              <select className="ia-select" style={{ width: "100%" }} value={tone} onChange={e => setTone(e.target.value)}>
                 <option>Professionnel</option>
                 <option>Amical</option>
                 <option>Persuasif</option>
@@ -295,7 +303,7 @@ Tu dois uniquement imiter la structure, le ton et l’énergie de tous les style
 
             <div className="config-section">
               <h4>Longueur (mots)</h4>
-              <select className="ia-select" value={textLength} onChange={e => setTextLength(e.target.value)}>
+              <select className="ia-select" style={{ width: "100%" }} value={textLength} onChange={e => setTextLength(e.target.value)}>
                 <option value="100-200">100 - 200</option>
                 <option value="200-300">200 - 300</option>
                 <option value="300-400">300 - 400</option>
@@ -311,23 +319,23 @@ Tu dois uniquement imiter la structure, le ton et l’énergie de tous les style
               placeholder="Décrivez précisément ce que vous voulez générer..." 
               value={prompt} 
               onChange={e => setPrompt(e.target.value)}
-              style={{ minHeight: "120px" }}
+              style={{ minHeight: "120px", width: "100%" }}
             ></textarea>
           </div>
 
           <button className="btn-generate" onClick={handleGenerate} disabled={isGenerating} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", width: "100%", padding: "15px" }}>
-            {isGenerating ? <><SolidBlackLoader size="16px" /> Génération...</> : <> Générer <i className="fa-solid fa-coins"></i>5</>}
+            {isGenerating ? "Génération..." : <> Générer <i className="fa-solid fa-coins"></i>5</>}
           </button>
         </div>
 
         {/* CÔTÉ RÉSULTAT */}
         <div className="ia-result-side">
-          <div className="result-card" style={{ background: "#fff", padding: "25px", borderRadius: "16px", border: "1px solid #eee", minHeight: "530px", display: "flex", flexDirection: "column" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #f5f5f5", paddingBottom: "15px" }}>
-              <h4 style={{ margin: 0 }}>Résultat de la génération</h4>
+          <div className="result-card" style={{ background: "#fff", padding: "clamp(15px, 4vw, 25px)", borderRadius: "16px", border: "1px solid #eee", minHeight: "300px", display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", borderBottom: "1px solid #f5f5f5", paddingBottom: "15px", flexWrap: "wrap", gap: "10px" }}>
+              <h4 style={{ margin: 0 }}>Résultat</h4>
               {generatedResult && (
-                <button onClick={() => handleCopy()} style={{ background: "#f0fdf4", border: "none", color: "#10b981", padding: "8px 15px", borderRadius: "8px", fontWeight: "600", cursor: "pointer", fontSize: "14px" }}>
-                  <i className={isCopied ? "fa-solid fa-check" : "fa-regular fa-copy"}></i> {isCopied ? "Copié !" : "Copier"}
+                <button onClick={() => handleCopy()} style={{ background: "#f0fdf4", border: "none", color: "#10b981", padding: "8px 15px", borderRadius: "8px", fontWeight: "600", cursor: "pointer", fontSize: "13px" }}>
+                  {isCopied ? "Copié !" : "Copier"}
                 </button>
               )}
             </div>
@@ -336,11 +344,11 @@ Tu dois uniquement imiter la structure, le ton et l’énergie de tous les style
               {generatedResult ? (
                 <div style={{ whiteSpace: "pre-wrap", lineHeight: "1.8", color: "#333", fontSize: "1rem" }}>{generatedResult}</div>
               ) : (
-                <div style={{ textAlign: "center", marginTop: "120px", color: "#999" }}>
+                <div style={{ textAlign: "center", padding: "40px 0", color: "#999" }}>
                   {isGenerating ? <RippleLoader /> : (
                     <>
                       <i className="fa-solid fa-robot" style={{ fontSize: "40px", marginBottom: "15px", display: "block", opacity: 0.3 }}></i>
-                      <p>Configurez à gauche et lancez la magie Pichflow...</p>
+                      <p style={{ fontSize: "14px" }}>Configurez à gauche et lancez la magie...</p>
                     </>
                   )}
                 </div>
@@ -351,17 +359,22 @@ Tu dois uniquement imiter la structure, le ton et l’énergie de tous les style
       </div>
 
       {/* SECTION HISTORIQUE */}
-      <div style={{ marginTop: "60px", paddingTop: "40px", borderTop: "2px solid #f8f8f8" }}>
-        <h4 style={{ marginBottom: "25px", display: "flex", alignItems: "center", gap: "12px", fontSize: "1.2rem" }}>
-          <i className="fa-solid fa-clock-rotate-left" style={{ color: "#6366f1" }}></i> Historique de vos créations
+      <div style={{ marginTop: "40px", paddingTop: "30px", borderTop: "2px solid #f8f8f8" }}>
+        <h4 style={{ marginBottom: "20px", display: "flex", alignItems: "center", gap: "12px", fontSize: "1.1rem" }}>
+          <i className="fa-solid fa-clock-rotate-left" style={{ color: "#6366f1" }}></i> Historique
         </h4>
         
         {historique.length === 0 ? (
-          <div style={{ padding: "40px", textAlign: "center", background: "#f9f9f9", borderRadius: "12px", border: "1px dashed #ddd" }}>
-            <p style={{ color: "#999", fontStyle: "italic" }}>Aucune génération enregistrée pour le moment.</p>
+          <div style={{ padding: "30px", textAlign: "center", background: "#f9f9f9", borderRadius: "12px", border: "1px dashed #ddd" }}>
+            <p style={{ color: "#999", fontSize: "14px" }}>Aucune génération.</p>
           </div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "20px" }}>
+          <div style={{ 
+            display: "grid", 
+            // Grille d'historique responsive
+            gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))", 
+            gap: "15px" 
+          }}>
             {historique.map(item => (
               <div
                 key={item.id}
@@ -369,36 +382,29 @@ Tu dois uniquement imiter la structure, le ton et l’énergie de tous les style
                 className="history-card"
                 style={{ 
                   background: "#fff", 
-                  padding: "20px", 
+                  padding: "15px", 
                   borderRadius: "15px", 
                   border: "1px solid #eee", 
-                  cursor: "pointer", 
-                  transition: "transform 0.2s, box-shadow 0.2s",
+                  cursor: "pointer",
                   position: "relative" 
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 10px 15px -3px rgba(0,0,0,0.1)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "translateY(0)"; }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-                  <span style={{ fontSize: "11px", fontWeight: "700", background: "#EEF2FF", color: "#4F46E5", padding: "4px 10px", borderRadius: "6px", textTransform: "uppercase" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                  <span style={{ fontSize: "10px", fontWeight: "700", background: "#EEF2FF", color: "#4F46E5", padding: "3px 8px", borderRadius: "5px" }}>
                     {item.type}
                   </span>
-                  <button onClick={e => deleteHistory(item.id, e)} style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer", padding: "5px" }}>
+                  <button onClick={e => deleteHistory(item.id, e)} style={{ background: "none", border: "none", color: "#ef4444", cursor: "pointer" }}>
                     <i className="fa-solid fa-trash-can"></i>
                   </button>
                 </div>
-                <p style={{ fontSize: "14px", fontWeight: "600", margin: "10px 0", color: "#1f2937", display: "-webkit-box", WebkitLineClamp: "2", WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                <p style={{ fontSize: "13px", fontWeight: "600", margin: "5px 0", color: "#1f2937", display: "-webkit-box", WebkitLineClamp: "2", WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                   {item.sujet}
                 </p>
-                <div style={{ display: "flex", alignItems: "center", gap: "5px", color: "#9ca3af", fontSize: "11px" }}>
-                   <i className="fa-regular fa-calendar"></i> {item.date}
-                </div>
               </div>
-            ))}
-          </div>
+            ))} 
+          </div> 
         )}
-      </div>
-      <br /><br /><br />
+      </div> <br /> <br /> <br />
     </div>
   );
 }

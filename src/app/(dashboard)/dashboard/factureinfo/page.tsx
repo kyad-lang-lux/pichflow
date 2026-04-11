@@ -54,7 +54,7 @@ export default function FactureInfoPage() {
     setLoading(false);
   };
 
-  if (loading && info.nomService === '') return <div style={{padding: "20px"}}>Chargement...</div>;
+  if (loading && info.nomService === '') return <div style={{padding: "10px"}}>Chargement...</div>;
 
   return (
     <div className="fi-wrapper">
@@ -87,12 +87,12 @@ export default function FactureInfoPage() {
 
               {/* NOUVEAUX CHAMPS IDENTIFIANTS */}
               <div className="fi-field">
-                <label>Numéro IFU ou SIRET + TVA</label>
+                <label>Numéro IFU ou SIRET + TVA ou autres</label>
                 <input 
                   type="text" 
                   value={info.ifuSiret} 
                   onChange={(e)=>setInfo({...info, ifuSiret: e.target.value})} 
-                  placeholder="Ex: 320241..."
+                  placeholder="IFU : 320201....."
                 />
               </div>
 
@@ -102,7 +102,7 @@ export default function FactureInfoPage() {
                   type="text" 
                   value={info.autreNum} 
                   onChange={(e)=>setInfo({...info, autreNum: e.target.value})} 
-                  placeholder="Ex: RB/COT/..."
+                  placeholder="RB/COT/..."
                 />
               </div>
 
@@ -112,6 +112,7 @@ export default function FactureInfoPage() {
                   type="number" 
                   step="0.01"
                   value={info.tvaRate} 
+                  placeholder='18%'
                   onChange={(e)=>setInfo({...info, tvaRate: parseFloat(e.target.value) || 0})} 
                   required 
                 />
@@ -123,7 +124,7 @@ export default function FactureInfoPage() {
             </form>
           </section>
         </div>
-
+ 
         <div className="fi-preview-section">
           <section className="fi-card">
             <div className="fi-card-title">
