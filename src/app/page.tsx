@@ -205,7 +205,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
           </div>
           <div className="feature-card active-border">
             <div className="icon-box blue-alt">
-              <i className="fa-solid fa-file-invoice-dollar"></i>
+              <i className="fa-solid fas fa-receipt"></i>
             </div>
             <h3>Devis Rapides</h3>
             <p>
@@ -674,7 +674,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
 
     <div className="pricing-card"> 
       <h3>Pack Business</h3>
-      <div className="price">
+      <div className="price"> 
         {formatPrice(2.438)}<span>/200 crédits</span>
       </div> 
       <p className="price-desc">Economique et approprié</p>
