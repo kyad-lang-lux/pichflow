@@ -325,7 +325,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             <h2>
               Améliorer votre <span>écosystème business</span> 
             </h2>
-            <p>
+            <p> 
               De la rédaction de vos pubs à l'encaissement de vos
               factures, PitchFlow est adapté aux :
             </p>
@@ -408,6 +408,76 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
   </div>
 </section> 
 
+<section className="pichflow-automated-compta">
+  <div className="pich-container">
+    {/* En-tête centré */}
+    <div className="pich-header">
+      <h2 className="pich-title">Votre comptabilité automatisée</h2>
+      <p className="pich-subtitle">
+        PichFlow simplifie votre gestion quotidienne pour vous concentrer sur l'essentiel : votre croissance.
+      </p>
+    </div> <br/>
+
+    <div className="pich-grid">
+      
+      {/* Carte 1 */}
+      <div className="pich-card">
+  <div className="pich-image-box bg-soft-blue">
+    {/* Le petit popup qui glisse */}
+    <div className="pich-badge">
+      <span>Valider et <br /> transmettre <br/> <b> facture électronique  </b> </span>
+      <button>valider</button>
+    </div>
+    
+    <img src="/img/img5.png" alt="Conformité" />
+  </div>
+  <div className="pich-content">
+    <h3>Conformité simplifiée</h3>
+    <p>Assurez une conformité native avec la facturation électronique sans effort supplémentaire.</p>
+  </div>
+</div>
+
+      {/* Carte 2 */}
+      <div className="pich-card">
+        <div className="pich-image-box bg-soft-orange">
+           {/* <i className="fa-solid fa-wand-magic-sparkles"></i> */}
+           <img src="/img/img6.png" alt="Création" />
+        </div>
+        <div className="pich-content">
+          <h3>Copywriting & Marketing</h3>
+          <p>Personnalisez vos contenu en quelques clics grâce à notre outil intuitif.</p>
+        </div>
+      </div>
+
+      {/* Carte 3 */}
+    
+       <div className="pich-card">
+  <div className="pich-image-box bg-soft-blue">
+    {/* Le petit popup qui glisse */}
+    <div className="pich-badge">
+      <span>Suivi en  <br/> <b> temps réel </b> </span>
+      <button>suivi</button>
+    </div>
+    
+    <img src="/img/img8.jpg" alt="suivi" />
+  </div>
+   <div className="pich-content">
+          <h3>Suivi en temps réel</h3>
+          <p>Visualisez vos encaissements et gérez vos relances automatiquement pour optimiser votre trésorerie.</p>
+        </div>
+</div>
+
+    </div>
+
+    {/* Bouton centré avec ton effet miroir */}
+    <div className="pich-footer">
+      <a href="/inscription" className="btn-primary" style={{ display: 'inline-flex' }}>
+  Créer mon compte gratuitement
+</a>
+    </div>
+  </div>
+</section>
+
  
 
 <section className="integration-wrapper">
@@ -452,86 +522,6 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
 
 
 
-      {/* <section className="how-it-works reveal">
-        <div className="features-header">
-          <h2>
-            Démarrer en <span>3 étapes simples</span>
-          </h2>
-          <p>
-            Pas de configuration complexe. Commencez à produire en moins de 2
-            minutes.
-          </p>
-        </div>
-        <div className="steps-grid">
-          <div className="step-card">
-            <div className="step-num">1</div>
-            <div className="step-icon">
-              <i className="fa-solid fa-hand-pointer"></i>
-            </div>
-            <h4>Sélectionnez un outil</h4>
-            <p>
-              Choisissez entre la génération de contenu IA ou l'outil de
-              facturation ou autres.
-            </p>
-          </div>
-          <div className="step-card">
-            <div className="step-num">2</div>
-            <div className="step-icon">
-              <i className="fa-solid fa-wand-magic-sparkles"></i>
-            </div>
-            <h4>Saisissez vos données</h4>
-            <p>
-              Pichflow génère vos textes marketing ou calcule vos rapports
-              financiers instantanément.
-            </p>
-          </div>
-          <div className="step-card">
-            <div className="step-num">3</div>
-            <div className="step-icon">
-              <i className="fa-solid fa-circle-check"></i>
-            </div>
-            <h4>Exportez et utilisez</h4>
-            <p>
-              Téléchargez vos factures en PDF ou publiez vos contenus
-              facilement.
-            </p>
-          </div>
-        </div>
-      </section>  */}
-
-
-      {/* <section className="magic-box-section reveal" id="magic-box">
-  <div className="features-header">
-    <h2>Une plateforme <span>tout-en-un</span></h2>
-    <p>Vos services marketing et financiers centralisés dans un seul outil intelligent.</p>
-  </div>
-
-  <div className="magic-container"> 
-
-    <div className="orbit-ring"></div>
-
-    <div className="floating-icons">
-      <div className="magic-icon m-marketing"><i className="fa-solid fa-handshake"></i></div>
-      <div className="magic-icon m-copy"><i className="fa-solid fa-lightbulb"></i></div>
-      <div className="magic-icon m-invoice"><i className="fa-solid fa-file-invoice-dollar"></i></div>
-      <div className="magic-icon m-report"><i className="fa-solid fa-chart-bar"></i></div>
-      <div className="magic-icon m-report"><i className="fas fa-receipt"></i></div>
-    </div>
-
-    
-    <div className="magic-envelope">
-      <div className="envelope-front">
-        <div className="envelope-logo">
-          <i className="fa-solid fa-wand-magic-sparkles"></i>
-        </div>
-        <span>PichFlow Centralise</span>
-        <div className="photo-count">5 services actifs</div>
-      </div>
-    </div>
-  </div> 
-
-  
-</section> */}
 
 
       

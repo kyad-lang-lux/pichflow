@@ -2339,7 +2339,7 @@ color: red;}
    SECTION SHOWCASE (STYLE PAYONEER)
    ============================================================ */
 .showcase-section {
-    padding: 100px 5%;
+    padding: 30px 5%;
     margin-top: -20px;
     background: #fcfdfe;
     overflow: hidden;
@@ -2406,9 +2406,10 @@ color: red;}
 .showcase-list i {
     color: #2563eb;
     background: #eff6ff;
-    padding: 5px;
+    padding: 2px 3px;
     border-radius: 50%;
     font-size: 0.8rem;
+    border: 2px solid #2563eb;
 }
 
 /* Partie Visuelle */
@@ -3183,7 +3184,7 @@ color: red;}
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 60px 5%;
+  padding: 30px 5%;
   background-color: #f8faff;
   gap: 40px;
   overflow: hidden;
@@ -3538,7 +3539,7 @@ color: red;}
 @media (max-width: 480px) {
 
   .video-section {
-    padding: 40px 15px;
+    padding: 30px 15px;
   }
   
   .video-wrapper {
@@ -3550,7 +3551,7 @@ color: red;}
   justify-content: center;
   align-items: center;
   position: relative;
-  padding-bottom: 10px; 
+  padding-bottom: 5px; 
   width: 100%;
   margin: auto;
   height: 200px;
@@ -3562,3 +3563,216 @@ color: red;}
 }
 
 } 
+
+
+
+
+.pichflow-automated-compta {
+  padding: 50px 20px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center; /* Centre horizontalement la section */
+}
+
+.pich-container {
+  max-width: 1100px;
+  width: 100%;
+  text-align: center; /* Centre les textes par défaut */
+}
+
+/* En-tête */
+.pich-header {
+  margin-bottom: 0px;
+}
+
+.pich-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 00px;
+}
+
+.pich-subtitle {
+  color: #555;
+  font-size: 1.15rem;
+  max-width: 700px;
+  margin: 0 auto; /* Centre le bloc de texte */
+  line-height: 1.5;
+}
+
+/* Grille */
+.pich-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+/* Cartes */
+.pich-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centre le contenu de la carte */
+  text-align: center;
+}
+
+.pich-image-box {
+  width: 100%;
+  height: 230px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  font-size: 4rem; /* Taille de l'icône si pas d'image */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pich-image-box img {
+  border-radius: 2px;
+  max-width: 95%;
+  max-height: 85%;
+  object-fit: contain;
+  margin-top: 35px;
+}
+
+.pich-card:hover .pich-image-box {
+  transform: translateY(-10px);
+}
+
+/* Couleurs douces pour les fonds */
+.bg-soft-blue { background-color: #f0f7ff; color: #3b82f6; }
+.bg-soft-orange { background-color: #fff5eb; color: #f97316; }
+.bg-soft-green { background-color: #f2faf5; color: #10b981; }
+
+.pich-content h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: #111;
+}
+
+.pich-content p {
+  color: #666;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+/* Footer / Bouton */
+.pich-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 0px;
+}
+
+/* --- RESPONSIVE --- */
+
+@media (max-width: 992px) {
+  .pich-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur tablette */
+  }
+}
+
+@media (max-width: 768px) {
+  .pich-title {
+    font-size: 2.1rem;
+  }
+  
+  .pich-grid {
+    grid-template-columns: 1fr; /* 1 colonne sur mobile */
+    gap: 50px;
+  }
+  
+  .pich-image-box {
+    height: 200px;
+  }
+
+  .pichflow-automated-compta .pich-container h2{
+    font-size: 2rem;
+    line-height: 1; 
+  }
+  .pichflow-automated-compta .pich-container p{
+    font-size: 0.9rem
+  }
+}
+
+
+/* Container de l'image */
+.pich-image-box {
+  position: relative;
+  overflow: hidden; 
+}
+
+/* Le Badge Popup */
+.pich-badge {
+  position: absolute;
+  top: 50px; 
+  left: 75%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 20px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  white-space: nowrap;
+  
+  /* Durée totale du cycle : 5s (2s visible + 3s caché) */
+  animation: slideBadge 9s ease-in-out infinite;
+}
+
+.pich-badge i {
+  color: #10b981;
+  font-size: 0.9rem;
+}
+
+.pich-badge span {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #111;
+}
+
+.pich-badge button{
+  padding: 5px 10px;
+  border: 0;
+  color: #fff;
+  background: #28b989;
+  border-radius: 30px;
+}
+
+
+@keyframes slideBadge {
+  0% {
+    top: -50px; 
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5); 
+  }
+  10% {
+    top: 25px; 
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1); /* Légèrement trop grand (effet popup) */
+  }
+  15% {
+    top: 20px; 
+    transform: translateX(-50%) scale(1); 
+  }
+  40% { 
+    top: 20px;
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  50% { 
+    top: -50px;
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5);
+  }
+  100% { 
+    top: -50px;
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5);
+  }
+}
