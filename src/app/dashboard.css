@@ -2020,6 +2020,7 @@ font-weight: bold;
 }
 
 
+
 /* Overlay qui couvre tout l'écran */
 .download-popup-overlay {
   position: fixed;
@@ -2045,13 +2046,22 @@ font-weight: bold;
   position: relative;
   min-width: 320px;
   max-width: 90%;
-  animation: popupScale 0.3s ease-out;
+  animation: popupScale 0.2s ease-out forwards;
 }
 
 /* Animation d'apparition */
 @keyframes popupScale {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Bouton de fermeture (X) */
@@ -2115,4 +2125,73 @@ font-weight: bold;
 
 .download-popup-btn:hover {
   background: #374151;
+}
+
+
+.dashboard-home .animated-username {
+  font-size: 20px;
+}
+
+
+/* 1. Le Wrapper : Il DOIT avoir une largeur définie pour isoler le contenu */
+.pich-nav-wrapper {
+  margin-top: -15px;
+  display: grid; /* Grid est plus rigide pour le responsive */
+  width: 100%;
+  max-width: 100%; 
+  overflow: hidden; /* Empêche strictement de pousser les murs de la page */
+  margin-bottom: 25px;
+}
+
+/* 2. La zone de scroll */
+.pich-nav-scroll {
+  display: flex;
+  gap: 12px;
+  
+  /* On permet le scroll horizontal */
+  overflow-x: auto;
+  overflow-y: hidden;
+  
+  /* On force le scroll à rester dans les limites du parent */
+  width: 100%; 
+  padding: 10px 15px;
+  
+  /* Centrage sur grand écran, alignement gauche sur petit */
+  justify-content: flex-start;
+  
+  /* Pour la fluidité sur mobile */
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 768px) {
+  .pich-nav-scroll {
+    justify-content: center;
+  }
+}
+
+/* 3. Les boutons : on leur interdit de se déformer */
+.pich-nav-item {
+  flex: 0 0 auto; /* FORCE la taille originale, ne rétrécit JAMAIS */
+  white-space: nowrap; /* INTERDIT le retour à la ligne du texte */
+  
+  background: #0f0f0f;
+  border: 1px solid #7a7c7e;
+  padding: 10px 20px;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 4. On cache la scrollbar pour ne pas décaler la hauteur */
+.pich-nav-scroll::-webkit-scrollbar {
+  display: none;
+}
+.pich-nav-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }

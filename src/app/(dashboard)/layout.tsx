@@ -82,7 +82,7 @@ export default function DashboardLayout({
     { name: "Factures", path: "/factures", icon: "fa-file-invoice-dollar" },
     { name: "Marketing ", path: "/contenu-ia", icon: "fa-handshake" },
     { name: "Copywriting ", path: "/copywriting", icon: "fa-lightbulb" },
-    { name: "Rapports ", path: "/rapports", icon: "fa-chart-bar" },
+    { name: "Rapports ", path: "/rapports", icon: "fa-chart-pie" },
     { name: "Paramètres ", path: "/parametres", icon: "fa-gear" },
   ];
 
@@ -161,7 +161,7 @@ export default function DashboardLayout({
                   <i className="fa-solid fa-coins"></i> Achat crédits
                 </Link>
                 <Link href="/rapports" className="menu-item" onClick={() => setIsProfileOpen(false)}>
-                  <i className="fa-solid fa-chart-bar"></i> Rapports
+                  <i className="fa-solid fa-chart-pie"></i> Rapports
                 </Link>
                 <button className="menu-item logout-btn" onClick={handleLogout} style={{ width: '100%', textAlign: 'left', cursor: 'pointer' }}>
                   <i className="fa-solid fa-right-from-bracket"></i> Déconnexion

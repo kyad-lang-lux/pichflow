@@ -76,7 +76,7 @@ export default function DashboardPage() {
     {
       title: "Rapports",
       desc: "Catégorisation automatique des revenus et dépenses avec alertes financières intelligentes.",
-      icon: "fa-chart-bar",
+      icon: "fa-chart-pie",
       className: "icon-compta",
       link: "/rapports",
     },
@@ -91,7 +91,7 @@ export default function DashboardPage() {
           Préparation de votre espace...
         </p>
       </div>
-    );
+    ); 
   }
 
   return (
@@ -100,11 +100,28 @@ export default function DashboardPage() {
         className="welcome"
         style={{ marginBottom: "20px", marginTop: "-10px" }}
       >
-        {greeting}, chèr(e) <span className="animated-username">  {userName}</span>. Votre dashboard est prêt.
+        {greeting} <span className="animated-username">  {userName}</span>. Votre dashboard est prêt.
       </h3>
+      
+<div className="pich-nav-wrapper">
+  <div className="pich-nav-scroll">
+    <Link href="/parametres" className="pich-nav-item">
+      <i className="fa-solid fa-gear"></i> Paramètres
+    </Link>
+    <Link href="/rapports" className="pich-nav-item">
+      <i className="fa-solid fa-chart-pie"></i> Rapports
+    </Link>
+    <Link href="/credits" className="pich-nav-item">
+      <i className="fa-solid fa-coins"></i> Achat de crédit
+    </Link>
+    <Link href="/infos-facturation" className="pich-nav-item">
+      <i className="fa-solid fa-file-invoice"></i> Infos de facturation
+    </Link>
+  </div>
+</div>
 
       <div className="tools-grid">
-        {tools.map((tool, index) => (
+        {tools.map((tool, index) => ( 
           <div key={index} className="tool-card">
             <div className={`tool-icon-wrapper ${tool.className}`}>
               <i className={`fa-solid ${tool.icon}`}></i>
