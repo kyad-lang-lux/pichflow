@@ -2146,7 +2146,7 @@ font-weight: bold;
 /* 2. La zone de scroll */
 .pich-nav-scroll {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   
   /* On permet le scroll horizontal */
   overflow-x: auto;
@@ -2154,7 +2154,7 @@ font-weight: bold;
   
   /* On force le scroll à rester dans les limites du parent */
   width: 100%; 
-  padding: 10px 15px;
+  padding: 0px 0px;
   
   /* Centrage sur grand écran, alignement gauche sur petit */
   justify-content: flex-start;
@@ -2176,7 +2176,7 @@ font-weight: bold;
   
   background: #0f0f0f;
   border: 1px solid #7a7c7e;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border-radius: 50px;
   color: #fff;
   font-size: 0.9rem;
@@ -2184,7 +2184,7 @@ font-weight: bold;
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 /* 4. On cache la scrollbar pour ne pas décaler la hauteur */
