@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     pathname?.startsWith("/confirmation") ||
     pathname?.startsWith("/devis") ||
     pathname?.startsWith("/connexion") ||
-    pathname?.startsWith("/inscription") ||
+    pathname?.startsWith("/inscription") || 
     pathname?.startsWith("/copywriting");
 
   return (

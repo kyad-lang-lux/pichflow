@@ -18,8 +18,8 @@ export const Footer = () => {
       </Link>
           </div>
           <p>
-            La plateforme tout-en-un pour les freelances, particuliers et PME. 
-            Factures, Devis, Marketing IA, Copywriting et comptabilité automatisée.
+            La plateforme tout-en-un pour freelances, particuliers et PME.
+Facturation, devis, marketing IA, copywriting et comptabilité automatisée.
           </p>
         </div>
 

@@ -150,7 +150,7 @@ export default function DashboardLayout({
               <span style={{ color: "#000", fontSize: "20px" }} className="user-badge">
                 <i className="fa-solid fa-bars"></i>
               </span>
-            </button>
+            </button> 
 
             {isProfileOpen && (
               <div className="profile-dropdown">

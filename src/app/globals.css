@@ -806,34 +806,37 @@ body {
 .features-grid {
   display: flex; /* On passe en Flexbox */
   flex-wrap: wrap; /* Permet de revenir à la ligne */
-  gap: 25px;
+  gap: 20px;
   justify-content: center; /* C'est ICI que la magie opère : centre les cartes sur chaque ligne */
   align-items: stretch; /* Pour que toutes les cartes d'une même ligne aient la même hauteur */
 }
 
 .feature-card {
   background: var(--white);
-  padding: 25px;
+  padding: 15px;
   border-radius: 20px;
   border: 1px solid #c9ddf0;
   background: #f6f7f8;
   transition: all 0.3s ease;
+flex: 0 1 320px; /* Ne grandit pas (0), peut rétrécir (1), base de 320px */
 
-  /* Gestion de la taille des cartes */
-  flex: 0 1 320px; /* Ne grandit pas (0), peut rétrécir (1), base de 320px */
-
-  /* Pour s'assurer que sur mobile elles prennent toute la largeur si besoin */
   width: 100%;
   max-width: 400px; /* Optionnel : pour éviter qu'une carte seule ne devienne trop géante */
 }
-.feature-card:hover {
-  transform: translateY(-5px);
+.features .feature-card:hover {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  transform: translateY(-5px);
 }
 
 /* Bordure spéciale pour la carte active */
 
+.features .feature-card h3{
+  font-size: 14px;
+}
 
+.features .feature-card p{
+  font-size: 13px;
+}
 
 .features-tt-container {
   width: 100%;
@@ -869,7 +872,7 @@ body {
     color: #2563eb;
     font-size: 1.4rem;
     color: #000;
-    margin-top: 15px;
+    margin-top: 15px; 
 }
 
 .sub1-content {
@@ -881,12 +884,12 @@ body {
 .sub1-content span {
     font-weight: 700;
     color: #1e293b;
-    font-size: 1rem;
+    font-size: .9rem;
 }
 
-.sub1-content p {
+.features-tt-container .sub1-content p {
     margin: 0;
-    font-size: 0.85rem;
+    font-size: 0.72rem;
     color: #64748b;
     line-height: 1.4;
     white-space: normal; /* Permet au texte de revenir à la ligne si besoin */
@@ -1714,7 +1717,7 @@ color: #fff;
 }
 
 .legal-container {
-  padding: 80px 20px;
+  padding: 50px 10px;
   background-color: var(--bg-light);
   min-height: 100vh;
   display: flex;
@@ -1724,35 +1727,36 @@ color: #fff;
 .legal-content {
   max-width: 800px;
   background: white;
-  padding: 40px;
+  padding: 10px;
   border-radius: 20px;
   border: 1px solid var(--border-light);
   line-height: 1.6;
 }
 
 .legal-content h1 {
-  font-size: 2rem;
+  font-size: 1rem;
   margin-bottom: 10px;
   color: var(--text-main);
 }
 
 .last-update {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   margin-bottom: 30px;
 }
 
 .legal-content h2 {
-  font-size: 1.25rem;
+  font-size: .9rem;
   margin-top: 30px;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   color: var(--primary-blue);
 }
 
 .legal-content p,
 .legal-content li {
   color: var(--text-main);
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  font-size: 12px;
 }
 
 .legal-content ul {
@@ -3202,7 +3206,7 @@ color: red;}
   font-family: 'Poppins', serif;
 }
 
-.network-list {
+.network-list { 
   list-style: none;
   padding: 0;
 

@@ -224,6 +224,9 @@ export default function Connexion() {
             </form>
 
             <p className="auth-switch">
+              En vous connectant, vous acceptez nos <Link href="/tos">CGU</Link> et notre <Link href="/privacy">Politique de confidentialité</Link>
+            </p>
+            <p className="auth-switch">
               Pas encore de compte ? <Link href="/inscription">S'inscrire</Link>
             </p>
           </div>

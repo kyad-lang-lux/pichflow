@@ -192,7 +192,9 @@ export default function Inscription() {
                 {isLoading ? <><i className="fa-solid fa-circle-notch fa-spin"></i> Création du compte...</> : <>Créer mon compte <i className="fa-solid fa-arrow-right"></i></>}
               </button>
             </form>
-
+<p className="auth-switch">
+              En vous inscrivant, vous acceptez nos <Link href="/tos">CGU</Link> et notre <Link href="/privacy">Politique de confidentialité</Link>
+            </p>
             <p className="auth-switch">Déjà un compte ? <Link href="/connexion">Se connecter</Link></p>
           </div>
         </div>

@@ -148,8 +148,8 @@ const formatPrice = (euroAmount: number): string => {
 
         {/* Sous-titre animé */}
         <p className="reveal delay-2">
-          Une seule solution pour développer votre activité.
-Pichflow vous aide à faire des devis, des factures et à faire du marketing et du copywriting dans un interface simple .
+         Une seule plateforme pour développer votre activité. PitchFlow vous permet de créer devis, factures, 
+         contenus marketing et textes de copywriting dans une interface simple, rapide et intuitive.
         </p>
 
         {/* Boutons animés */}
@@ -191,8 +191,8 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             Fonctionalités de la <span> plateforme </span>
           </h2>
           <p>
-            PichFlow combine les outils essentiels pour les freelances, particuliers et PME :
-            marketing, copywriting et gestion financière (devis et factures).
+           PitchFlow regroupe les outils essentiels pour les freelances, particuliers et PME : 
+           marketing, copywriting, facturation, devis et gestion financière automatisée.
           </p>
         </div>
         <div className="features-grid">
@@ -202,7 +202,8 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             </div>
             <h3>Facturation</h3>
             <p>
-              Créez des factures rapidement avec téléchargements illimités sur pichflow.
+              Créez des factures professionnelles en quelques secondes, avec export et téléchargements illimités. 
+              Suivi automatique des paiements inclus.
             </p>
           </div>
           <div className="feature-card active-border">
@@ -211,7 +212,8 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             </div>
             <h3>Devis Rapides</h3>
             <p>
-              Créez des devis de manière facile et rapide avec téléchargements illimités sur pichflow.
+              Générez des devis clairs, précis et prêts à l’envoi. 
+              Téléchargement PDF illimité et mise en forme automatique.
             </p>
           </div>
           <div className="feature-card">
@@ -220,8 +222,8 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             </div>
             <h3>Contenu Marketing</h3>
             <p>
-              Générez des articles de blog SEO, posts réseaux sociaux et emails
-              marketing en quelques clics.
+              Produisez des articles de blog SEO, posts pour réseaux sociaux, 
+              scripts vidéo et emails marketing en un clic, adaptés à votre niche.
             </p>
           </div>
 
@@ -231,92 +233,104 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             </div>
             <h3>Copywriting</h3>
             <p>
-              Créez des textes publicitaires
-              avec les méthodes AIDA, PAS et plus.
+              Générez des textes publicitaires percutants utilisant les meilleures 
+              méthodes : AIDA, PAS, BAB, 4C, et plus encore.
             </p>
           </div>
 
           <div className="feature-card">
             <div className="icon-box orange-alt">
-              <i className="fa-solid fa-chart-column"></i>
+              <i className="fa-solid fa-chart-pie"></i>
             </div>
             <h3>Comptabilité et rapport</h3>
             <p>
-              Catégorisation automatique des revenus et dépenses avec alertes
-              financières intelligentes.
+              Vos revenus et dépenses sont automatiquement catégorisés, 
+              avec alertes intelligentes et rapports prêts à exporter.
             </p>
           </div>
-
+  
           <div className="feature-card"> 
             <div className="icon-box blue">
               <i className="fa-solid fa-circle-nodes"></i>
             </div>
             <h3>Multi-plateformes</h3>
-            <p>Contenu prêt à être publié sur vos réseaux sociaux</p>
+            <p>Créez du contenu optimisé pour Facebook, Instagram, LinkedIn, TikTok, 
+              YouTube, email marketing et autres canaux.</p>
           </div>
         </div>
-        <br /> <br />
         
-        <div className="features-tt-container reveal">
+        
+        {/* <div className="features-tt-container reveal">
           <div className="features-tt-slider"> 
             <div className="sub1">
               <i className="fa-regular fa-file-pdf"></i>
               <div className="sub1-content">
                 <span>Export PDF</span>
-                <p>Générez des documents pros en un clic.</p>
+                <p>Générez et téléchargez instantanément vos devis, 
+                  factures et rapports en format professionnel prêt 
+                  à être partagé.</p>
               </div>
             </div>
             <div className="sub1">
-              <i className="fa-solid fa-chart-column"></i>
+              <i className="fa-solid  fa-chart-pie"></i>
               <div className="sub1-content">
                 <span>Rapports </span>
-                <p>Analysez votre croissance en temps réel.</p>
+                <p>Analysez votre activité grâce à des tableaux 
+                  de bord clairs et des indicateurs en temps réel.</p>
               </div>
             </div>
             <div className="sub1"> 
               <i className="fa-solid fa-bolt"></i>
               <div className="sub1-content">
                 <span>Notifications</span>
-                <p>Restez alerté de vos activités.</p>
+                <p>Recevez des alertes intelligentes pour suivre 
+                  vos actions importantes : paiements, échéances, mises à jour.</p>
               </div>
             </div>
             <div className="sub1">
               <i className="fa-solid fa-shield-halved"></i>
               <div className="sub1-content">
                 <span>Sécurité</span>
-                <p>Vos données sont cryptées et protégées.</p>
+                <p>Vos données sont protégées par des protocoles de chiffrement avancés, 
+                  garantissant confidentialité et fiabilité.</p>
               </div>
             </div>
             <div className="sub1">
               <i className="fa-regular fa-file-pdf"></i>
               <div className="sub1-content">
                 <span>Export PDF</span>
-                <p>Générez des documents pros en un clic.</p>
+                <p>Générez et téléchargez instantanément vos devis, 
+                  factures et rapports en format professionnel prêt 
+                  à être partagé.</p>
               </div>
             </div>
             <div className="sub1">
-              <i className="fa-solid fa-chart-column"></i>
+              <i className="fa-solid fa-chart-pie"></i>
               <div className="sub1-content">
                 <span>Rapports</span>
-                <p>Analysez votre croissance en temps réel.</p>
+                <p>Analysez votre activité grâce à des tableaux 
+                  de bord clairs et des indicateurs en temps réel.</p>
               </div>
             </div>
             <div className="sub1">
               <i className="fa-solid fa-bolt"></i>
               <div className="sub1-content">
                 <span>Notifications</span>
-                <p>Restez alerté de vos activités.</p>
+                <p>Recevez des alertes intelligentes pour suivre 
+                  vos actions importantes : paiements, échéances, mises à jour.</p>
               </div>
             </div>
             <div className="sub1">
               <i className="fa-solid fa-shield-halved"></i>
               <div className="sub1-content">
                 <span>Sécurité</span>
-                <p>Vos données sont cryptées et protégées.</p>
+                <p>Vos données sont protégées par des protocoles de chiffrement avancés, 
+                  garantissant confidentialité et fiabilité.</p>
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
+
       </section>
 
 
@@ -325,24 +339,21 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
         <div className="showcase-container">
           <div className="showcase-text">
             <h2>
-              Améliorer votre <span>écosystème business</span> 
+             PitchFlow est  <span>ideal</span> pour
             </h2>
-            <p> 
-              De la rédaction de vos pubs à l'encaissement de vos
-              factures, PitchFlow est adapté aux :
-            </p>
+            
             <ul className="showcase-list">
               <li>
   <i className="fa-solid fa-check"></i> Entrepreneurs
 </li>
 <li>
-  <i className="fa-solid fa-check"></i>Entreprises / PME / TPE
+  <i className="fa-solid fa-check"></i>PME / TPE et entreprises en croissance
 </li>
 <li>
-  <i className="fa-solid fa-check"></i> Freelances (graphistes, développeurs, monteurs)
+  <i className="fa-solid fa-check"></i>Freelances (graphistes, développeurs, monteurs…)
 </li>
 <li>
-  <i className="fa-solid fa-check"></i> Artisans (électriciens, plombiers, décorateurs)
+  <i className="fa-solid fa-check"></i>Artisans (électriciens, plombiers, décorateurs…)
 </li>
 <li>
   <i className="fa-solid fa-check"></i> Agences (marketing, communication, digital)
@@ -392,8 +403,8 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
 <section className="video-section">
   <div className="container">
     <div className="video-header">
-      <h2>Un tableau de bord convivial</h2>
-      <p>Comment créer des devis, des factures ou du contenu marketing ou copywriting</p>
+      <h2>Un tableau de bord simple et intuitif</h2>
+      <p>Comment créer des devis, des factures ou du contenu marketing ou copywriting ?</p>
     </div>
     
     <div className="video-wrapper">
@@ -416,8 +427,9 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
     <div className="pich-header">
       <h2 className="pich-title">Votre comptabilité automatisée</h2>
       <p className="pich-subtitle">
-        PichFlow simplifie votre gestion quotidienne pour vous concentrer sur l'essentiel : votre croissance.
-      </p>
+        Grâce à la catégorisation intelligente, au suivi des paiements et aux rapports instantanés, 
+        votre gestion devient plus simple, plus rapide et totalement fluide.
+         </p>
     </div> <br/>
 
     <div className="pich-grid">
@@ -485,12 +497,12 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
 <section className="integration-wrapper">
   {/* SECTION GAUCHE : TEXTE */}
   <div className="integration-left">
-    <h2>Contenu adapté aux <span>différentes utilisations</span></h2>
+    <h2>Contenu adapté à tous vos <span> canaux</span></h2>
     <ul className="network-list">
-      <li><i className="fa-solid fa-check"></i> Facebook, Instagram</li>
-      <li><i className="fa-solid fa-check"></i> Email Marketing, LinkedIn</li>
-      <li><i className="fa-solid fa-check"></i> YouTube, TikTok</li>
-      <li><i className="fa-solid fa-check"></i> Discord, Reddit</li>
+      <li><i className="fa-solid fa-check"></i> Réseaux sociaux: Facebook, Instagram, LinkedIn, TikTok, YouTube</li>
+      <li><i className="fa-solid fa-check"></i> Emailing & communication: Campagnes email marketing, messages professionnels, newsletters</li>
+      <li><i className="fa-solid fa-check"></i> Communautés & plateformes: Discord, Reddit et autres espaces de discussion</li>
+
     </ul>
   </div>
 
@@ -533,7 +545,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
         <h3>Ce qu'ils  <span>disent de nous</span></h3>
         <p>Découvrez les avis de nos utilisateurs ci-dessous.</p>
       </div>
-
+ 
       <div className="testimonials-container">
         {/* Le wrapper qui contient l'animation */}
         <div className="testimonials-marquee">
@@ -569,19 +581,19 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
       {[
         { 
           q: "Comment générer une facture ?", 
-          a: "D'abord, il faut se rendre dans les paramètre de votre dashboard pour configurer les infos de facturation. Puis dans la section facture, remplissez les informations du formulaire et cliquez sur générer. Votre PDF est prêt instantanément." 
+          a: "Commencez par configurer vos informations de facturation dans les paramètres de votre dashboard.Ensuite, rendez-vous dans la section Factures, remplissez le formulaire, puis cliquez sur Générer.Votre facture est automatiquement créée et disponible en PDF instantané." 
         },
         { 
           q: "Mes données sont-elles sécurisées ?", 
-          a: "Oui, PichFlow stock vos données avec confidentialité." 
+          a: "Oui. PitchFlow stocke vos données de manière sécurisée et garantit leur confidentialité grâce à des systèmes de protection avancés." 
         },
         {
           q: "Est-ce gratuit ?", 
-          a: "Avec PichFlow, à l'inscription vous disposez de 15 crédits gratuits pour la génération de factures, de devis, de contenu marketing ou copywriting toutes les fonctionnalités essentielles incluses." 
+          a: "Oui. Lors de votre inscription, vous recevez 15 crédits gratuits pour tester toutes les fonctionnalités : facturation, devis, marketing et copywriting." 
         },
         { 
-          q: "Puis-je l'utiliser sur mobile ?", 
-          a: "Absolument ! L'interface est optimisée pour smartphones, tablettes afin de vous permettre d'utiliser la plateforme même en déplacement." 
+          q: "Puis-je utiliser PitchFlow sur mobile ?", 
+          a: "Absolument. PitchFlow est entièrement responsive et optimisé pour smartphones et tablettes, vous permettant de gérer votre activité où que vous soyez." 
         }
       ].map((item, i) => (
         <details key={i} className="faq-item">
@@ -603,16 +615,16 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
         <div className="cta-content">
           <h2>Prêt à propulser votre activité ?</h2>
           <p>
-            Rejoignez plus de 300 professionnels qui automatisent leur
-            quotidien avec PitchFlow.
+            Rejoignez plus de 300 professionnels qui automatisent déjà 
+            leur gestion avec PitchFlow et gagnent du temps chaque jour.
           </p>
           <div className="hero-btns">
             <a href="/inscription" className="btn-white">
-              Essaie gratuit <i className="fa-solid fa-rocket"></i>
+              Essayez maintenant <i className="fa-solid fa-rocket"></i>
             </a>
           </div>
           <span className="no-card">
-            Aucune carte de crédit requise pour l'essai.
+            Aucune carte de crédit requise pour commencer votre essai.
           </span>
         </div>
       </section>
