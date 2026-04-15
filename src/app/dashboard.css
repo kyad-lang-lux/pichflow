@@ -154,7 +154,7 @@ body {
   color: white;
   border: none;
   padding: 15px;
-  border-radius: 12px;
+  border-radius: 12px; 
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
@@ -425,7 +425,7 @@ padding: 0; }
     flex-direction: column;
     align-items: flex-start;
     padding: 20px;
-    gap: 12px;
+    gap: 2px;
     border: 1px solid #e2e8f0;
     margin-bottom: 15px;
     border-radius: 20px;
@@ -454,15 +454,15 @@ padding: 0; }
   .col-actions {
     width: 100%;
     justify-content: space-around !important;
-    margin-top: 10px;
-    padding-top: 15px;
+    margin-top: 0px;
+    padding-top: 5px;
     border-top: 1px solid #f1f5f9;
   }
   
   .col-desc {
     flex-direction: column;
     align-items: flex-end;
-    gap: 5px;
+    gap: 0px;
   }
 
   /* Ajustement modal sur mobile */
@@ -543,24 +543,31 @@ padding: 0; }
     z-index: 10000;
   }
   .factures-container .div-table-container {
-    font-size: 12px; 
-  
+    font-size: 10px; 
+   
     padding: 0;
   }
   .factures-container .div-table-container .div-table-header { display: none; gap: 0px;  }
-   .div-table-container { background: transparent; border: none; }
+    
+   .div-table-container { background: transparent; border: none; gap: 0;}
   .factures-container .div-table-container .div-table-body .div-table-row {
     flex-direction: column; background: white; border: 1px solid var(--border-light);
-    border-radius: 15px; margin-bottom: 10px; padding: 1px; align-items: stretch;
+    border-radius: 15px; margin-bottom: 12px; padding: 1px; align-items: stretch;
     
   }
   .div-table-row > div { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F8FAFC; }
   .factures-container .div-table-body .div-table-row > div::before { content: attr(data-label); font-weight: 600; gap: 0; margin-bottom: 0px;color: var(--text-muted); }
   .col-actions { border-bottom: none !important; padding-top: 15px !important; justify-content: center !important; }
-.factures-container .div-table-container .div-table-body .div-table-row {
+.div-table-container .div-table-body .div-table-row {
   padding: 8px;
   gap: 0;
 }  
+
+.factures-container .div-table-container .div-table-body .div-table-row  {
+gap: -10px;
+padding: 10px;
+}
+
   .tools-grid, .stats-grid, .ia-page-container, .charts-main-grid { grid-template-columns: 1fr; }
   .type-grid, .method-grid { grid-template-columns: repeat(2, 1fr); }
   .table-toolbar, .toolbar-actions { flex-direction: column; align-items: stretch; }
@@ -2135,6 +2142,7 @@ font-weight: bold;
 
 /* 1. Le Wrapper : Il DOIT avoir une largeur définie pour isoler le contenu */
 .pich-nav-wrapper {
+  display: none;
   margin-top: -15px;
   display: grid; /* Grid est plus rigide pour le responsive */
   width: 100%;
@@ -2152,20 +2160,26 @@ font-weight: bold;
   overflow-x: auto;
   overflow-y: hidden;
   
-  /* On force le scroll à rester dans les limites du parent */
   width: 100%; 
   padding: 0px 0px;
   
-  /* Centrage sur grand écran, alignement gauche sur petit */
   justify-content: flex-start;
   
-  /* Pour la fluidité sur mobile */
   -webkit-overflow-scrolling: touch;
+  display: none;
 }
 
 @media (min-width: 768px) {
   .pich-nav-scroll {
     justify-content: center;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .pich-nav-scroll {
+    justify-content: center;
+    display: flex;
   }
 }
 
