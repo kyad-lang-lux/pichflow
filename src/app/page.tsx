@@ -336,7 +336,7 @@ const formatPrice = (euroAmount: number): string => {
 
 
 <section className="showcase-section reveal">
-        <div className="showcase-container">
+        <div className="showcase-container reveal">
           <div className="showcase-text">
             <h2>
              PitchFlow est  <span>ideal</span> pour
@@ -421,8 +421,8 @@ const formatPrice = (euroAmount: number): string => {
   </div>
 </section> 
 
-<section className="pichflow-automated-compta">
-  <div className="pich-container">
+<section className="pichflow-automated-compta reveal">
+  <div className="pich-container reveal">
     {/* En-tête centré */}
     <div className="pich-header">
       <h2 className="pich-title">Votre comptabilité automatisée</h2>
@@ -494,7 +494,7 @@ const formatPrice = (euroAmount: number): string => {
 
  
 
-<section className="integration-wrapper">
+<section className="integration-wrapper reveal">
   {/* SECTION GAUCHE : TEXTE */}
   <div className="integration-left">
     <h2>Contenu adapté à tous vos <span> canaux</span></h2>
@@ -532,9 +532,6 @@ const formatPrice = (euroAmount: number): string => {
     </div>
   </div>
 </section>
-
-
-
 
 
 
@@ -617,7 +614,7 @@ const formatPrice = (euroAmount: number): string => {
           <p>
             Rejoignez plus de 300 professionnels qui automatisent déjà 
             leur gestion avec PitchFlow et gagnent du temps chaque jour.
-          </p>
+          </p> 
           <div className="hero-btns">
             <a href="/inscription" className="btn-white">
               Essayez maintenant <i className="fa-solid fa-rocket"></i>

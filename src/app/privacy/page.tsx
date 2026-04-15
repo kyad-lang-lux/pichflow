@@ -9,64 +9,81 @@ export default function PrivacyPage() {
           <i className="fa-solid fa-arrow-left"></i> Retour à l'accueil
         </Link>
         
-        <h1>Politique de confidentialité</h1>
+        <h1>Politique de Confidentialité – PichFlow </h1>
         <p className="last-update">Dernière mise à jour : 21 Décembre 2025</p>
 
         <section>
-          <h2>1. Introduction</h2>
+          <h2>1. Responsable du traitement</h2>
           <p>
-            Chez <strong>PichFlow</strong>, nous prenons la protection de vos données personnelles très au sérieux. Cette politique détaille comment nous collectons, utilisons et protégeons vos informations lorsque vous utilisez nos services de marketing par IA et de gestion financière.
+            PichFlow, solution SaaS éditée par Nexix. Email de contact : support@pichflow.com. Hébergement : Vercel.
           </p>
         </section>
 
         <section>
           <h2>2. Données collectées</h2>
-          <p>Nous collectons les informations nécessaires pour fournir nos services, notamment :</p>
+          <p>Nous collectons uniquement les informations nécessaires au fonctionnement de la plateforme :</p>
           <ul>
             <li><strong>Informations de compte :</strong> Nom, adresse email, mot de passe.</li>
-            <li><strong>Données professionnelles :</strong> Nom de l'entreprise, adresse de facturation, numéro de TVA.</li>
-            <li><strong>Données de contenu :</strong> Les textes et requêtes que vous soumettez à l'IA pour le copywriting.</li>
-            <li><strong>Données financières :</strong> Historique des factures et dépenses (nous n'enregistrons pas vos coordonnées bancaires directement).</li>
+            <li><strong>Données professionnelles :</strong> Nom de l'entreprise, adresse de facturation, numéro de TVA (si applicable) et d'autres numéros.</li>
+            <li><strong>Données de contenu :</strong> Historique des actions sur le dashboard (création de factures, devis, contenus, etc.).</li>
+            <li><strong>Données financières :</strong> Montant, date et type d’abonnement. Historique des factures et devis créés via PichFlow. Aucune donnée bancaire n’est stockée : les paiements sont gérés par nos prestataires (ex. Stripe, PayPal, Mobile Money via API tierce).</li>
           </ul>
         </section>
 
         <section>
-          <h2>3. Utilisation des données</h2>
+          <h2>3. Finalités du traitement</h2>
           <p>Vos données sont utilisées exclusivement pour :</p>
           <ul>
-            <li>Générer votre contenu marketing et vos rapports financiers.</li>
-            <li>Gérer vos abonnements et la facturation via nos prestataires (Stripe/PayPal).</li>
-            <li>Améliorer nos algorithmes d'IA (sous forme anonymisée uniquement).</li>
-            <li>Vous envoyer des notifications importantes sur votre compte.</li>
+            <li>Assurer l’accès sécurisé à votre compte.</li>
+            <li>Générer vos documents (factures, devis, contenus IA).</li>
+            <li>Gérer vos abonnements et paiements.</li>
+            <li>Vous envoyer des alertes et notifications importantes.</li>
+            <li>Améliorer la qualité du service et nos modèles IA (données anonymisées uniquement)
+            </li>
+          </ul>
+          <p>  Aucune donnée n’est exploitée à des fins publicitaires.</p>
+        </section>
+
+        <section>
+          <h2>4. Conservation des données</h2>
+          <ul>
+            <li>Documents comptables (factures, devis) : jusqu’à 5 ans (obligations légales)</li>
+            <li>Données de paiement : gérées par Stripe/PayPal/Mobile Money (non conservées par PichFlow)</li>
           </ul>
         </section>
 
         <section>
-          <h2>4. Sécurité des transactions financières</h2>
+          <h2>5. Partage des données</h2>
           <p>
-            Comme indiqué sur notre plateforme, nous utilisons des passerelles de paiement sécurisées (Stripe et PayPal). 
-            <strong>PichFlow ne stocke jamais vos numéros de carte bancaire</strong> sur ses propres serveurs. Toutes les transactions sont chiffrées selon les normes de sécurité PCI-DSS.
+           Vos données ne sont jamais vendues.
           </p>
+           <ul>
+            <li>Nos prestataires techniques (hébergeur, email provider, services IA).</li>
+            <li>Nos prestataires de paiement (Stripe, PayPal, Mobile Money API).</li>
+            <li>Les autorités compétentes si la loi l’exige.</li>
+          </ul>
+          <p>Chaque utilisateur n’accède qu’à ses propres données.</p>
         </section>
 
         <section>
-          <h2>5. Conservation et Protection</h2>
+          <h2>6. Sécurité</h2>
           <p>
-            Vos données sont stockées sur des serveurs sécurisés et ne sont jamais vendues à des tiers. Nous conservons vos données aussi longtemps que votre compte est actif ou selon les obligations légales en vigueur (notamment pour les documents comptables).
-          </p>
-        </section>
-
-        <section>
-          <h2>6. Vos droits (RGPD)</h2>
-          <p>
-            Conformément au Règlement Général sur la Protection des Données, vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Vous pouvez exercer ces droits directement depuis vos paramètres de profil ou en nous contactant.
-          </p>
+            Nous appliquons des mesures renforcées :
+             </p>
+          <ul>
+            <li>Chiffrement HTTPS/TLS</li>
+            <li>Hashage des mots de passe (bcrypt/argon2).</li>
+            <li>Stockage isolé des données sensibles.</li>
+            <li>Accès par rôle pour les administrateurs.</li>
+            <li>Jetons d’accès sécurisés et expirant automatiquement.</li>
+          </ul>
         </section>
 
         <section>
           <h2>7. Contact</h2>
           <p>
-            Pour toute question concernant cette politique, vous pouvez nous contacter à l'adresse dédiée à la protection des données de PichFlow.
+           Pour toute question relative à la confidentialité :
+           support@pichflow.com
           </p>
         </section>
       </div>
