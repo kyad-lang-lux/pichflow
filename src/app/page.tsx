@@ -101,16 +101,49 @@ const formatPrice = (euroAmount: number): string => {
       <section className="hero" id="top">
         
         {/* Badge animé */}
-        <div className="badge reveal">
+        {/* <div className="badge reveal">
           <i className="fa-solid fa-check-circle"></i>
           Gérez vos activités facilement
+        </div> */}
+
+           <div className="hero-social reveal delay-3">
+          <div className="avatar-group">
+            <div className="avatar">
+              <img src="https://i.pravatar.cc/100?u=166" alt="user" />
+            </div>
+            <div className="avatar">
+              <img src="https://i.pravatar.cc/100?u=167" alt="user" />
+            </div>
+            <div className="avatar">
+              <img src="https://i.pravatar.cc/100?u=4" alt="user" />
+            </div>
+            <div className="avatar">
+              <img src="https://i.pravatar.cc/100?u=2" alt="user" />
+            </div>
+            <div className="avatar">
+              <img src="https://i.pravatar.cc/100?u=151" alt="user" />
+            </div>
+          </div>
+
+          <div className="social-text">
+            <span className="count">+300 utilisateurs</span>
+            <div className="stars">
+              <i className="fa-solid fa-star"></i>
+              <i className="fa-solid fa-star"></i>
+              <i className="fa-solid fa-star"></i>
+              <i className="fa-solid fa-star"></i>
+              <span className="rating">3.8/5</span>
+            </div>
+          </div>
         </div>
+        
+        <br />
 
         {/* Titre animé */}
         <h1 className="reveal delay-1">
-          Votre <span className="span1">outil </span>  de croissance 
+          Votre outil de <span className="span1"> croissance  </span>
           <br />
-          <span className="span2">  en un seul endroit. </span> <br /> 
+           en un seul endroit.  <br /> 
         </h1>
 
         {/* Sous-titre animé */}
@@ -131,40 +164,9 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
             <i className="fa-solid fa-arrow-down"></i>
           </a>
         </div>
-        <div className="hero-social reveal delay-3">
-          <div className="avatar-group">
-            <div className="avatar">
-              <img src="https://i.pravatar.cc/100?u=166" alt="user" />
-            </div>
-            <div className="avatar">
-              <img src="https://i.pravatar.cc/100?u=167" alt="user" />
-            </div>
-            <div className="avatar">
-              <img src="https://i.pravatar.cc/100?u=4" alt="user" />
-            </div>
-            <div className="avatar">
-              <img src="https://i.pravatar.cc/100?u=11" alt="user" />
-            </div>
-            <div className="avatar">
-              <img src="https://i.pravatar.cc/100?u=2" alt="user" />
-            </div>
-            <div className="avatar">
-              <img src="https://i.pravatar.cc/100?u=151" alt="user" />
-            </div>
-          </div>
 
-          <div className="social-text">
-            <span className="count">+300 utilisateurs</span>
-            <div className="stars">
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <i className="fa-solid fa-star"></i>
-              <span className="rating">3.8/5</span>
-            </div>
-          </div>
-        </div>
+       
+
       </section>
 
       <section className="dashboard-preview reveal delay-3">
@@ -458,7 +460,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
       <span>Suivi en  <br/> <b> temps réel </b> </span>
       <button>suivi</button>
     </div>
-    
+     
     <img src="/img/img8.jpg" alt="suivi" />
   </div>
    <div className="pich-content">
@@ -528,8 +530,8 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
 
 <section className="testimonials reveal" id="testimonials">
       <div className="features-header">
-        <h3>Ce qu'ils <br /> <span>disent de nous</span></h3>
-        <p>Découvrez les avis de nos utilisateurs (défilement automatique).</p>
+        <h3>Ce qu'ils  <span>disent de nous</span></h3>
+        <p>Découvrez les avis de nos utilisateurs ci-dessous.</p>
       </div>
 
       <div className="testimonials-container">
@@ -545,7 +547,7 @@ Pichflow vous aide à faire des devis, des factures et à faire du marketing et 
                   </div>
                   <span className="testimonial-name">{item.name}</span>
                 </div>
-                <div className={`card-gradient ${item.color}`}></div>
+                <div className={`card-gradient `}></div>
               </div>
             ))}
           </div>
