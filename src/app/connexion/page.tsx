@@ -156,7 +156,7 @@ export default function Connexion() {
               <div className="input-group">
                 <div className="label-row">
                   <label>Mot de passe</label>
-                  <Link href="#" className="forgot-pass">Mot de passe oublié ?</Link>
+                  {/* <Link href="#" className="forgot-pass">Mot de passe oublié ?</Link> */}
                 </div>
              <div className="input-wrapper" style={{ position: 'relative' }}>
   <i className="fa-solid fa-lock"></i>
@@ -175,7 +175,7 @@ export default function Connexion() {
     style={{
       position: 'absolute',
       right: '40px',
-      top: '50%',
+      top: '40%',
       transform: 'translateY(-50%)',
       background: 'none',
       border: 'none',
@@ -219,7 +219,7 @@ export default function Connexion() {
                   </>
                 ) : (
                   <>Se connecter <i className="fa-solid fa-arrow-right"></i></>
-                )}
+                )} 
               </button>
             </form>
 

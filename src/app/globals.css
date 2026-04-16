@@ -651,13 +651,13 @@ body {
   position: relative;
   max-width: 1000px;
   width: 100%;
-  padding: 20px;
+  padding: 0px;
 }
 
 .main-preview {
   width: 100%;
   height: auto;
-  border-radius: 20px;
+  border-radius: 15px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); /* Ombre profonde et douce */
   border: 1px solid rgba(226, 232, 240, 0.8);
   transition: transform 0.5s ease;
@@ -667,7 +667,7 @@ body {
   transform: scale(1.02); /* Petit effet de zoom au survol */
 }
 
-/* Petites cartes qui flottent sur les côtés */
+
 .floating-card {
   position: absolute;
   background: white;
@@ -708,7 +708,8 @@ body {
     display: none; /* On cache les cartes flottantes sur tablette/mobile pour éviter le scroll horizontal */
   }
   .dashboard-preview {
-    margin-top: -100px;
+    margin-top: -120px;
+    border-radius: 8px;
     padding-bottom: 20px;
     background: transparent;
   }
@@ -718,8 +719,10 @@ body {
   }
   .dashboard-preview .preview-container img {
     width: 100%;
-    border-radius: 0;
+    height: 210px;
+    border-radius: 5px;
   }
+  
 } 
 
 /* --- SECTION FEATURES --- */
@@ -1735,7 +1738,7 @@ color: #fff;
 
 .legal-content h1 {
   font-size: 1rem;
-  margin-bottom: 10px;
+  margin-bottom: 10px; 
   color: var(--text-main);
 }
 
@@ -2335,11 +2338,13 @@ color: red;}
    SECTION SHOWCASE (STYLE PAYONEER)
    ============================================================ */
 .showcase-section {
-    padding: 30px 5%;
+    padding: 20px 4%;
     margin-top: -20px;
     background: #fcfdfe;
     overflow: hidden;
     margin-bottom: 0;
+    margin: auto;
+    justify-content: space-around;
 }
 
 
@@ -2357,7 +2362,7 @@ color: red;}
   right: -15%;
 }
 .showcase-container {
-    max-width: 1200px;
+    max-width: 1050px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -2366,6 +2371,7 @@ color: red;}
 
 .showcase-text {
     flex: 1;
+    margin-left: 0px;
 }
 
 .showcase-text h2 {
@@ -2532,6 +2538,10 @@ color: red;}
         display: inline-block;
         text-align: left;
     }
+    .showcase-text {
+    flex: 1;
+    margin-left: 0;
+}
     .circle-bg { width: 350px; height: 350px; }
     .person-img { width: 300px; height: 400px; }
 }
@@ -3179,24 +3189,26 @@ color: red;}
 .integration-wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 30px 5%;
+  justify-content: center;
+  padding: 10px 50px;
   background-color: #f8faff;
-  gap: 40px;
+  gap: 0px;
   overflow: hidden;
-  width: 100%;
+  width: 90%;
+  margin: auto;
 }
 
 /* --- Section Texte (Gauche) --- */
 .integration-left {
   flex: 1;
-  max-width: 500px;
+  max-width: 400px;
+  margin-left: 20px;
 }
 
 .integration-left h2 {
   font-size: 2rem;
   color: #111;
-  margin-bottom: 25px;
+  margin-bottom: 21px;
   line-height: 1.2;
 }
 
@@ -3216,8 +3228,8 @@ color: red;}
 .network-list li {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 15px;
+  gap: 10px;
+  margin-bottom: 13px;
   font-weight: 600;
   color: #333;
   font-size: 1.1rem;
@@ -3242,8 +3254,8 @@ color: red;}
 
 .orbit-container {
   position: relative;
-  width: 450px;
-  height: 450px;
+  width: 420px;
+  height: 420px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -3344,7 +3356,14 @@ color: red;}
   .network-list {
     display: inline-block;
     text-align: left;
+    
   }
+
+  .integration-left {
+  flex: 1;
+  max-width: 400px;
+  margin-left: 0;
+}
   
 }
 

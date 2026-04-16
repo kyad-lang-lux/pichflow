@@ -172,7 +172,7 @@ const formatPrice = (euroAmount: number): string => {
       <section className="dashboard-preview reveal delay-3">
         <div className="preview-container">
           <img
-            src="/img/dashboard-preview1.png"
+            src="/img/dashboard-prev.png"
             alt="Aperçu du Dashboard PitchFlow"
             className="main-preview"
           />
@@ -334,11 +334,10 @@ const formatPrice = (euroAmount: number): string => {
       </section>
 
 
-
 <section className="showcase-section reveal">
         <div className="showcase-container reveal">
           <div className="showcase-text">
-            <h2>
+            <h2> 
              PitchFlow est  <span>ideal</span> pour
             </h2>
             
@@ -492,7 +491,6 @@ const formatPrice = (euroAmount: number): string => {
   </div>
 </section>
 
- 
 
 <section className="integration-wrapper reveal">
   {/* SECTION GAUCHE : TEXTE */}
@@ -665,7 +663,7 @@ const formatPrice = (euroAmount: number): string => {
       </div>
       <p className="price-desc">Idéal pour vos besoins </p>
       <ul className="price-features">
-        <li><i className="fa-solid fa-circle-check"></i> <strong>50 crédits</strong> automatique</li>
+        <li><i className="fa-solid fa-circle-check"></i> <strong>80 crédits</strong> automatique</li>
         <li><i className="fa-solid fa-circle-check"></i> Génération de contenu haute qualité</li>
         <li><i className="fa-solid fa-circle-check"></i> Accès illimité aux différents outils</li>
         <li><i className="fa-solid fa-circle-check"></i> Export PDF disponible</li>
@@ -685,7 +683,7 @@ const formatPrice = (euroAmount: number): string => {
         <li><i className="fa-solid fa-circle-check"></i> Génération de contenu haute qualité</li>
         <li><i className="fa-solid fa-circle-check"></i> Export PDF disponible</li>
       </ul>
-      <button className="btn-blue-pricing">+ 100 crédits</button>
+      <button className="btn-blue-pricing">+ 200 crédits</button>
     </div>
   </div>
 

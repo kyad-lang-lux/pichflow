@@ -100,9 +100,8 @@ export default function TOSPage() {
           </p>
           <ul>
             <li>
-              <strong>Essai gratuit :</strong> Limité à 7 jours. À l'issue de
-              cette période, l'accès sera restreint sauf souscription à un plan
-              payant.
+              <strong>Essai gratuit :</strong> 15 crédit gratuit à l'inscription. Une fois les crédits 
+              terminés, vous pouvez passer au plan payant.
             </li>
             <li>
               <strong>Annulation :</strong> Vous pouvez annuler votre abonnement
@@ -143,8 +142,6 @@ Des interruptions temporaires peuvent survenir pour maintenance, mise à jour ou
         <section>
           <h2>9. Propriété intellectuelle</h2>
           <p>
-           9. Propriété intellectuelle
-
 L’ensemble de la plateforme PichFlow (interface, design, fonctionnalités, code, algorithmes) est protégé par les droits de propriété intellectuelle.
 
 Toute reproduction, distribution ou exploitation non autorisée est strictement interdite.
