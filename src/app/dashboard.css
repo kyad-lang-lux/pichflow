@@ -529,7 +529,7 @@ padding: 0; }
  .mobile-tab-bar span {
   /* display: none; */ 
   font-size: .65rem;
-  
+   
  } 
     
  .mobile-tab-bar i {
@@ -2140,68 +2140,34 @@ font-weight: bold;
 }
 
 
-/* 1. Le Wrapper : Il DOIT avoir une largeur définie pour isoler le contenu */
+
+/* 1. Le Wrapper : On utilise margin: 0 auto pour centrer le bloc lui-même */
 .pich-nav-wrapper {
-  display: none;
-  margin-top: -15px;
-  display: grid; /* Grid est plus rigide pour le responsive */
+  display: grid;
   width: 100%;
-  max-width: 100%; 
-  overflow: hidden; /* Empêche strictement de pousser les murs de la page */
-  margin-bottom: 25px;
+  max-width: 100%; /* Important : ne jamais dépasser le parent */
+  overflow: hidden;
+  margin: -15px auto 20px auto;
 }
 
 /* 2. La zone de scroll */
 .pich-nav-scroll {
-  display: flex;
+  display: none;
   gap: 8px;
+  width: 100%;
+  padding: 10px 15px; /* On remplace margin-left par du padding pour éviter de décaler la page */
   
-  /* On permet le scroll horizontal */
+  /* SCROLL */
   overflow-x: auto;
   overflow-y: hidden;
-  
-  width: 100%; 
-  padding: 0px 0px;
-  
-  justify-content: flex-start;
-  
   -webkit-overflow-scrolling: touch;
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .pich-nav-scroll {
-    justify-content: center;
-  }
-}
-
-
-@media (max-width: 768px) {
-  .pich-nav-scroll {
-    justify-content: center;
-    display: flex;
-  }
-}
-
-/* 3. Les boutons : on leur interdit de se déformer */
-.pich-nav-item {
-  flex: 0 0 auto; /* FORCE la taille originale, ne rétrécit JAMAIS */
-  white-space: nowrap; /* INTERDIT le retour à la ligne du texte */
   
-  background: #0f0f0f;
-  border: 1px solid #7a7c7e;
-  padding: 8px 16px;
-  border-radius: 50px;
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  /* ALIGNEMENT */
+  /* Sur mobile, on DOIT rester en flex-start pour voir le premier élément */
+  justify-content: flex-start; 
 }
 
-/* 4. On cache la scrollbar pour ne pas décaler la hauteur */
+/* Masquer la scrollbar */
 .pich-nav-scroll::-webkit-scrollbar {
   display: none;
 }
@@ -2209,3 +2175,41 @@ font-weight: bold;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
+/* 3. Adaptation pour PC (Grand écran) */
+@media (min-width: 768px) {
+  .pich-nav-scroll {
+    /* Sur grand écran, on centre les éléments car il y a de la place */
+    justify-content: center;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 900px) {
+   .pich-nav-scroll {
+      display: flex;
+   }
+}
+/* 4. Les boutons */
+.pich-nav-item {
+  flex: 0 0 auto; /* Empêche le bouton de s'écraser */
+  white-space: nowrap; /* Force le texte sur une ligne */
+  
+  background: #0f0f0f;
+  border: 1px solid #7a7c7e;
+  padding: 12px 16px;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.pich-nav-item:hover {
+  background: #222;
+  border-color: #fff;
+} 

@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { createFactureAction, getFacturesAction, deleteFactureAction, getClientsAction } from './factureAction';
-
+import { createFactureAction, getFacturesAction, deleteFactureAction, getClientsAction, updateFactureStatusAction } from './factureAction';
 interface Prestation {
   description: string;
   prixUnitaire: number;
@@ -30,12 +29,14 @@ interface Facture {
   devise: string;
   date: string;
   echeance: string;
+  status: string;
 }
 
 export default function FacturesPage() {
   const [factures, setFactures] = useState<Facture[]>([]);
   const [savedClients, setSavedClients] = useState<ClientSuggestion[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('tous');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -46,7 +47,15 @@ export default function FacturesPage() {
     devise: 'FCFA',
     prestations: [{ description: '', prixUnitaire: 0, quantite: 1 }] as Prestation[]
   });
-
+  const handleToggleStatus = async (dbId: string, selectedStatus: string) => {
+  // On appelle directement l'action avec la valeur sélectionnée (payer ou en attente)
+  const res = await updateFactureStatusAction(dbId, selectedStatus);
+  if (res.success) {
+    await loadData();
+  } else {
+    alert("Erreur lors de la mise à jour du statut");
+  }
+};
   const loadData = async () => {
     const [factData, clientData] = await Promise.all([
       getFacturesAction(),
@@ -244,10 +253,14 @@ export default function FacturesPage() {
     }
   };
 
-  const filtered = factures.filter(f => 
-    f.client.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    f.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+ const filtered = factures.filter(f => {
+  const matchesSearch = f.client.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                        f.id.toLowerCase().includes(searchTerm.toLowerCase());
+  
+  const matchesStatus = filterStatus === 'tous' || f.status === filterStatus;
+
+  return matchesSearch && matchesStatus;
+});
 
   return (
     <div className="factures-container"> 
@@ -330,6 +343,27 @@ export default function FacturesPage() {
           <i className="fa-solid fa-magnifying-glass"></i>
           <input type="text" placeholder="Rechercher par nom ou numéro..." value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} />
         </div>
+        <div className="filter-box" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: '10px' }}>
+  <i className="fa-solid fa-filter" style={{ color: '#666', fontSize: '14px' }}></i>
+  <select 
+    value={filterStatus} 
+    onChange={(e) => setFilterStatus(e.target.value)}
+    style={{
+      padding: '8px 12px',
+      borderRadius: '8px',
+      border: '1px solid #ddd',
+      fontSize: '14px',
+      backgroundColor: '#fff',
+      cursor: 'pointer',
+      outline: 'none',
+      minWidth: '130px'
+    }}
+  >
+    <option value="tous">Tous les statuts</option>
+    <option value="en attente">En attente</option>
+    <option value="payer">Payées</option>
+  </select>
+</div>
         <button className="btn-new" onClick={() => { setIsModalOpen(true); }}>
           + Nouvelle Facture 
         </button>
@@ -345,7 +379,7 @@ export default function FacturesPage() {
         </div>
 
         <div className="div-table-body">  
-          {filtered.length > 0 ? filtered.map((f) => (
+          {filtered.length > 0 ? filtered.map((f) => ( 
             <div className="div-table-row" key={f.dbId}>
               <div className="col-id font-bold" data-label="ID :">{f.id}</div>
               <div className="col-client font-bold" data-label="Client :">{f.client}</div>
@@ -355,15 +389,41 @@ export default function FacturesPage() {
                 ))}
               </div>
               <div className="col-date" data-label="Émission :">{f.date}</div>
-              <div className="col-actions">
-                <button onClick={() => downloadPDF(f)} title="Télécharger"><i className="fa fa-download" style={{color: '#e11d48'}}></i></button>
-                <button onClick={() => f.dbId && handleDelete(f.dbId)} title="Supprimer"><i className="fa-solid fa-trash-can" style={{color: '#ef4444'}}></i></button>
-              </div>
+<div className="col-actions" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+  {/* Sélecteur de Statut */}
+  <select
+    value={f.status}
+    onChange={(e) => f.dbId && handleToggleStatus(f.dbId, e.target.value)}
+    style={{
+      padding: '4px 8px',
+      borderRadius: '15px',
+      fontSize: '12px',
+      fontWeight: '900',
+      cursor: 'pointer',
+      backgroundColor: f.status === 'payer' ? '#dcfce7' : '#fef9c3',
+      color: f.status === 'payer' ? '#166534' : '#85730e',
+      border: `1px solid ${f.status === 'payer' ? '#10b981' : '#fc9f00'}`,
+      outline: 'none'
+    }}
+  >
+    <option value="en attente">En attente</option>
+    <option value="payer">Payée</option>
+  </select>
+
+  {/* Tes boutons existants (Logique et balises conservées à 100%) */}
+  <button onClick={() => downloadPDF(f)} title="Télécharger">
+    <i className="fa fa-download" style={{color: '#e11d48'}}></i>
+  </button>
+  
+  <button onClick={() => f.dbId && handleDelete(f.dbId)} title="Supprimer">
+    <i className="fa-solid fa-trash-can" style={{color: '#ef4444'}}></i>
+  </button>
+</div>
             </div>
           )) : (
             <div style={{padding:'20px', textAlign:'center', color:'#888'}}>Aucune facture trouvée.</div>
           )} 
-        </div> <br /> <br /> <br />
+        </div> <br /> <br /> <br /> <br /> 
       </div> 
 
       {/* --- POPUP DE TÉLÉCHARGEMENT AJOUTÉ ICI --- */}

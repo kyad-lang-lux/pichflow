@@ -175,7 +175,7 @@ const formatPrice = (euroAmount: number): string => {
             src="/img/dashboard-prev.png"
             alt="Aperçu du Dashboard PitchFlow"
             className="main-preview"
-          />
+          /> 
           <div className="floating-card update-card">
             <i className="fa-solid fa-check-circle"></i> Mise à jour effectuée
           </div>
@@ -407,15 +407,15 @@ const formatPrice = (euroAmount: number): string => {
     </div>
     
     <div className="video-wrapper">
-      <iframe  
-        width="560" 
-        height="315" 
-        src="https://www.youtube.com/embed/HDDZczlqPvs" 
-        title="Démonstration PichFlow" 
-        frameBorder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        allowFullScreen>
-      </iframe>
+      <iframe   
+  width="560" 
+  height="315" 
+  src="https://www.youtube.com/embed/HDDZczlqPvs?rel=0" 
+  title="Démonstration PichFlow" 
+  frameBorder="0" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+  allowFullScreen>
+</iframe>
     </div>
   </div>
 </section> 

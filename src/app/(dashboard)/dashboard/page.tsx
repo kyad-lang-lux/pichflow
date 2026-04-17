@@ -98,17 +98,17 @@ export default function DashboardPage() {
     <div className="dashboard-home">
       <h3
         className="welcome"
-        style={{ marginBottom: "20px", marginTop: "-20px" }}
-      >
+        style={{ marginBottom: "20px", marginTop: "-10px" }}
+      > 
         {greeting} <span className="animated-username">  {userName}</span>. Votre dashboard est prêt.
       </h3>
-      
+       
 <div className="pich-nav-wrapper">
   <div className="pich-nav-scroll">
     <Link href="/parametres" className="pich-nav-item">
       <i className="fa-solid fa-gear"></i> Paramètres
     </Link>
-    <Link href="/rapports" className="pich-nav-item">
+    <Link href="/rapports" className="pich-nav-item"> 
       <i className="fa-solid fa-chart-pie"></i> Rapports
     </Link>
     <Link href="/buy-credits" className="pich-nav-item">
@@ -118,7 +118,7 @@ export default function DashboardPage() {
       <i className="fa-solid fa-file-invoice"></i> Infos de facturation
     </Link>
   </div>
-</div>
+</div>  
 
       <div className="tools-grid">
         {tools.map((tool, index) => ( 

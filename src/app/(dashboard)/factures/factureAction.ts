@@ -54,7 +54,7 @@ export async function createFactureAction(formData: any) {
     const currentCredits = Number(userRes.rows[0]?.credits || 0);
     if (currentCredits < 5) return { success: false, error: "Crédits insuffisants (5 requis)" };
 
-    // 2. RÉCUPÉRATION DES INFOS SENDER (Inclus ifu_siret et autre_num)
+    // 2. RÉCUPÉRATION DES INFOS SENDER
     const senderRes = await db.execute({
       sql: "SELECT nom_service, adresse, contact, tva_rate, ifu_siret, autre_num FROM sender_info WHERE user_id = ?",
       args: [userId],
@@ -69,13 +69,13 @@ export async function createFactureAction(formData: any) {
     const queries: any[] = [
       // Déduction crédits
       { sql: "UPDATE users SET credits = credits - 5 WHERE id = ?", args: [userId] },
-      // Insertion facture avec ifu_siret et autre_num
+      // Insertion facture avec status par défaut
       {
         sql: `INSERT INTO factures (
           id, user_id, numero_facture, sender_nom, sender_adresse, sender_contact, 
           ifu_siret, autre_num, client_nom, client_contact, client_adresse, 
-          devise, date_emission, date_echeance, tva_rate
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          devise, date_emission, date_echeance, tva_rate, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         args: [
           factureUuid, 
           userId, 
@@ -91,7 +91,8 @@ export async function createFactureAction(formData: any) {
           formData.devise, 
           new Date().toLocaleDateString('fr-FR'), 
           formData.echeance,
-          tvaAAppliquer
+          tvaAAppliquer,
+          'en attente' // Statut initial
         ]
       }
     ];
@@ -115,7 +116,7 @@ export async function createFactureAction(formData: any) {
 }
 
 /**
- * LISTE : Renvoie les factures avec leur TVA enregistrée
+ * LISTE : Renvoie les factures avec leur TVA et leur STATUS
  */
 export async function getFacturesAction() {
   try {
@@ -142,9 +143,10 @@ export async function getFacturesAction() {
         senderNom: String(f.sender_nom || "PichFlow Service"),
         senderAdresse: String(f.sender_adresse || ""),
         senderContact: String(f.sender_contact || ""),
-        senderIfu: String(f.ifu_siret || ""), // Ajouté pour le PDF
-        senderAutre: String(f.autre_num || ""), // Ajouté pour le PDF
+        senderIfu: String(f.ifu_siret || ""),
+        senderAutre: String(f.autre_num || ""),
         tvaRate: Number(f.tva_rate || 0),
+        status: String(f.status || 'en attente'), // Récupération du statut
         prestations: lines.rows.map((l: any) => ({
           description: String(l.description),
           prixUnitaire: Number(l.prix_unitaire),
@@ -157,6 +159,26 @@ export async function getFacturesAction() {
     }));
   } catch (e) {
     return [];
+  }
+}
+
+/**
+ * MODIFICATION DU STATUT
+ */
+export async function updateFactureStatusAction(dbId: string, newStatus: string) {
+  try {
+    const userId = await getAuthUserId();
+    if (!userId) return { success: false };
+
+    await db.execute({
+      sql: "UPDATE factures SET status = ? WHERE id = ? AND user_id = ?",
+      args: [newStatus, dbId, userId]
+    });
+
+    revalidatePath("/factures");
+    return { success: true };
+  } catch (e) {
+    return { success: false };
   }
 }
 
