@@ -61,6 +61,10 @@ export default function DevisPage() {
     }
   }, [isModalOpen]);
 
+
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
+const [errorMessage, setErrorMessage] = useState("");
+
   useEffect(() => {
     const scripts = ["https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js", "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"];
     scripts.forEach(src => {
@@ -165,7 +169,7 @@ export default function DevisPage() {
         </div>
       </div>
     `;
-
+ 
     try {
       const canvas = await (window as any).html2canvas(container, { scale: 2, useCORS: true });
       const imgData = canvas.toDataURL('image/jpeg', 0.8);
@@ -175,17 +179,38 @@ export default function DevisPage() {
     } finally { document.body.removeChild(container); }
 };
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+ const handleSave = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsLoading(true);
+
+  try {
     const res = await createDevisAction(formData);
+
     if (res.success) {
       await loadData();
       setIsModalOpen(false);
-      setFormData({ client: '', clientContact: '', clientAdresse: '', echeance: '', devise: 'FCFA', prestations: [{ description: '', prixUnitaire: 0, quantite: 1 }] });
-    } else { alert(res.error || "Erreur de création"); }
+      
+      // Réinitialisation complète pour le prochain devis
+      setFormData({ 
+        client: '', 
+        clientContact: '', 
+        clientAdresse: '', 
+        echeance: '', 
+        devise: 'FCFA', 
+        prestations: [{ description: '', prixUnitaire: 0, quantite: 1 }] 
+      });
+    } else {
+      // --- UTILISATION DU POPUP AU LIEU DE L'ALERT ---
+      setErrorMessage(res.error || "Erreur lors de la création du devis");
+      setShowErrorPopup(true);
+    }
+  } catch (error) {
+    setErrorMessage("Une erreur réseau est survenue. Veuillez réessayer.");
+    setShowErrorPopup(true);
+  } finally {
     setIsLoading(false);
-  };
+  }
+};
 
   const handleDelete = async (dbId: string) => {
     if (confirm("Supprimer ce devis ?")) {
@@ -326,6 +351,24 @@ export default function DevisPage() {
           </div>
         </div>
       )}
+
+      {/* --- POPUP D'ERREUR (CRÉDITS INSUFFISANTS) --- */}
+      {showErrorPopup && (
+        <div className="error-popup-overlay">
+          <div className="error-popup-content">
+            <div className="error-popup-icon">
+              <i className="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h4>Action impossible</h4>
+            <p>{errorMessage}</p>
+            <button className="error-popup-btn" onClick={() => setShowErrorPopup(false)}>
+              Compris
+            </button>
+          </div>
+        </div>
+      )}
+      
+      
     </div>
   );
 }

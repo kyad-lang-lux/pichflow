@@ -67,15 +67,26 @@ export default function FacturesPage() {
 
   useEffect(() => { loadData(); }, []);
 
-  useEffect(() => {
-    if (isModalOpen) {
-      const today = new Date();
+useEffect(() => {
+  if (isModalOpen) {
+    const today = new Date();
+    
+    // On ne calcule l'échéance auto que si elle n'est pas déjà définie
+    if (!formData.echeance) {
       const nextMonth = new Date();
       nextMonth.setDate(today.getDate() + 30);
       const echeanceAuto = nextMonth.toISOString().split('T')[0];
-      setFormData(prev => ({ ...prev, echeance: echeanceAuto }));
+      
+      setFormData(prev => ({ 
+        ...prev, 
+        echeance: echeanceAuto 
+      }));
     }
-  }, [isModalOpen]);
+  }
+}, [isModalOpen]); // On garde isModalOpen en dépendance
+
+const [showErrorPopup, setShowErrorPopup] = useState(false);
+const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const scripts = [
@@ -129,7 +140,7 @@ export default function FacturesPage() {
   const downloadPDF = async (item: Facture) => {
     setShowDownloadPopup(true); // <--- AJOUTÉ ICI
     const totalHT = calculateTotalHT(item.prestations);
-    const montantTVA = totalHT * (item.tvaRate / 100);
+    const montantTVA = totalHT * (item.tvaRate / 100); 
     const totalTTC = totalHT + montantTVA; 
 
     const container = document.createElement('div');
@@ -229,22 +240,42 @@ export default function FacturesPage() {
     } finally { document.body.removeChild(container); }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+ const handleSave = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsLoading(true);
+
+  try {
     const res = await createFactureAction(formData);
+
     if (res.success) {
       await loadData();
       setIsModalOpen(false);
+      
+      // On réinitialise tout le formulaire
       setFormData({
-        client:'', clientContact:'', clientAdresse:'', echeance:'', devise:'FCFA',
-        prestations:[{description:'', prixUnitaire:0, quantite:1}]
+        client: '', 
+        clientContact: '', 
+        clientAdresse: '', 
+        echeance: '', // Laisser vide pour que le useEffect puisse pré-remplir la prochaine fois
+        devise: 'FCFA',
+        prestations: [{ description: '', prixUnitaire: 0, quantite: 1 }]
       });
     } else {
-      alert(res.error || "Erreur lors de la création");
+      // --- MODIFICATION ICI ---
+      // Au lieu de l'alert, on utilise ton nouveau popup
+      setErrorMessage(res.error || "Une erreur est survenue lors de la création");
+      setShowErrorPopup(true);
     }
+  } catch (error) {
+    // Gestion des erreurs de réseau/serveur inattendues
+    setErrorMessage("Impossible de contacter le serveur. Vérifiez votre connexion.");
+    setShowErrorPopup(true);
+  } finally {
     setIsLoading(false);
-  };
+  }
+};
+
+
 
   const handleDelete = async (dbId: string) => {
     if (confirm("Supprimer définitivement cette facture ?")) {
@@ -293,6 +324,7 @@ export default function FacturesPage() {
                   <div style={{width: '100%'}}>
                     <label style={{fontSize: '11px', color: '#666', marginBottom: '4px', display: 'block'}}>DATE D'ÉCHÉANCE (Auto +30j)</label>
                     <input style={{textTransform: 'uppercase', width: '100%'}} type="date" required value={formData.echeance} onChange={(e)=>setFormData({...formData, echeance: e.target.value})} />
+                 
                   </div>
                   <div style={{width: '100%'}}>
                     <label style={{fontSize: '11px', color: '#666', marginBottom: '4px', display: 'block'}}>DEVISE</label>
@@ -389,15 +421,15 @@ export default function FacturesPage() {
                 ))}
               </div>
               <div className="col-date" data-label="Émission :">{f.date}</div>
-<div className="col-actions" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+<div className="col-actions" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
   {/* Sélecteur de Statut */}
   <select
     value={f.status}
     onChange={(e) => f.dbId && handleToggleStatus(f.dbId, e.target.value)}
     style={{
-      padding: '4px 8px',
+      padding: '3px 6px',
       borderRadius: '15px',
-      fontSize: '12px',
+      fontSize: '11px',
       fontWeight: '900',
       cursor: 'pointer',
       backgroundColor: f.status === 'payer' ? '#dcfce7' : '#fef9c3',
@@ -408,15 +440,15 @@ export default function FacturesPage() {
   >
     <option value="en attente">En attente</option>
     <option value="payer">Payée</option>
-  </select>
+  </select> 
 
   {/* Tes boutons existants (Logique et balises conservées à 100%) */}
   <button onClick={() => downloadPDF(f)} title="Télécharger">
-    <i className="fa fa-download" style={{color: '#e11d48'}}></i>
+    <i className="fa fa-file-pdf" style={{color: '#e11d48', marginRight: '10px', }}></i>
   </button>
   
   <button onClick={() => f.dbId && handleDelete(f.dbId)} title="Supprimer">
-    <i className="fa-solid fa-trash-can" style={{color: '#ef4444'}}></i>
+    <i className="fa-solid fa-trash-arrow-up" style={{color: '#ef4444'}}></i>
   </button>
 </div>
             </div>
@@ -444,6 +476,23 @@ export default function FacturesPage() {
           </div>
         </div>
       )}
+
+{/* --- POPUP D'ERREUR (CRÉDITS INSUFFISANTS) --- */}
+      {showErrorPopup && (
+        <div className="error-popup-overlay">
+          <div className="error-popup-content">
+            <div className="error-popup-icon">
+              <i className="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h4>Action impossible</h4>
+            <p>{errorMessage}</p>
+            <button className="error-popup-btn" onClick={() => setShowErrorPopup(false)}>
+              Compris
+            </button>
+          </div>
+        </div>
+      )}
+      
     </div>
   );
 }

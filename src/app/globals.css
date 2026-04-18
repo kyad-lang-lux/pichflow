@@ -1460,14 +1460,14 @@ color: #fff;
 .input-wrapper i {
   position: absolute;
   left: 15px;
-  color: #94a3b8;
-  font-size: 0.8rem;
+  color: #7f8a9b;
+  font-size: 1rem;
 }
 
 .input-wrapper input {
   width: 100%;
   padding: 10px 10px 10px 45px;
-  border: 1px solid #8d8f91;
+  border: 1px solid #717274;
   border-radius: 15px;
   font-family: inherit;
   font-size: 0.9rem;
@@ -1937,6 +1937,7 @@ body {
   flex-direction: column;
   gap: 15px;
 }
+
 
 .field {
   display: flex;

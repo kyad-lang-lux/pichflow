@@ -117,9 +117,9 @@ export default function SettingsPage() {
               <Link 
                 href="/dashboard/factureinfo" 
                 className='btn-outline-sm' 
-                style={{...forceButtonStyle, textDecoration: 'none', display: 'inline-block'}}
+                style={{...forceButtonStyle, textDecoration: 'none', display: 'inline-block', background:'#2563eb', color:'#fff', textAlign:'center'}}
               >
-                Configurer
+                <i className="fa-solid fa-file-invoice"></i> Configurer
               </Link>
             </div>
           </div>
@@ -139,7 +139,7 @@ export default function SettingsPage() {
                 <p>Sécurisez votre compte avec un mot de passe robuste.</p>
               </div>
               <Link href="/change-password" title="Modifier" className='change-password' style={forceButtonStyle}>
-                Changer le mot de passe
+               <i className="fa-solid fa-shield-halved"></i> Changer le mot de passe 
               </Link>
             </div> 
 
@@ -160,9 +160,10 @@ export default function SettingsPage() {
               </button>
             </div>
           </div>
+          
         </section>
-        
-        <br /><br /><br />
+        <p style={{justifyContent: 'center', textAlign: 'center', fontWeight: '900px'}} >Pichflow v 1.0.0</p>
+        <br />
       </div>
     </div>
   );

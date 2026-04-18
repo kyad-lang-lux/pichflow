@@ -154,14 +154,14 @@ export default function DashboardLayout({
 
             {isProfileOpen && (
               <div className="profile-dropdown">
-                <Link href="/parametres" className="menu-item" onClick={() => setIsProfileOpen(false)}>
-                  <i className="fa-solid fa-user-gear"></i> Paramètres
-                </Link>
                 <Link href="/buy-credits" className="menu-item" onClick={() => setIsProfileOpen(false)}>
                   <i className="fa-solid fa-coins"></i> Achat crédits
                 </Link>
                 <Link href="/rapports" className="menu-item" onClick={() => setIsProfileOpen(false)}>
                   <i className="fa-solid fa-chart-pie"></i> Rapports
+                </Link>
+                 <Link href="/parametres" className="menu-item" onClick={() => setIsProfileOpen(false)}>
+                  <i className="fa-solid fa-user-gear"></i> Paramètres
                 </Link>
                 <button className="menu-item logout-btn" onClick={handleLogout} style={{ width: '100%', textAlign: 'left', cursor: 'pointer' }}>
                   <i className="fa-solid fa-right-from-bracket"></i> Déconnexion

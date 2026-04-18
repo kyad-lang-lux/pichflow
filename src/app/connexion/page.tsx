@@ -168,7 +168,7 @@ export default function Connexion() {
     onChange={(e) => setFormData({...formData, password: e.target.value})}
     style={{ paddingRight: '40px' }} // Laisse de la place pour l'icône
   />
-  {/* Le bouton de l'œil */}
+  {/* Le bouton de l'œil */} 
   <button
     type="button"
     onClick={() => setShowPassword(!showPassword)}
@@ -181,7 +181,7 @@ export default function Connexion() {
       border: 'none',
       cursor: 'pointer',
       color: '#9CA3AF',
-      padding: '0'
+      padding: '0',
     }}
   >
     <i className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>

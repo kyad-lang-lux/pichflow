@@ -57,13 +57,20 @@ export async function createDevisAction(formData: any) {
           client_nom, client_contact, client_adresse, devise, date_emission, date_echeance, tva_rate
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         args: [
-          devisUuid, userId, numeroDevis, 
-          sender?.nom_service || "PichFlow Service", 
-          sender?.adresse || "", 
-          sender?.contact || "",
-          formData.client, formData.clientContact, formData.clientAdresse,
-          formData.devise, new Date().toLocaleDateString('fr-FR'), formData.echeance, tvaRate
-        ]
+  devisUuid, 
+  userId, 
+  numeroDevis, 
+  sender?.nom_service || "PichFlow Service", 
+  sender?.adresse || "", 
+  sender?.contact || "",
+  formData.client, 
+  formData.clientContact, 
+  formData.clientAdresse,
+  formData.devise, 
+  new Date().toLocaleDateString('fr-FR'), // Date d'émission (déjà en format FR)
+  new Date(formData.echeance).toLocaleDateString('fr-FR'), // <--- MODIFICATION ICI
+  tvaRate
+]
       }
     ];
 

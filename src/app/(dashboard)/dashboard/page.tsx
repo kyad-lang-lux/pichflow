@@ -11,7 +11,7 @@ export default function DashboardPage() {
   useEffect(() => {
     // 1. Déterminer le salut selon l'heure locale
     const hour = new Date().getHours();
-    if (hour >= 18 || hour < 5) {
+    if (hour >= 12 || hour < 12) {
       setGreeting("Bonsoir");
     } else {
       setGreeting("Bonjour");

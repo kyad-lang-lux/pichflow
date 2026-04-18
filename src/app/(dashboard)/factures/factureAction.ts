@@ -65,7 +65,7 @@ export async function createFactureAction(formData: any) {
 
     const factureUuid = "fact_" + Date.now().toString();
     const numeroFacture = `F#${new Date().getFullYear()}${Math.floor(1000 + Math.random() * 9000)}`;
-
+ 
     const queries: any[] = [
       // Déduction crédits
       { sql: "UPDATE users SET credits = credits - 5 WHERE id = ?", args: [userId] },
@@ -90,7 +90,7 @@ export async function createFactureAction(formData: any) {
           formData.clientAdresse,
           formData.devise, 
           new Date().toLocaleDateString('fr-FR'), 
-          formData.echeance,
+          new Date(formData.echeance).toLocaleDateString('fr-FR'),
           tvaAAppliquer,
           'en attente' // Statut initial
         ]
@@ -176,7 +176,7 @@ export async function updateFactureStatusAction(dbId: string, newStatus: string)
     });
 
     revalidatePath("/factures");
-    return { success: true };
+    return { success: true }; 
   } catch (e) {
     return { success: false };
   }
