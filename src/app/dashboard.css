@@ -970,11 +970,10 @@ background: #2563eb;
 color: #fff;
 border-radius: 8px;
 padding: 8px;
-width: 100%;
+width: fit-content;
 }
 
-
-
+ 
 /* --- TOOLBAR FILTRAGE --- */
 .table-toolbar {
   margin-bottom: 20px;

@@ -64,7 +64,7 @@ export async function createFactureAction(formData: any) {
     const tvaAAppliquer = Number(sender?.tva_rate || 0);
 
     const factureUuid = "fact_" + Date.now().toString();
-    const numeroFacture = `F#${new Date().getFullYear()}${Math.floor(1000 + Math.random() * 9000)}`;
+    const numeroFacture = `F${new Date().getFullYear()}#${Math.floor(1000 + Math.random() * 9000)}`;
  
     const queries: any[] = [
       // Déduction crédits

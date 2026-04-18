@@ -48,8 +48,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="index, follow" />
 <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
 
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+ 
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   
   {/* Tes scripts existants */}

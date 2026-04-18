@@ -416,7 +416,7 @@ const formatPrice = (euroAmount: number): string => {
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
   allowFullScreen>
 </iframe>
-    </div>
+    </div> 
   </div>
 </section> 
 
@@ -495,7 +495,7 @@ const formatPrice = (euroAmount: number): string => {
 <section className="integration-wrapper reveal">
   {/* SECTION GAUCHE : TEXTE */}
   <div className="integration-left">
-    <h2>Contenu adapté à tous vos <span> canaux</span></h2>
+    <h2>Contenu adapté à vos <span> canaux</span></h2>
     <ul className="network-list">
       <li><i className="fa-solid fa-check"></i> Réseaux sociaux: Facebook, Instagram, LinkedIn, TikTok, YouTube</li>
       <li><i className="fa-solid fa-check"></i> Emailing & communication: Campagnes email marketing, messages professionnels, newsletters</li>
@@ -503,7 +503,7 @@ const formatPrice = (euroAmount: number): string => {
 
     </ul>
   </div>
-
+ 
   {/* SECTION DROITE : L'ORBITE */}
   <div className="integration-right-visual">
     <div className="orbit-container">

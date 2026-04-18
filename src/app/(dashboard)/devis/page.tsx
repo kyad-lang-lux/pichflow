@@ -9,7 +9,7 @@ interface Prestation {
 }
 
 interface Devis {
-  dbId?: string;
+  dbId?: string; 
   id: string;
   client: string;
   clientContact: string;
@@ -99,10 +99,10 @@ const [errorMessage, setErrorMessage] = useState("");
     document.body.appendChild(container);
 
     container.innerHTML = `
-      <div style="padding: 50px; font-family: 'Open Sans', sans-serif; color: #000; border-left: 15px solid #c7dff0; min-height: 1130px; position: relative; background: #eef3f7;">
+      <div style="padding: 50px; font-family: 'Roboto', sans-serif; color: #000; border-left: 15px solid #c7dff0; min-height: 1130px; position: relative; background: #eef3f7;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
           <div>
-            <h2 style="font-family: 'Antonio', sans-serif; font-size: 26px; font-weight: bold; margin: 0; color: #000;">${(item.senderNom || "PichFlow Service").toUpperCase()}</h2>
+            <h2 style="font-family: 'Antonio', sans-serif; font-size: 22px; font-weight: 800; margin: 0; color: #000;">${(item.senderNom || "PichFlow Service").toUpperCase()}</h2>
 <p style="font-size: 12px; margin-top: 5px; color: #444; line-height: 1.4;">
     ${item.senderAdresse}<br>
     ${item.senderContact}
@@ -111,18 +111,18 @@ const [errorMessage, setErrorMessage] = useState("");
 </p>
           </div>
           <div style="text-align: right;">
-            <h2 style="font-family: 'Antonio', sans-serif; font-size: 45px; font-weight: 900; color: #000; margin: 0; line-height: 1;">DEVIS</h2>
-            <p style="font-weight: bold; margin-top: 10px;">N°: ${item.id}</p>
+            <h2 style="font-family: 'Antonio', sans-serif; font-size: 22px; font-weight: 800; color: #000; margin: 0; line-height: 1;">DEVIS</h2>
+            <p style="font-weight: 800; margin-top: 10px;">n°: ${item.id}</p>
           </div>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 40px; gap: 20px;">
-          <div style="flex: 1; border: 1.5px solid #e9edf0; padding: 15px; border-radius: 2px;">
-            <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: #666;">Informations</p>
-            <p style="font-size: 13px; margin: 0;"><strong>DATE :</strong> ${item.date}</p>
-            <p style="font-size: 13px; margin: 5px 0 0 0;"><strong>VALIDE JUSQU'AU :</strong> ${item.echeance}</p>
+          <div style="flex: 1; border: 1.5px solid #e9edf0; padding: 15px; padding-left: 3px; border-radius: 2px;">
+            <p style="font-size: 10px; font-weight: 700;  margin-bottom: 8px; color: #666;">Informations</p>
+            <p style="font-size: 13px; margin: 0;">Date : ${item.date}</p>
+            <p style="font-size: 13px; margin: 5px 0 0 0;">Valide jusqu'au : ${item.echeance}</p>
           </div>
-          <div style="flex: 1; border: 1.5px solid #e9edf0; text-align: right; padding: 15px; border-radius: 2px; background: #fdf2f822;">
-            <p style="font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: #666;">Client</p>
+          <div style="flex: 1; border: 1.5px solid #e9edf0; text-align: right; padding: 15px; padding-right: 3px; border-radius: 2px; background: #fdf2f822;">
+            <p style="font-size: 10px; font-weight: 700;  margin-bottom: 8px; color: #666;">Destinataire</p>
             <p style="font-size: 16px; font-weight: 800; margin: 0;">${item.client.toUpperCase()}</p>
             <p style="font-size: 12px; margin-top: 5px; color: #444;">${item.clientContact}<br>${item.clientAdresse}</p>
           </div>
@@ -138,11 +138,11 @@ const [errorMessage, setErrorMessage] = useState("");
           </thead>
           <tbody>
             ${item.prestations.map((p, i) => `
-              <tr style="${i === item.prestations.length - 1 ? '' : 'border-bottom: 1px solid #eceaea;'}">
-                <td style="padding: 15px 12px; vertical-align: top;"><div style="font-weight: 700; font-size: 13px;">${p.description}</div></td>
+              <tr style="${i === item.prestations.length - 1 ? '' : 'border-bottom: 0px solid #eceaea;'}">
+                <td style="padding: 15px 12px; vertical-align: top;"><div style="font-weight: 600; font-size: 13px;">${p.description}</div></td>
                 <td style="padding: 15px 12px; text-align: right; border-left: 1px solid #eceaea;">${p.prixUnitaire.toLocaleString()} ${item.devise}</td>
                 <td style="padding: 15px 12px; text-align: right; border-left: 1px solid #eceaea;">${p.quantite}</td>
-                <td style="padding: 15px 12px; text-align: right; font-weight: 700; border-left: 1px solid #eceaea;">${(p.prixUnitaire * p.quantite).toLocaleString()} ${item.devise}</td>
+                <td style="padding: 15px 12px; text-align: right; font-weight: 600; border-left: 1px solid #eceaea;">${(p.prixUnitaire * p.quantite).toLocaleString()} ${item.devise}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -151,15 +151,15 @@ const [errorMessage, setErrorMessage] = useState("");
         
         <div style="margin-left: auto; width: 280px; margin-top: 20px; border: 1.5px solid #313030; background: #fff;">
           <div style="display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eee;">
-            <span style="font-size: 12px; font-weight: bold; color: #666;">TOTAL HT:</span>
+            <span style="font-size: 12px; font-weight: 800; color: #666;">TOTAL HT</span>
             <span style="font-size: 13px;">${totalHT.toLocaleString()} ${item.devise}</span>
           </div>
           <div style="display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eee;">
-            <span style="font-size: 12px; font-weight: bold; color: #666;">TVA (${tvaRate}%):</span>
+            <span style="font-size: 12px; font-weight: 800; color: #666;">TVA</span>
             <span style="font-size: 13px;">${montantTVA.toLocaleString()} ${item.devise}</span>
           </div>
           <div style="display: flex; justify-content: space-between; padding: 15px 12px; background: #313030; color: #fff;">
-            <span style="font-family: 'Antonio', sans-serif; font-size: 14px; font-weight: bold; text-transform: uppercase;">Total Estimé (TTC):</span>
+            <span style="font-family: 'Antonio', sans-serif; font-size: 14px; font-weight: bold; text-transform: uppercase;">Total Estimé (TTC)</span>
             <span style="font-size: 16px; font-weight: 900;">${totalTTC.toLocaleString()} ${item.devise}</span>
           </div>
         </div>
@@ -172,7 +172,7 @@ const [errorMessage, setErrorMessage] = useState("");
  
     try {
       const canvas = await (window as any).html2canvas(container, { scale: 2, useCORS: true });
-      const imgData = canvas.toDataURL('image/jpeg', 0.8);
+      const imgData = canvas.toDataURL('image/jpeg', 0.92);
       const pdf = new (window as any).jspdf.jsPDF('p', 'mm', 'a4');
       pdf.addImage(imgData, 'JPEG', 0, 0, 210, (canvas.height * 210) / canvas.width);
       pdf.save(`Devis_${item.id}.pdf`);
@@ -325,8 +325,8 @@ const [errorMessage, setErrorMessage] = useState("");
               </div>
               <div className="col-date" data-label="Date :">{d.date}</div>
               <div className="col-actions">
-                <button onClick={() => downloadPDF(d)}><i className="fa fa-download" style={{ color: '#e11d48' }}></i></button>
-                <button onClick={() => d.dbId && handleDelete(d.dbId)}><i className="fa-solid fa-trash-can" style={{ color: '#ef4444' }}></i></button>
+                <button onClick={() => downloadPDF(d)}><i className="fa fa-file-pdf" style={{ color: '#e11d48' }}></i></button>
+                <button onClick={() => d.dbId && handleDelete(d.dbId)}><i className="fa-solid fa-trash-arrow-up" style={{ color: '#ef4444' }}></i></button>
               </div>
             </div>
           )) : <div style={{ padding: '20px', textAlign: 'center', color: '#888' }}>Aucun devis.</div>}

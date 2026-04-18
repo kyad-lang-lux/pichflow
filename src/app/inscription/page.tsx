@@ -31,7 +31,7 @@ function GoogleSignupButton({ onDataFetched, onLoading }: {
 
   return ( 
     
-    <button type="button" className="btn-google" onClick={() => { onLoading(true); login(); }}>
+    <button type="button" className="btn-google" onClick={() => { onLoading(true); login(); }} style={{borderRadius: '40px'}}>
       <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google" />
       <span>S'inscrire avec Google</span>
     </button>
@@ -99,10 +99,10 @@ export default function Inscription() {
         <div className="auth-form-side">
           <div className="auth-content"> 
             <p className="auth-switch">
-              <Link href="/"><i className="fa-solid fa-arrow-left"></i> Acceuil </Link>
+              <Link href="/"><i className="fa-solid fa-arrow-left"></i> Retour à l'acceuil </Link>
             </p>
-            <h1>Créez votre compte</h1>
-            <p className="subtitle">Commencez avec vos 15 crédits gratuits offerts</p>
+            <h1 style={{textAlign:'center'}} >Créez votre compte</h1>
+            <p style={{textAlign:'center'}} className="subtitle">Commencez avec vos 15 crédits gratuits offerts</p>
 
             {/* Affichage des erreurs de la base de données */}
             {errorMsg && (

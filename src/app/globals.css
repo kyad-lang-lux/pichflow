@@ -460,6 +460,7 @@ body {
     top: 80px;
     left: 0;
     width: 100%;
+    
     background: white;
     flex-direction: column;
     padding: 0 1.5rem;
@@ -469,25 +470,26 @@ body {
     gap: 2rem;
     border-bottom: 1px solid #eee;
     z-index: 99;
+
   }
 
   /* Menu ouvert */
   .nav-menu.open {
-    max-height: 500px;       /* hauteur suffisante pour tout le menu */
-    padding: 1.5rem;         /* ajoute le padding quand ouvert */
+    max-height: 400px;
+    padding: 1rem;         
   }
 
   .nav-links {
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: .8rem;
     margin-bottom: 50px;
   }
 
   .nav-auth {
     flex-direction: column;
     width: 100%;
-    gap: 1rem;
+    gap: .8rem;
     margin-bottom: 10px;
   }
 }
@@ -1933,7 +1935,7 @@ body {
 }
 
 .custom-form {
-  display: flex;
+  display: flex; 
   flex-direction: column;
   gap: 15px;
 }
@@ -3202,8 +3204,8 @@ color: red;}
 /* --- Section Texte (Gauche) --- */
 .integration-left {
   flex: 1;
-  max-width: 400px;
-  margin-left: 20px;
+  max-width: 500px;
+  margin-left: 100px;
 }
 
 .integration-left h2 {
@@ -3233,7 +3235,7 @@ color: red;}
   margin-bottom: 13px;
   font-weight: 600;
   color: #333;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .network-list i {
@@ -3251,6 +3253,7 @@ color: red;}
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 50px;
 }
 
 .orbit-container {
@@ -3363,7 +3366,15 @@ color: red;}
   .integration-left {
   flex: 1;
   max-width: 400px;
-  margin-left: 0;
+  margin-left: -20px;
+}
+
+.integration-right-visual {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0px;
 }
   
 }

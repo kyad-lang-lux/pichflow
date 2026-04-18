@@ -48,6 +48,7 @@ function GoogleLoginButton({
       type="button" 
       className="btn-google" 
       onClick={() => login()}
+      style={{borderRadius: '40px'}}
     >
       <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google" />
       <span>Continuer avec Google</span>
@@ -112,10 +113,10 @@ export default function Connexion() {
         <div className="auth-form-side">
           <div className="auth-content">
             <p className="auth-switch">
-              <Link href="/"><i className="fa-solid fa-arrow-left"></i> Acceuil </Link>
+              <Link href="/"><i className="fa-solid fa-arrow-left"></i> Retour à l'acceuil</Link>
             </p>
-            <h1>Bon retour parmi nous👋</h1>
-            <p className="subtitle">Connectez-vous pour accéder à votre dashboard</p>
+            <h1 style={{textAlign:'center'}}>Ravis de vous revoir !</h1>
+            <p style={{textAlign:'center'}} className="subtitle">Connectez-vous pour accéder à votre dashboard</p>
 
             {/* Affichage des erreurs dynamiques */}
             {errorMsg && (
