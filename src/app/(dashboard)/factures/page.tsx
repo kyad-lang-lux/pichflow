@@ -139,11 +139,15 @@ const [selectedTemplate, setSelectedTemplate] = useState('bleu'); // 'bleu' ou '
     return prestations.reduce((acc, curr) => acc + (curr.prixUnitaire * curr.quantite), 0);
   };
 
- const downloadPDF = async (item: Facture, template: string) => {
-  // Définition des couleurs selon le modèle choisi
-  const colors = template === 'bleu' 
-    ? { border: '#a5d1f0', bg: '#eef3f7', table: '#a5d1f0' } 
-    : { border: '#FA5D89', bg: '#FEF7EC', table: '#FA5D89' };
+const downloadPDF = async (item: Facture, template: string) => {
+  // Nouvelle logique de couleurs (3 modèles)
+  const configs: any = {
+    bleu: { border: '#a5d1f0', bg: '#eef3f7', table: '#a5d1f0' },
+    rose: { border: '#FA5D89', bg: '#FEF7EC', table: '#FA5D89' },
+    violet: { border: '#D09EE7', bg: '#f0fdf4', table: '#D09EE7' }
+  };
+  
+  const colors = configs[template] || configs.bleu;
 
   const totalHT = calculateTotalHT(item.prestations);
   const montantTVA = totalHT * (item.tvaRate / 100); 
@@ -469,7 +473,7 @@ const [selectedTemplate, setSelectedTemplate] = useState('bleu'); // 'bleu' ou '
       {/* --- POPUP DE TÉLÉCHARGEMENT AJOUTÉ ICI --- */}
     {showDownloadPopup && (
   <div className="download-popup-overlay">
-    <div className="download-popup-content" style={{ maxWidth: '420px' }}>
+    <div className="download-popup-content" style={{ maxWidth: '500px' }}> {/* Légèrement élargi pour 3 colonnes */}
       <button className="download-popup-close" onClick={() => setShowDownloadPopup(false)}>
         <i className="fa-solid fa-xmark"></i>
       </button>
@@ -481,33 +485,47 @@ const [selectedTemplate, setSelectedTemplate] = useState('bleu'); // 'bleu' ou '
       <h4>Personnalisez votre facture</h4>
       <p style={{ fontSize: '14px', color: '#666', marginBottom: '20px' }}>Choisissez le modèle qui vous convient le mieux.</p>
 
-      <div style={{ display: 'flex', gap: '15px', marginBottom: '25px' }}>
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '25px' }}>
         {/* MODÈLE BLEU */}
         <div 
           onClick={() => setSelectedTemplate('bleu')}
           style={{
-            flex: 1, cursor: 'pointer', padding: '12px', borderRadius: '12px',
+            flex: 1, cursor: 'pointer', padding: '10px', borderRadius: '12px',
             border: selectedTemplate === 'bleu' ? '2.5px solid #a5d1f0' : '2px solid #eee',
             backgroundColor: selectedTemplate === 'bleu' ? '#f0f9ff' : '#fff',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease', textAlign: 'center'
           }}
         >
-          <div style={{ width: '100%', height: '50px', backgroundColor: '#a5d1f0', borderRadius: '6px', marginBottom: '10px', border: '1px solid #ddd' }}></div>
-          <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#333' }}>Classique Bleu</span>
+          <div style={{ width: '100%', height: '40px', backgroundColor: '#a5d1f0', borderRadius: '6px', marginBottom: '8px', border: '1px solid #ddd' }}></div>
+          <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#333' }}>Classique</span>
         </div>
 
-        {/* MODÈLE ROSE/BEIGE */}
+        {/* MODÈLE ROSE */}
         <div 
           onClick={() => setSelectedTemplate('rose')}
           style={{
-            flex: 1, cursor: 'pointer', padding: '12px', borderRadius: '12px',
+            flex: 1, cursor: 'pointer', padding: '10px', borderRadius: '12px',
             border: selectedTemplate === 'rose' ? '2.5px solid #FA5D89' : '2px solid #eee',
             backgroundColor: selectedTemplate === 'rose' ? '#fff1f2' : '#fff',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease', textAlign: 'center'
           }}
         >
-          <div style={{ width: '100%', height: '50px', backgroundColor: '#FA5D89', borderRadius: '6px', marginBottom: '10px', border: '1px solid #ddd' }}></div>
-          <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#333' }}>Moderne Rose</span>
+          <div style={{ width: '100%', height: '40px', backgroundColor: '#FA5D89', borderRadius: '6px', marginBottom: '8px', border: '1px solid #ddd' }}></div>
+          <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#333' }}>Moderne</span>
+        </div>
+
+        {/* NOUVEAU : MODÈLE VERT ÉMERAUDE */}
+        <div 
+          onClick={() => setSelectedTemplate('violet')}
+          style={{
+            flex: 1, cursor: 'pointer', padding: '10px', borderRadius: '12px',
+            border: selectedTemplate === 'violet' ? '2.5px solid #D09EE7' : '2px solid #eeeeee',
+            backgroundColor: selectedTemplate === 'violet' ? '#f0fdf4' : '#fff',
+            transition: 'all 0.2s ease', textAlign: 'center'
+          }}
+        >
+          <div style={{ width: '100%', height: '40px', backgroundColor: '#D09EE7', borderRadius: '6px', marginBottom: '8px', border: '1px solid #ddd' }}></div>
+          <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#333' }}>Violet</span>
         </div>
       </div>
 

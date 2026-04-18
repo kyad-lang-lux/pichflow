@@ -57,6 +57,16 @@ const pricingConfig: Record<string, CurrencyConfig> = {
 };
 
 
+const [currentImg, setCurrentImg] = useState(1);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImg((prev) => (prev === 3 ? 1 : prev + 1));
+    }, 3000);
+
+    return () => clearInterval(timer); // Nettoyage du timer à la fermeture
+  }, []);
+
 // On double la liste pour l'effet infini
 
 const [currency, setCurrency] = useState<CurrencyConfig>(pricingConfig['EUR']);
@@ -435,15 +445,22 @@ const formatPrice = (euroAmount: number): string => {
       
       {/* Carte 1 */}
       <div className="pich-card">
-  <div className="pich-image-box bg-soft-blue">
-    {/* Le petit popup qui glisse */}
-    <div className="pich-badge">
-      <span>Valider et <br /> transmettre <br/> <b> facture électronique  </b> </span>
-      <button>valider</button>
+
+ <div className="pich-image-box bg-soft-blue">
+      {/* Le petit popup qui glisse */}
+      <div className="pich-badge">
+        <span>Valider et <br /> transmettre <br/> <b> facture électronique </b> </span>
+        <button>valider</button>
+      </div>
+      
+      {/* L'image dynamique */}
+      <img 
+        src={`/img/fact${currentImg}.png`} 
+        alt="Conformité" 
+        style={{ transition: 'all 0.5s ease' }} // Petit bonus pour une transition douce
+      />
     </div>
-    
-    <img src="/img/img5.png" alt="Conformité" />
-  </div>
+
   <div className="pich-content">
     <h3>Conformité simplifiée</h3>
     <p>Assurez une conformité native avec la facturation électronique sans effort supplémentaire.</p>
@@ -452,16 +469,19 @@ const formatPrice = (euroAmount: number): string => {
 
       {/* Carte 2 */}
       <div className="pich-card">
-        <div className="pich-image-box bg-soft-orange">
-           {/* <i className="fa-solid fa-wand-magic-sparkles"></i> */}
-           <img src="/img/img6.png" alt="Création" />
-        </div>
-        <div className="pich-content">
-          <h3>Copywriting & Marketing</h3>
-          <p>Personnalisez vos contenu en quelques clics grâce à notre outil intuitif.</p>
-        </div>
-      </div>
-
+  <div className="pich-image-box bg-soft-orange">
+     {/* L'image change dynamiquement entre mk1.png, mk2.png et mk3.png */}
+     <img 
+       src={`/img/mk${currentImg}.png`} 
+       alt="Création" 
+       style={{ transition: 'all 0.5s ease' }} 
+     />
+  </div>
+  <div className="pich-content">
+    <h3>Copywriting & Marketing</h3>
+    <p>Personnalisez vos contenu en quelques clics grâce à notre outil intuitif.</p>
+  </div>
+</div>
       {/* Carte 3 */}
     
        <div className="pich-card">
