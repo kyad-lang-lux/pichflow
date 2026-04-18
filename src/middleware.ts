@@ -19,7 +19,8 @@ export async function middleware(request: NextRequest) {
     '/rapports', 
     '/buy-credits', 
     '/factureinfo', 
-    '/change-password'
+    '/change-password',
+    '/historique-ai'
   ];
 
   const isProtectedRoute = pathname.startsWith('/dashboard') || 
@@ -53,6 +54,7 @@ export const config = {
     '/buy-credits/:path*',
     '/factureinfo/:path*',
     '/change-password/:path*',
+    '/historique-ai/:path*',
     '/connexion',
     '/inscription'
   ],

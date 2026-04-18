@@ -105,18 +105,19 @@ export default function DashboardPage() {
        
 <div className="pich-nav-wrapper">
   <div className="pich-nav-scroll">
+    <Link href="/dashboard/factureinfo" className="pich-nav-item">
+      <i className="fa-solid fa-file-invoice"></i> Infos de facturation
+    </Link>
+      <Link href="/historique-ai" className="pich-nav-item">
+      <i className="fa-solid fa-coins"></i> Contenus crées
+    </Link>
     <Link href="/parametres" className="pich-nav-item">
       <i className="fa-solid fa-gear"></i> Paramètres
     </Link>
     <Link href="/rapports" className="pich-nav-item"> 
       <i className="fa-solid fa-chart-pie"></i> Rapports
     </Link>
-    <Link href="/buy-credits" className="pich-nav-item">
-      <i className="fa-solid fa-coins"></i> Achat de crédit
-    </Link>
-    <Link href="/dashboard/factureinfo" className="pich-nav-item">
-      <i className="fa-solid fa-file-invoice"></i> Infos de facturation
-    </Link>
+    
   </div>
 </div>  
 
