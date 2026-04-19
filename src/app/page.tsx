@@ -474,7 +474,7 @@ const formatPrice = (euroAmount: number): string => {
      <img 
        src={`/img/mk${currentImg}.png`} 
        alt="Création" 
-       style={{ transition: 'all 0.5s ease' }} 
+       style={{ transition: 'all 0.5s ease' }}  
      />
   </div>
   <div className="pich-content">
