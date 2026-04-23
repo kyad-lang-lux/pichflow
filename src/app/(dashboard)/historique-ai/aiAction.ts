@@ -68,9 +68,25 @@ export async function getLinkedInLoginUrlAction() {
   return `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}`;
 }
 
+// --- PUBLICATION ET DÉDUCTION DE CRÉDITS ---
+
 export async function publishToLinkedInAction(content: string) {
   try {
     const userId = await getAuthUserId();
+    if (!userId) throw new Error("Utilisateur non authentifié.");
+
+    // 1. Vérification des crédits (Besoin de 5)
+    const userCheck = await db.execute({
+      sql: "SELECT credits FROM users WHERE id = ?",
+      args: [userId]
+    });
+
+    const currentCredits = Number(userCheck.rows[0]?.credits || 0);
+    if (currentCredits < 5) {
+      throw new Error("Crédits insuffisants. 5 crédits requis pour publier.");
+    }
+
+    // 2. Récupération des accès LinkedIn
     const res = await db.execute({
       sql: "SELECT access_token, platform_id FROM social_accounts WHERE user_id = ? AND platform = 'linkedin'",
       args: [userId]
@@ -79,6 +95,7 @@ export async function publishToLinkedInAction(content: string) {
     if (res.rows.length === 0) throw new Error("Compte LinkedIn non lié.");
     const { access_token, platform_id } = res.rows[0] as any;
 
+    // 3. Appel API LinkedIn
     const liRes = await fetch("https://api.linkedin.com/v2/ugcPosts", {
       method: "POST",
       headers: {
@@ -100,7 +117,18 @@ export async function publishToLinkedInAction(content: string) {
     });
 
     const data = await liRes.json();
-    if (data.error) throw new Error(data.message);
+
+    // Gestion spécifique des doublons ou erreurs API
+    if (liRes.status !== 201) {
+       throw new Error(data.message || "Erreur lors de la publication sur LinkedIn.");
+    }
+
+    // 4. Mise à jour des crédits (-5) si succès
+    await db.execute({
+      sql: "UPDATE users SET credits = credits - 5 WHERE id = ?",
+      args: [userId]
+    });
+
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };

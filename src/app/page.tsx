@@ -136,7 +136,7 @@ const formatPrice = (euroAmount: number): string => {
           </div>
 
           <div className="social-text">
-            <span className="count">+300 utilisateurs</span>
+            <span className="count">+150 utilisateurs</span>
             <div className="stars">
               <i className="fa-solid fa-star"></i>
               <i className="fa-solid fa-star"></i>
@@ -630,7 +630,7 @@ const formatPrice = (euroAmount: number): string => {
         <div className="cta-content">
           <h2>Prêt à propulser votre activité ?</h2>
           <p>
-            Rejoignez plus de 300 professionnels qui automatisent déjà 
+            Rejoignez plus de 150 professionnels qui automatisent déjà 
             leur gestion avec PitchFlow et gagnent du temps chaque jour.
           </p> 
           <div className="hero-btns">

@@ -2409,6 +2409,7 @@ width: fit-content;
   flex-direction: column;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   overflow: hidden;
+  padding: 15px;
 }
 
 .modal-header {
@@ -2513,7 +2514,7 @@ width: fit-content;
     grid-template-columns: 1fr; /* Une seule colonne sur très petits écrans */
   }
   .history-container .history-card { height: 200px; }
-  .history-container .modal-content-ai { height: 85vh; }
+  .history-container .modal-content-ai { height: fit-content; padding: 15px; }
   .history-container .modal-footer {
     flex-direction: column-reverse; /* Bouton copier en haut sur mobile */
   }

@@ -109,7 +109,7 @@ export default function DashboardPage() {
       <i className="fa-solid fa-file-invoice"></i> Infos de facturation
     </Link>
       <Link href="/historique-ai" className="pich-nav-item">
-      <i className="fa-solid fa-coins"></i> Contenus crées
+      <i className="fa-solid fa-coins"></i> Automatisation
     </Link>
     <Link href="/parametres" className="pich-nav-item">
       <i className="fa-solid fa-gear"></i> Paramètres
