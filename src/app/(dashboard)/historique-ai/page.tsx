@@ -123,8 +123,8 @@ export default function HistoriqueAIPage() {
       <div style={statsBarStyle}>
          <div style={{ display: 'flex', gap: '10px' }}>
             <div >
-                <p style={statLabel}>Total Publications</p>
-                <p style={statValue}>{items.length}</p>
+                <p style={statLabel}>Automatisez du contenu</p>
+                {/* <p style={statValue}>{items.length}</p> */}
             </div>
             {/* <div>
                 <p style={statLabel}>Réseau</p>
@@ -185,9 +185,9 @@ export default function HistoriqueAIPage() {
             />
             <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'space-between', marginTop: '20px', alignItems: 'center' }}>
                 <div style={{ display: 'flex', flexDirection:'column', gap: '10px', alignItems: 'center' }}>
-                    <button onClick={() => setShowSchedule(!showSchedule)} style={btnSchedStyle}>
+                    {/* <button onClick={() => setShowSchedule(!showSchedule)} style={btnSchedStyle}>
                         <i className="fa-regular fa-clock"></i> Programmer
-                    </button>
+                    </button> */}
                     {showSchedule && (
                         <div style={{ display: 'flex', gap: '5px', flexDirection:'column', }}>
                             <input type="date" value={schedDate} onChange={e => setSchedDate(e.target.value)} style={dateInput} />
@@ -201,7 +201,7 @@ export default function HistoriqueAIPage() {
                     onClick={() => startPublishFlow(manualText, "Post Manuel")} 
                     style={modalBtnPrim}
                 >
-                    {publishingId === 'current' ? <i className="fa-spin fa-spinner"></i> : 'Publier Maintenant'}
+                    {publishingId === 'current' ? <i className="fas fa-spinner fa-spin"></i> : 'Publier Maintenant'}
                 </button>
             </div>
         </div>

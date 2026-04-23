@@ -159,7 +159,7 @@ const formatPrice = (euroAmount: number): string => {
         {/* Sous-titre animé */}
         <p className="reveal delay-2">
          Une seule plateforme pour développer votre activité. PitchFlow vous permet de créer devis, factures, 
-         contenus marketing et textes de copywriting dans une interface simple, rapide et intuitive.
+         contenus marketing et textes de copywriting dans une interface simple, rapide et automatisable.
         </p>
 
         {/* Boutons animés */}
@@ -265,7 +265,7 @@ const formatPrice = (euroAmount: number): string => {
             </div>
             <h3>Multi-plateformes</h3>
             <p>Créez du contenu optimisé pour Facebook, Instagram, LinkedIn, TikTok, 
-              YouTube, email marketing et autres canaux.</p>
+              YouTube, email marketing et autres canaux. Vous pouvez aussi automatiser les publications.</p>
           </div>
         </div>
         
