@@ -128,7 +128,7 @@ export async function scheduleLinkedInPostAction(content: string, date: string, 
 export async function disconnectLinkedInAction() {
   try {
     const userId = await getAuthUserId();
-    if (!userId) return { success: false }; 
+    if (!userId) return { success: false };
     await db.execute({
       sql: "DELETE FROM social_accounts WHERE user_id = ? AND platform = 'linkedin'",
       args: [userId]

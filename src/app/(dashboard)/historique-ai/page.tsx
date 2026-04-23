@@ -121,17 +121,17 @@ export default function HistoriqueAIPage() {
 
       {/* 2. STATS BAR */}
       <div style={statsBarStyle}>
-         <div style={{ display: 'flex', gap: '30px' }}>
-            <div>
+         <div style={{ display: 'flex', gap: '10px' }}>
+            <div >
                 <p style={statLabel}>Total Publications</p>
                 <p style={statValue}>{items.length}</p>
             </div>
-            <div>
+            {/* <div>
                 <p style={statLabel}>Réseau</p>
                 <p style={{ ...statValue, color: '#0A66C2' }}><i className="fa-brands fa-linkedin"></i></p>
-            </div>
+            </div> */}
          </div>
-         <button onClick={isLinked ? () => setShowDisconnectConfirm(true) : handleLink} style={btnSocialStyle(isLinked)}>
+         <button className='tot-link' onClick={isLinked ? () => setShowDisconnectConfirm(true) : handleLink} style={btnSocialStyle(isLinked)}>
             {isLinked ? 'LinkedIn Connecté' : 'Lier LinkedIn'}
          </button>
       </div>
@@ -163,7 +163,7 @@ export default function HistoriqueAIPage() {
           </div>
         </div>
       )}
-
+ 
       <div className="history-header" style={{ marginTop: '30px' }}>
         <h1>Gestionnaire de Contenu</h1>
         <div className="filter-tabs">
@@ -183,13 +183,13 @@ export default function HistoriqueAIPage() {
                 placeholder="Écrivez votre post LinkedIn ici..." 
                 style={manualInput}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', alignItems: 'center' }}>
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection:'column', justifyContent: 'space-between', marginTop: '20px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', flexDirection:'column', gap: '10px', alignItems: 'center' }}>
                     <button onClick={() => setShowSchedule(!showSchedule)} style={btnSchedStyle}>
                         <i className="fa-regular fa-clock"></i> Programmer
                     </button>
                     {showSchedule && (
-                        <div style={{ display: 'flex', gap: '5px' }}>
+                        <div style={{ display: 'flex', gap: '5px', flexDirection:'column', }}>
                             <input type="date" value={schedDate} onChange={e => setSchedDate(e.target.value)} style={dateInput} />
                             <input type="time" value={schedTime} onChange={e => setSchedTime(e.target.value)} style={dateInput} />
                             <button onClick={handleSchedulePost} style={btnOkSched}>OK</button>
@@ -250,12 +250,12 @@ export default function HistoriqueAIPage() {
 // --- STYLES ---
 const statsBarStyle: React.CSSProperties = {
     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-    padding: '20px 30px', backgroundColor: 'white', borderRadius: '16px',
+    padding: '12px 25px', backgroundColor: 'white', borderRadius: '16px',
     boxShadow: '0 4px 20px rgba(0,0,0,0.05)', marginBottom: '30px'
 };
 
-const statLabel = { fontSize: '0.8rem', color: '#64748b', textTransform: 'uppercase' as const, fontWeight: 'bold' as const };
-const statValue = { fontSize: '1.5rem', fontWeight: '800', marginTop: '4px' };
+const statLabel = { fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase' as const, fontWeight: '800' as const };
+const statValue = { fontSize: '1.4rem', fontWeight: '700', marginTop: '4px' };
 
 const manualEditorStyle: React.CSSProperties = {
     backgroundColor: 'white', padding: '30px', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)'
@@ -268,8 +268,8 @@ const manualInput: React.CSSProperties = {
 
 const btnSocialStyle = (linked: boolean) => ({
     backgroundColor: linked ? '#f0fdf4' : '#0A66C2', color: linked ? '#16a34a' : 'white',
-    padding: '10px 20px', borderRadius: '30px', border: linked ? '1px solid #16a34a' : 'none',
-    fontWeight: 'bold' as const, cursor: 'pointer'
+    padding: '8px 15px', borderRadius: '30px', border: linked ? '1px solid #16a34a' : 'none',
+    fontWeight: '800' as const, cursor: 'pointer'
 });
 
 const toastStyle: React.CSSProperties = {
