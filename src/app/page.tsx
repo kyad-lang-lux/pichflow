@@ -515,7 +515,7 @@ const formatPrice = (euroAmount: number): string => {
 <section className="integration-wrapper reveal">
   {/* SECTION GAUCHE : TEXTE */}
   <div className="integration-left">
-    <h2>Contenu adapté à vos <span> canaux</span></h2>
+    <h2>Automatisez du contenu sur vos différents <span> canaux</span></h2>
     <ul className="network-list">
       <li><i className="fa-solid fa-check"></i> Réseaux sociaux: Facebook, Instagram, LinkedIn, TikTok, YouTube</li>
       <li><i className="fa-solid fa-check"></i> Emailing & communication: Campagnes email marketing, messages professionnels, newsletters</li>
