@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
 import { revalidatePath } from "next/cache";
+import nodemailer from "nodemailer"; // À installer
+
 
 async function getAuthUserId() {
   const cookieStore = await cookies();
@@ -38,7 +40,7 @@ export async function createDevisAction(formData: any) {
     const currentCredits = Number(userRes.rows[0]?.credits || 0);
     if (currentCredits < 5) return { success: false, error: "Crédits insuffisants (5 requis)" };
 
-    // RÉCUPÉRATION DES INFOS SENDER (Inclus ifu_siret et autre_num)
+    // RÉCUPÉRATION DES INFOS SENDER (Inclus ifu_siret et autre_num) 
     const senderRes = await db.execute({
       sql: "SELECT nom_service, adresse, contact, tva_rate, ifu_siret, autre_num FROM sender_info WHERE user_id = ?",
       args: [userId],
@@ -147,4 +149,44 @@ export async function deleteDevisAction(dbId: string) {
     revalidatePath("/devis");
     return { success: true };
   } catch (e) { return { success: false }; }
+}
+
+
+
+export async function sendFactureEmailAction(emailDestinataire: string, pdfBase64: string, numeroFacture: string) {
+  try {
+    const userId = await getAuthUserId();
+    if (!userId) return { success: false, error: "Non connecté" };
+
+    // Configuration du transporteur (Exemple avec Gmail ou SMTP classique)
+    // Note : Pour Gmail, utilise un "Mot de passe d'application"
+    const transporter = nodemailer.createTransport({
+      service: "gmail", 
+      auth: {
+        user: process.env.GMAIL_USER, // Ton email : ex@gmail.com
+        pass: process.env.GMAIL_APP_PASSWORD, // Ton mot de passe d'application
+      },
+    });
+
+    const mailOptions = {
+      from: `"Chèr(e) client(e)" <${process.env.EMAIL_USER}>`,
+      to: emailDestinataire,
+      subject: `Votre Devis ${numeroFacture}`,
+      text: `Veuillez trouver ci-joint votre devis ${numeroFacture}.\n\nCordialement,\nL'équipe.`,
+      attachments: [
+        {
+          filename: `Devis_${numeroFacture}.pdf`,
+          content: pdfBase64,
+          encoding: 'base64'
+        }
+      ]
+    };
+
+    await transporter.sendMail(mailOptions);
+    return { success: true };
+
+  } catch (error) {
+    console.error("Erreur Nodemailer:", error);
+    return { success: false, error: "Erreur lors de l'envoi de l'email" };
+  }
 }

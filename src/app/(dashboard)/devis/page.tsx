@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { createDevisAction, getDevisAction, deleteDevisAction, getClientsAction } from './devisAction';
+import { createDevisAction, getDevisAction, deleteDevisAction, getClientsAction, sendFactureEmailAction } from './devisAction';
 
 interface Prestation {
   description: string;
@@ -80,6 +80,19 @@ const [errorMessage, setErrorMessage] = useState("");
   const [showDownloadPopup, setShowDownloadPopup] = useState(false);
 const [selectedDevis, setSelectedDevis] = useState<Devis | null>(null);
 const [selectedTemplate, setSelectedTemplate] = useState('bleu');
+
+
+
+const [showEmailPopup, setShowEmailPopup] = useState(false);
+const [emailDestinataire, setEmailDestinataire] = useState('');
+const [isSendingEmail, setIsSendingEmail] = useState(false);
+
+
+const [showEmailSuccess, setShowEmailSuccess] = useState(false);
+const [showEmailError, setShowEmailError] = useState(false);
+const [emailErrorMessage, setEmailErrorMessage] = useState("");
+
+
 
   const handleSelectSavedClient = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const clientFound = savedClients.find(c => c.nom === e.target.value);
@@ -185,11 +198,140 @@ const downloadPDF = async (item: Devis, template: string) => {
   try {
     const canvas = await (window as any).html2canvas(container, { scale: 2, useCORS: true });
     const imgData = canvas.toDataURL('image/jpeg', 0.92);
-    const pdf = new (window as any).jspdf.jsPDF('p', 'mm', 'a4');
+    const pdf = new (window as any).jspdf.jsPDF('p', 'mm', 'a4'); 
     pdf.addImage(imgData, 'JPEG', 0, 0, 210, (canvas.height * 210) / canvas.width);
-    pdf.save(`Devis_${item.id}.pdf`);
+    pdf.save(`Devis_${item.client}_${item.id}.pdf`);
   } finally { document.body.removeChild(container); }
 };
+
+
+
+const sendPDFByEmail = async (item: Devis, template: string, email: string) => {
+  setIsSendingEmail(true);
+  
+  // 1. Logique de couleurs (identique à ton downloadPDF)
+  const configs: any = {
+    bleu: { border: '#a5d1f0', bg: '#eef3f7', table: '#a5d1f0' },
+    rose: { border: '#FA5D89', bg: '#FEF7EC', table: '#FA5D89' },
+    violet: { border: '#D09EE7', bg: '#f0fdf4', table: '#D09EE7' }
+  };
+  const colors = configs[template] || configs.bleu;
+
+ const totalHT = calculateTotal(item.prestations); 
+  const tvaRate = item.tvaRate || 0;
+  const montantTVA = (totalHT * tvaRate) / 100;
+  const totalTTC = totalHT + montantTVA;
+
+  // 2. Création du container fantôme pour html2canvas
+  const container = document.createElement('div');
+  container.style.cssText = 'position:fixed; left:-9999px; width:800px; background:white;';
+  document.body.appendChild(container);
+
+  // ... (ICI : Copie tout le bloc container.innerHTML de ta fonction downloadPDF) ...
+  
+   container.innerHTML = `
+    <div style="padding: 50px; font-family: 'Roboto', sans-serif; color: #000; border-left: 15px solid ${colors.border}; min-height: 1130px; position: relative; background: ${colors.bg};">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
+        <div>
+          <h2 style="font-family: 'Antonio', sans-serif; font-size: 22px; font-weight: 800; margin: 0; color: #000;">${(item.senderNom || "PichFlow Service").toUpperCase()}</h2>
+          <p style="font-size: 12px; margin-top: 5px; color: #444; line-height: 1.4;">
+            ${item.senderAdresse}<br>${item.senderContact}
+            ${item.senderIfu ? `<br>${item.senderIfu}` : ''}
+            ${item.senderAutre ? `<br>${item.senderAutre}` : ''}
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <h2 style="font-family: 'Antonio', sans-serif; font-size: 22px; font-weight: 800; color: #000; margin: 0; line-height: 1;">DEVIS</h2>
+          <p style="font-weight: 800; margin-top: 10px;">n°: ${item.id}</p>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-bottom: 40px; gap: 20px;">
+        <div style="flex: 1; border: 1.5px solid #00000011; padding: 15px; border-radius: 2px; background: #ffffff55;">
+          <p style="font-size: 10px; font-weight: 700; margin-bottom: 8px; color: #666;">Informations</p>
+          <p style="font-size: 13px; margin: 0;">Date : ${item.date}</p>
+          <p style="font-size: 13px; margin: 5px 0 0 0;">Valide jusqu'au : ${item.echeance}</p>
+        </div>
+        <div style="flex: 1; border: 1.5px solid #00000011; text-align: right; padding: 15px; border-radius: 2px; background: #ffffff55;">
+          <p style="font-size: 10px; font-weight: 700; margin-bottom: 8px; color: #666;">Destinataire</p>
+          <p style="font-size: 16px; font-weight: 800; margin: 0;">${item.client.toUpperCase()}</p>
+          <p style="font-size: 12px; margin-top: 5px; color: #444;">${item.clientContact}<br>${item.clientAdresse}</p>
+        </div>
+      </div>
+
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background: ${colors.table}; color: #000;">
+            <th style="font-family: 'Antonio', sans-serif; text-align: left; padding: 12px; font-size: 12px; text-transform: uppercase;">Description</th>
+            <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px; border-left: 1px solid #00000011; width: 120px;">Prix Unitaire</th>
+            <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px; border-left: 1px solid #00000011; width: 60px;">Qté</th>
+            <th style="font-family: 'Antonio', sans-serif; text-align: right; padding: 12px; font-size: 12px; border-left: 1px solid #00000011; width: 120px;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${item.prestations.map((p) => `
+            <tr style="border-bottom: 1px solid #00000011;">
+              <td style="padding: 15px 12px; vertical-align: top;"><div style="font-weight: 600; font-size: 13px;">${p.description}</div></td>
+              <td style="padding: 15px 12px; text-align: right; border-left: 1px solid #00000011;">${p.prixUnitaire.toLocaleString()} ${item.devise}</td>
+              <td style="padding: 15px 12px; text-align: right; border-left: 1px solid #00000011;">${p.quantite}</td>
+              <td style="padding: 15px 12px; text-align: right; font-weight: 600; border-left: 1px solid #00000011;">${(p.prixUnitaire * p.quantite).toLocaleString()} ${item.devise}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      
+      <div style="margin-left: auto; width: 280px; margin-top: 20px; border: 1.5px solid #313030; background: #fff;">
+        <div style="display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eee;">
+          <span style="font-size: 12px; font-weight: 800; color: #666;">TOTAL HT</span>
+          <span style="font-size: 13px;">${totalHT.toLocaleString()} ${item.devise}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #eee;">
+          <span style="font-size: 12px; font-weight: 800; color: #666;">TVA</span>
+          <span style="font-size: 13px;">${montantTVA.toLocaleString()} ${item.devise}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 15px 12px; background: #313030; color: #fff;">
+          <span style="font-family: 'Antonio', sans-serif; font-size: 14px; font-weight: bold; text-transform: uppercase;">Total Estimé (TTC)</span>
+          <span style="font-size: 16px; font-weight: 900;">${totalTTC.toLocaleString()} ${item.devise}</span>
+        </div>
+      </div>
+
+      <div style="position: absolute; bottom: 40px; left: 50px; width: calc(100% - 100px); text-align: center;">
+        <p style="font-style: italic; font-size: 13px; font-weight: 600;">Estimation valable 30 jours. Merci pour votre confiance !</p>
+      </div>
+    </div>
+  `;
+  
+  try {
+    const canvas = await (window as any).html2canvas(container, { scale: 2, useCORS: true });
+    const imgData = canvas.toDataURL('image/jpeg', 0.92);
+    const pdf = new (window as any).jspdf.jsPDF('p', 'mm', 'a4');
+    pdf.addImage(imgData, 'PNG', 0, 0, 210, (canvas.height * 210) / canvas.width);
+    
+    // Extraction du Base64 (sans le préfixe data:application/pdf;base64,)
+    const pdfBase64 = pdf.output('datauristring').split(',')[1];
+
+    // 3. APPEL AU BACKEND
+    const res = await sendFactureEmailAction(email, pdfBase64, item.id);
+
+    if (res.success) {
+      setShowEmailPopup(false); // On ferme le formulaire de saisie
+      setEmailDestinataire('');
+      setShowEmailSuccess(true); // On ouvre le popup de succès
+    } else {
+      setEmailErrorMessage(res.error || "Le serveur n'a pas pu envoyer l'email.");
+      setShowEmailError(true); // On ouvre le popup d'erreur
+    }
+  } catch (err) {
+    setErrorMessage("Erreur lors de la génération du mail");
+    setShowErrorPopup(true);
+  } finally {
+    setIsSendingEmail(false);
+    document.body.removeChild(container);
+  }
+};
+
+
+
  const handleSave = async (e: React.FormEvent) => {
   e.preventDefault();
   setIsLoading(true);
@@ -337,6 +479,12 @@ const downloadPDF = async (item: Devis, template: string) => {
               <div className="col-date" data-label="Date :">{d.date}</div>
               <div className="col-actions">
                 <button onClick={() => { setSelectedDevis(d); setShowDownloadPopup(true); }}> <i className="fa fa-file-pdf" style={{ color: '#e11d48' }}></i> </button>
+<button 
+  onClick={() => { setSelectedDevis(d); setShowEmailPopup(true); }} 
+  title="Envoyer par email"
+>
+  <i className="fa-solid fa-paper-plane" style={{color: '#3b82f6', marginRight: '10px'}}></i>
+</button>
 
                 <button onClick={() => d.dbId && handleDelete(d.dbId)}><i className="fa-solid fa-trash-arrow-up" style={{ color: '#ef4444' }}></i></button>
               </div>
@@ -407,6 +555,94 @@ const downloadPDF = async (item: Devis, template: string) => {
         </div>
       )}
       
+
+
+           
+{showEmailPopup && (
+  <div className="download-popup-overlay">
+    <div className="download-popup-content" style={{ maxWidth: '400px' }}>
+      <button className="download-popup-close" onClick={() => setShowEmailPopup(false)}>
+        <i className="fa-solid fa-xmark"></i>
+      </button>
+      
+      <div className="download-popup-icon" style={{ backgroundColor: '#eff6ff', color: '#3b82f6' }}>
+        <i className="fa-solid fa-envelope"></i>
+      </div>
+      
+      <h4>Envoyer au client</h4>
+      <p style={{ fontSize: '13px', color: '#666', marginBottom: '15px' }}>
+        Entrez l'adresse Gmail ou l'email du client ci-dessous.
+      </p>
+
+      <input 
+        type="email" 
+        placeholder="exemple@gmail.com"
+        value={emailDestinataire}
+        onChange={(e) => setEmailDestinataire(e.target.value)}
+        className="main-input"
+        style={{ width: '100%', marginBottom: '20px', textAlign: 'center' }}
+      />
+
+      <button 
+        className="download-popup-btn" 
+        style={{ width: '100%', backgroundColor: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
+        disabled={isSendingEmail || !emailDestinataire}
+        onClick={() => selectedDevis && sendPDFByEmail(selectedDevis, selectedTemplate, emailDestinataire)}
+      >
+        <i className={isSendingEmail ? "fa-solid fa-spinner fa-spin" : "fa-solid fa-paper-plane"}></i>
+        {isSendingEmail ? "Envoi en cours..." : "Envoyer maintenant"}
+      </button>
+    </div>
+  </div>
+)}
+   
+
+      {/* --- POPUP SUCCÈS EMAIL --- */}
+{showEmailSuccess && (
+  <div className="download-popup-overlay">
+    <div className="download-popup-content" style={{ maxWidth: '400px', textAlign: 'center' }}>
+      <div className="download-popup-icon" style={{ backgroundColor: '#dcfce7', color: '#166534', margin: '0 auto 15px' }}>
+        <i className="fa-solid fa-circle-check"></i>
+      </div>
+      <h4 style={{ color: '#166534' }}>Email Envoyé !</h4>
+      <p style={{ fontSize: '14px', color: '#666', marginBottom: '20px' }}>
+        Le Devis a été transmise avec succès à votre client.
+      </p>
+      <button 
+        className="download-popup-btn" 
+        style={{ width: '100%', backgroundColor: '#166534', color: 'white', border: 'none', padding: '12px', borderRadius: '8px' }}
+        onClick={() => setShowEmailSuccess(false)}
+      >
+        Génial, merci !
+      </button>
+    </div>
+  </div>
+)}
+
+{/* --- POPUP ERREUR EMAIL --- */}
+{showEmailError && (
+  <div className="download-popup-overlay">
+    <div className="download-popup-content" style={{ maxWidth: '400px', textAlign: 'center' }}>
+      <div className="download-popup-icon" style={{ backgroundColor: '#fee2e2', color: '#991b1b', margin: '0 auto 15px' }}>
+        <i className="fa-solid fa-triangle-excursion"></i>
+      </div>
+      <h4 style={{ color: '#991b1b' }}>Échec de l'envoi</h4>
+      <p style={{ fontSize: '14px', color: '#666', marginBottom: '20px' }}>
+        {emailErrorMessage}
+      </p>
+      <button 
+        className="download-popup-btn" 
+        style={{ width: '100%', backgroundColor: '#ef4444', color: 'white', border: 'none', padding: '12px', borderRadius: '8px' }}
+        onClick={() => setShowEmailError(false)}
+      >
+        Réessayer
+      </button>
+    </div>
+  </div>
+)}
+
+
+
       
     </div>
   );

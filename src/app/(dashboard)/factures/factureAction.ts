@@ -4,6 +4,8 @@ import { db } from "@/lib/db";
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
 import { revalidatePath } from "next/cache";
+import nodemailer from "nodemailer"; // À installer
+
 
 /**
  * Récupère l'ID de l'utilisateur via le JWT
@@ -195,5 +197,46 @@ export async function deleteFactureAction(dbId: string) {
     return { success: true };
   } catch (e) {
     return { success: false };
+  }
+}
+
+
+
+
+export async function sendFactureEmailAction(emailDestinataire: string, pdfBase64: string, numeroFacture: string) {
+  try {
+    const userId = await getAuthUserId();
+    if (!userId) return { success: false, error: "Non connecté" };
+
+    // Configuration du transporteur (Exemple avec Gmail ou SMTP classique)
+    // Note : Pour Gmail, utilise un "Mot de passe d'application"
+    const transporter = nodemailer.createTransport({
+      service: "gmail", 
+      auth: {
+        user: process.env.GMAIL_USER, // Ton email : ex@gmail.com
+        pass: process.env.GMAIL_APP_PASSWORD, // Ton mot de passe d'application
+      },
+    });
+
+    const mailOptions = {
+      from: `"Chèr(e) client" <${process.env.EMAIL_USER}>`,
+      to: emailDestinataire,
+      subject: `Votre Facture ${numeroFacture}`,
+      text: `Veuillez trouver ci-joint votre facture ${numeroFacture}.\n\nCordialement,\nL'équipe.`,
+      attachments: [
+        {
+          filename: `Facture_${numeroFacture}.pdf`,
+          content: pdfBase64,
+          encoding: 'base64'
+        }
+      ]
+    };
+
+    await transporter.sendMail(mailOptions);
+    return { success: true };
+
+  } catch (error) {
+    console.error("Erreur Nodemailer:", error);
+    return { success: false, error: "Erreur lors de l'envoi de l'email" };
   }
 }
