@@ -32,10 +32,11 @@ export default function BuyCreditsPage() {
     pricingConfig["EUR"]
   );
 
-    const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   // 🌍 Détection devise automatique
     // 🌍 Détection devise automatique + récupération email utilisateur
+   // 🌍 Détection devise automatique + récupération email utilisateur
   useEffect(() => {
     async function initializePage() {
       try {
@@ -61,7 +62,6 @@ export default function BuyCreditsPage() {
 
     initializePage();
   }, []);
-
   // 💱 Format prix
   const formatPrice = (euroAmount: number): string => {
     const converted = Math.round(euroAmount * currency.rate);
@@ -93,9 +93,8 @@ export default function BuyCreditsPage() {
 
   // 💳 Paiement FedaPay
  // 💳 Paiement FedaPay
-  const handlePayment = async () => {
-    if (selectedPack === 0) return;
-
+    const handlePayment = async () => {
+    if (selectedPack === 0 || !userEmail) return;
     setIsPaying(true);
 
     try {
@@ -106,12 +105,12 @@ export default function BuyCreditsPage() {
 
       // 💡 ICI : Remplace par l'email de ton utilisateur connecté (ex: session.user.email)
             // Récupération de l'email utilisateur connecté
-      const customerEmail = userEmail; 
+      const customerEmail = userEmail;
 
       const res = await fetch("/api/create-transaction", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-               body: JSON.stringify({
+          body: JSON.stringify({
           amount,
           email: customerEmail,
           nbCredits: pack.credits,
@@ -198,7 +197,7 @@ export default function BuyCreditsPage() {
               </span>
             </div>
 
-                        <button
+                          <button
               className="final-pay-btn"
               onClick={handlePayment}
               disabled={isPaying || !userEmail}

@@ -20,12 +20,12 @@ export async function POST(req: Request) {
 
     // 4. Traitement uniquement si la transaction est approuvée
     if (event.name === "transaction.approved") {
-      const transaction = event.data;
+            const transaction = event.data;
       
       // Récupération des données personnalisées
       const userEmail = transaction.custom_metadata?.user_email;
       const nbCredits = parseInt(transaction.custom_metadata?.nb_credits);
-
+      
       if (userEmail && !isNaN(nbCredits)) {
         // 🚀 Mise à jour de ta table Turso
         // On utilise COALESCE pour s'assurer que si credits est NULL, on part de 0
