@@ -37,12 +37,12 @@ export async function POST(req: Request) {
     // 3. Génération du token de paiement
     const tokenResponse = await transaction.generateToken();
 
-if (tokenResponse && tokenResponse.token) {
-  const paymentUrl = `https://pay.fedapay.com/pay/${tokenResponse.token}`;
-  return NextResponse.json({ url: paymentUrl });
-} else {
-  throw new Error("Lien de paiement non généré");
-}
+    // 4. Vérification que l'URL existe bien dans la réponse
+    if (tokenResponse && tokenResponse.url) {
+      return NextResponse.json({ url: tokenResponse.url });
+    } else {
+      throw new Error("Lien de paiement non généré");
+    }
   } catch (error: any) {
     // Log précis pour débugger dans la console Vercel
     console.error("❌ [FedaPay Error]:", error.message);
