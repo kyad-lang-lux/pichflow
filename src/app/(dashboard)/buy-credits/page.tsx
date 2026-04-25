@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { getCurrentUserEmail } from "@/app/actions/auth";
 
 // Configuration devises
 interface CurrencyConfig {
@@ -31,10 +32,18 @@ export default function BuyCreditsPage() {
     pricingConfig["EUR"]
   );
 
+    const [userEmail, setUserEmail] = useState<string | null>(null);
+
   // 🌍 Détection devise automatique
+    // 🌍 Détection devise automatique + récupération email utilisateur
   useEffect(() => {
-    async function detectLocation() {
+    async function initializePage() {
       try {
+        // Récupération de l'email utilisateur
+        const email = await getCurrentUserEmail();
+        setUserEmail(email);
+
+        // Détection devise
         const response = await fetch("https://ipapi.co/json/");
         const data = await response.json();
 
@@ -46,11 +55,11 @@ export default function BuyCreditsPage() {
           setCurrency(pricingConfig["XOF"]);
         }
       } catch (error) {
-        console.error("Erreur localisation:", error);
+        console.error("Erreur initialisation:", error);
       }
     }
 
-    detectLocation();
+    initializePage();
   }, []);
 
   // 💱 Format prix
@@ -96,15 +105,17 @@ export default function BuyCreditsPage() {
       const amount = Math.round(pack.price * currency.rate);
 
       // 💡 ICI : Remplace par l'email de ton utilisateur connecté (ex: session.user.email)
-      const customerEmail = "utilisateur@exemple.com"; 
+            // Récupération de l'email utilisateur connecté
+      const customerEmail = userEmail; 
 
       const res = await fetch("/api/create-transaction", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+               body: JSON.stringify({
           amount,
           email: customerEmail,
-          nbCredits: pack.credits, // 👈 Ajout crucial
+          nbCredits: pack.credits,
+          currency: currency.label // Ajoute cette ligne
         }),
       });
 
@@ -187,10 +198,10 @@ export default function BuyCreditsPage() {
               </span>
             </div>
 
-            <button
+                        <button
               className="final-pay-btn"
               onClick={handlePayment}
-              disabled={isPaying}
+              disabled={isPaying || !userEmail}
             >
               {isPaying ? (
                 <>

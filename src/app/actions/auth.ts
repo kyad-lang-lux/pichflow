@@ -267,6 +267,43 @@ export async function getUserCredits() {
   }
 }
 
+
+/**
+ * FONCTION UTILITAIRE : RÉCUPÉRER L'UTILISATEUR ACTUEL
+ */
+export async function getCurrentUser() {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("pichflow_token")?.value;
+    if (!token) return null;
+
+    const { payload } = await jwtVerify(token, JWT_SECRET);
+    const userId = payload.userId as string;
+
+    const result = await db.execute({
+      sql: "SELECT email, name FROM users WHERE id = ?",
+      args: [userId],
+    });
+
+    if (result.rows.length === 0) return null;
+
+    return {
+      id: userId,
+      email: result.rows[0]?.email as string,
+      name: result.rows[0]?.name as string,
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
+ * ACTION : RÉCUPÉRER L'EMAIL DE L'UTILISATEUR CONNECTÉ (pour les achats)
+ */
+export async function getCurrentUserEmail() {
+  const user = await getCurrentUser();
+  return user?.email || null;
+}
 /**
  * Déconnexion
  */
