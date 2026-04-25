@@ -6,7 +6,9 @@ export async function POST(req: Request) {
     const { amount, email, nbCredits, currency } = await req.json();
 
         // Déterminer l'URL de base selon l'environnement
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const baseUrl = process.env.NODE_ENV === 'production' 
+  ? 'https://pichflow.vercel.app' 
+  : 'http://localhost:3000';
     // 1. Vérification de sécurité des données entrantes
     if (!amount || !email || !nbCredits) {
       return NextResponse.json(
