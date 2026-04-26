@@ -117,7 +117,7 @@ export default function DashboardPage() {
 </div>  
 
       <div className="tools-grid">
-        {tools.map((tool, index) => ( 
+        {tools.map((tool, index) => (  
           <div key={index} className="tool-card">
             <div className={`tool-icon-wrapper ${tool.className}`}>
               <i className={`fa-solid ${tool.icon}`}></i>
