@@ -1506,21 +1506,22 @@ width: fit-content;
 }
 /* --- PAGE ACHAT DE CRÉDITS --- */
 
-.credits-page-container {
-  padding: 40px 20px;
+.credits-page-container { 
+  margin-top: -10px;
+  padding: 10px 5px;
   max-width: 1200px;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 9cap;
   color: #1a1a1a;
 }
 
 .credits-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 0px;
 }
 
 .credits-header h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 800;
   margin-bottom: 10px;
   color: #111;
@@ -1537,8 +1538,8 @@ width: fit-content;
   padding: 8px 18px;
   border-radius: 50px;
   cursor: pointer;
-  margin-bottom: 30px;
-  font-weight: 500;
+  margin-bottom: 20px;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -1555,8 +1556,8 @@ width: fit-content;
 .credits-grid-layout {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
-  margin-bottom: 120px;
+  gap: 22px;
+  margin-bottom: 50px;
   padding: 10px;
 }
 
@@ -1564,7 +1565,7 @@ width: fit-content;
   background: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 24px;
-  padding: 40px 30px;
+  padding: 15px 20px;
   text-align: center;
   cursor: pointer;
   position: relative;
@@ -1610,16 +1611,16 @@ width: fit-content;
 }
 
 .credit-pack-card h3 {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin-bottom: 10px;
   font-weight: 700;
 }
 
 .credit-amount {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 800;
   color: #111;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .pack-price {
@@ -2601,22 +2602,22 @@ width: fit-content;
 
 
 
-
+ 
 
  .success-popup {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.95);
-  background: #0ea00e;
-  color: white;
+  background: #fff;
+  color: #0ea00e;
   padding: 24px 26px;
   border-radius: 20px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   gap: 14px;
-  z-index: 9999;
+  z-index: 99999;
   animation: popupShow 0.25s ease-out forwards;
   min-width: 320px;
   max-width: 90%;
@@ -2625,7 +2626,7 @@ width: fit-content;
 
 .success-popup i {
   font-size: 2rem;
-  color: white;
+  color: #0ea00e;
 }
 
 .success-popup strong {
