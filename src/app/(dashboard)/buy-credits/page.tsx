@@ -166,7 +166,7 @@ export default function BuyCreditsPage() {
 
       {successPopup.visible && (
   <div className="success-popup">
-    <i className="fa-solid fa-check-circle"></i>
+    <i className="fa-solid fa-check-circle"></i>  <br />
     <div>
       <strong>Crédits ajoutés !</strong>
       <p>{successPopup.credits} crédits ont bien été ajoutés.</p>
