@@ -40,6 +40,7 @@ export default function BuyCreditsPage() {
   credits: number;
 }>({ visible: false, credits: 0 });
 
+
   const [userEmail, setUserEmail] = useState<string | null>(null);
    
   // 🌍 Détection devise automatique
