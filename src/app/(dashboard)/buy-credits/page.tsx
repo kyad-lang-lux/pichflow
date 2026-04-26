@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUserEmail } from "@/app/actions/auth";
-import { useSearchParams } from "next/navigation";
 
 
 
@@ -42,7 +41,7 @@ export default function BuyCreditsPage() {
 }>({ visible: false, credits: 0 });
 
   const [userEmail, setUserEmail] = useState<string | null>(null);
- const searchParams = useSearchParams(); 
+   
   // 🌍 Détection devise automatique
     // 🌍 Détection devise automatique + récupération email utilisateur
    // 🌍 Détection devise automatique + récupération email utilisateur
@@ -84,8 +83,11 @@ export default function BuyCreditsPage() {
 
 
   useEffect(() => {
-  const status = searchParams.get("status");
-  const added = searchParams.get("added");
+  if (typeof window === "undefined") return;
+
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get("status");
+  const added = params.get("added");
 
   if (status === "success" && added) {
     setSuccessPopup({ visible: true, credits: Number(added) });
@@ -94,7 +96,9 @@ export default function BuyCreditsPage() {
       setSuccessPopup({ visible: false, credits: 0 });
     }, 4000);
   }
-}, [searchParams]);
+}, []);
+
+  
   // 📦 Packs crédits
   const packs = [
     {
