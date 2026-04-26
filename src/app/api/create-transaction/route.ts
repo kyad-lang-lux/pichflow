@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       description: `Achat de ${nbCredits} crédits - Pichflow`,
       amount: Math.round(amount),
       currency: { iso: currency || "XOF" }, // Utilise la devise passée ou XOF par défaut
-      callback_url: `${baseUrl}/buy-credits?status=success`,
+      callback_url: `${baseUrl}/buy-credits?status=success&added=${nbCredits}`,
       customer: {
         email: email.trim(),
         firstname: "Client",
