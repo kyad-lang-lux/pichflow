@@ -3,6 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentUserEmail } from "@/app/actions/auth";
+import { useSearchParams } from "next/navigation";
+
+
+
 
 // Configuration devises
 interface CurrencyConfig {
@@ -32,8 +36,13 @@ export default function BuyCreditsPage() {
     pricingConfig["EUR"]
   );
 
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [successPopup, setSuccessPopup] = useState<{
+  visible: boolean;
+  credits: number;
+}>({ visible: false, credits: 0 });
 
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+ const searchParams = useSearchParams(); 
   // 🌍 Détection devise automatique
     // 🌍 Détection devise automatique + récupération email utilisateur
    // 🌍 Détection devise automatique + récupération email utilisateur
@@ -72,6 +81,20 @@ export default function BuyCreditsPage() {
       : `${currency.symbol}${formatted}`;
   };
 
+
+
+  useEffect(() => {
+  const status = searchParams.get("status");
+  const added = searchParams.get("added");
+
+  if (status === "success" && added) {
+    setSuccessPopup({ visible: true, credits: Number(added) });
+
+    window.setTimeout(() => {
+      setSuccessPopup({ visible: false, credits: 0 });
+    }, 4000);
+  }
+}, [searchParams]);
   // 📦 Packs crédits
   const packs = [
     {
@@ -135,6 +158,16 @@ export default function BuyCreditsPage() {
 
   return (
     <div className="credits-page-container">
+
+      {successPopup.visible && (
+  <div className="success-popup">
+    <i className="fa-solid fa-check-circle"></i>
+    <div>
+      <strong>Crédits ajoutés !</strong>
+      <p>{successPopup.credits} crédits ont bien été ajoutés.</p>
+    </div>
+  </div>
+)}
       {/* HEADER */}
       <div className="credits-header">
         <button className="back-btn" onClick={() => router.back()}>
@@ -162,7 +195,7 @@ export default function BuyCreditsPage() {
             <div className="pack-icon-wrapper">
               <i className={`fa-solid ${pack.icon}`}></i>
             </div>
-
+ 
             <h3>{pack.name}</h3>
 
             <div className="credit-amount">

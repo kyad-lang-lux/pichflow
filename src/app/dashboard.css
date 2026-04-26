@@ -2603,4 +2603,24 @@ width: fit-content;
 
 
 
- 
+ .success-popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #1f8a70;
+  color: white;
+  padding: 16px 20px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 999;
+}
+.success-popup i {
+  font-size: 1.5rem;
+}
+.success-popup p {
+  margin: 0;
+  font-size: 0.95rem;
+}

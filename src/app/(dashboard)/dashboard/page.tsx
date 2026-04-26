@@ -111,12 +111,7 @@ export default function DashboardPage() {
       <Link href="/historique-ai" className="pich-nav-item">
       <i className="fa-solid fa-coins"></i> Automatisation
     </Link>
-    <Link href="/parametres" className="pich-nav-item">
-      <i className="fa-solid fa-gear"></i> Paramètres
-    </Link>
-    <Link href="/rapports" className="pich-nav-item"> 
-      <i className="fa-solid fa-chart-pie"></i> Rapports
-    </Link>
+    
     
   </div>
 </div>  
