@@ -198,7 +198,7 @@ export default function BuyCreditsPage() {
             )}
 
             <div className="pack-icon-wrapper">
-              <i className={`fa-solid ${pack.icon}`}></i>
+              <i className={`fa-solid ${pack.icon}`}></i> 
             </div>
  
             <h3>{pack.name}</h3>
